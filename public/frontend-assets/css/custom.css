@@ -1,0 +1,8 @@
+/*Header Filter*/
+.age-items{
+	margin-top: 15px;
+}
+.age-items .quantity select{
+	height: 30px;
+	border: 1px solid #eee;
+}
