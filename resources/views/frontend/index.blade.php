@@ -236,7 +236,7 @@
 			</div>
 			<!-- portfolio end -->
 			<a href="listing.html" class="btn    color-bg">Explore All Cities<i class="fas fa-caret-right"></i></a>
-			
+
 		</section>
 		<!-- section end -->
 		<!-- section-->
@@ -703,7 +703,7 @@
 						</div>
 					</div>
 					inline-facts end
-					inline-facts 
+					inline-facts
 					<div class="inline-facts-wrap">
 						<div class="inline-facts">
 							<i class="fal fa-thumbs-up"></i>
@@ -716,7 +716,7 @@
 						</div>
 					</div>
 					inline-facts end
-					inline-facts 
+					inline-facts
 					<div class="inline-facts-wrap">
 						<div class="inline-facts">
 							<i class="fal fa-award"></i>
@@ -729,7 +729,7 @@
 						</div>
 					</div>
 					inline-facts end
-					inline-facts 
+					inline-facts
 					<div class="inline-facts-wrap">
 						<div class="inline-facts">
 							<i class="fal fa-hotel"></i>
