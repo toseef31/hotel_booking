@@ -8,7 +8,7 @@ header-->
       </div>
       <!-- <a href="dashboard-add-listing.html" class="add-hotel">Add Your Hotel <span><i class="far fa-plus"></i></span></a> -->
       <div class="show-reg-form modal-open"><i class="fa fa-sign-in"></i>Sign In</div>
-      <div class="lang-wrap">
+      <!-- <div class="lang-wrap">
         <div class="show-lang"><img src="http://easybook.kwst.net/images/lan/1.png" alt=""> <span>Eng</span><i class="fa fa-caret-down"></i></div>
         <ul class="lang-tooltip green-bg">
           <li><a href="#"><img src="http://easybook.kwst.net/images/lan/4.png" alt=""> De</a></li>
@@ -16,15 +16,15 @@ header-->
           <li><a href="#"><img src="http://easybook.kwst.net/images/lan/2.png" alt=""> Fr</a></li>
           <li><a href="#"><img src="http://easybook.kwst.net/images/lan/3.png" alt=""> Es</a></li>
         </ul>
-      </div>
-      <div class="currency-wrap">
+      </div> -->
+      <!-- <div class="currency-wrap">
         <div class="show-currency-tooltip"><i class="fas fa-dollar-sign"></i> <span>USD <i class="fa fa-caret-down"></i> </span></div>
         <ul class="currency-tooltip">
           <li><a href="#"><i class="far fa-euro-sign"></i> EUR</a></li>
           <li><a href="#"><i class="far fa-pound-sign"></i> GBP</a></li>
           <li><a href="#"><i class="far fa-ruble-sign"></i>RUR</a></li>
         </ul>
-      </div>
+      </div> -->
     </div>
   </div>
   <!-- header-top end-->

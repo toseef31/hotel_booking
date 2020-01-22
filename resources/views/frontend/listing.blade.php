@@ -87,9 +87,76 @@
 									<div class="quantity-item">
 										<label>Children</label>
 										<div class="quantity">
-											<input type="number" min="0" max="3" step="1" value="0">
+											<input type="number" min="0" max="3" step="1" value="0" id="total-child">
 										</div>
 									</div>
+									<!-- Children Age -->
+									<div class="quantity-item hide age-items" id="age-1">
+									  <div class="quantity">
+									    <select>
+									      <option>0 years</option>
+									      <option>1 years</option>
+									      <option>2 years</option>
+									      <option>3 years</option>
+									      <option>4 years</option>
+									      <option>5 years</option>
+									      <option>6 years</option>
+									    </select>
+									  </div>
+									</div>
+									<div class="quantity-item hide age-items" id="age-2">
+									  <div class="quantity">
+									    <select>
+									      <option>0 years</option>
+									      <option>1 years</option>
+									      <option>2 years</option>
+									      <option>3 years</option>
+									      <option>4 years</option>
+									      <option>5 years</option>
+									      <option>6 years</option>
+									    </select>
+									  </div>
+									</div>
+									<div class="quantity-item hide age-items" id="age-3">
+									  <div class="quantity">
+									    <select>
+									      <option>0 years</option>
+									      <option>1 years</option>
+									      <option>2 years</option>
+									      <option>3 years</option>
+									      <option>4 years</option>
+									      <option>5 years</option>
+									      <option>6 years</option>
+									    </select>
+									  </div>
+									</div>
+									<div class="quantity-item hide age-items" id="age-4">
+									  <div class="quantity">
+									    <select>
+									      <option>0 years</option>
+									      <option>1 years</option>
+									      <option>2 years</option>
+									      <option>3 years</option>
+									      <option>4 years</option>
+									      <option>5 years</option>
+									      <option>6 years</option>
+									    </select>
+									  </div>
+									</div>
+									<div class="quantity-item hide age-items" id="age-5">
+									  <div class="quantity">
+									    <select>
+									      <option>0 years</option>
+									      <option>1 years</option>
+									      <option>2 years</option>
+									      <option>3 years</option>
+									      <option>4 years</option>
+									      <option>5 years</option>
+									      <option>6 years</option>
+									    </select>
+									  </div>
+									</div>
+									<!-- Children Age -->
 								</div>
 								<!--col-list-search-input-item end-->
 								<!--col-list-search-input-item -->
@@ -211,7 +278,7 @@
 									<div class="listing-item">
 										<article class="geodir-category-listing fl-wrap">
 											<div class="geodir-category-img">
-												<a href="listing-single.html"><img src="http://easybook.kwst.net/images/gal/8.jpg" alt=""></a>
+												<a href="{{url('/detail')}}"><img src="http://easybook.kwst.net/images/gal/8.jpg" alt=""></a>
 												<div class="listing-avatar"><a href="author-single.html"><img src="images/avatar/1.jpg" alt=""></a>
 												<span class="avatar-tooltip">Added By  <strong>Alisa Noory</strong></span>
 											</div>
@@ -254,7 +321,7 @@
 								<div class="listing-item">
 									<article class="geodir-category-listing fl-wrap">
 										<div class="geodir-category-img">
-											<a href="listing-single.html"><img src="http://easybook.kwst.net/images/gal/4.jpg" alt=""></a>
+											<a href="{{url('/detail')}}"><img src="http://easybook.kwst.net/images/gal/4.jpg" alt=""></a>
 											<div class="listing-avatar"><a href="author-single.html"><img src="images/avatar/2.jpg" alt=""></a>
 											<span class="avatar-tooltip">Added By  <strong>Julie Cramp</strong></span>
 										</div>
@@ -299,7 +366,7 @@
 							<div class="listing-item">
 								<article class="geodir-category-listing fl-wrap">
 									<div class="geodir-category-img">
-										<a href="listing-single.html"><img src="http://easybook.kwst.net/images/gal/6.jpg" alt=""></a>
+										<a href="{{url('/detail')}}"><img src="http://easybook.kwst.net/images/gal/6.jpg" alt=""></a>
 										<div class="listing-avatar"><a href="author-single.html"><img src="images/avatar/3.jpg" alt=""></a>
 										<span class="avatar-tooltip">Added By  <strong>Andy Moore</strong></span>
 									</div>
@@ -343,7 +410,7 @@
 						<div class="listing-item">
 							<article class="geodir-category-listing fl-wrap">
 								<div class="geodir-category-img">
-									<a href="listing-single.html"><img src="http://easybook.kwst.net/images/gal/2.jpg" alt=""></a>
+									<a href="{{url('/detail')}}"><img src="http://easybook.kwst.net/images/gal/2.jpg" alt=""></a>
 									<div class="listing-avatar"><a href="author-single.html"><img src="images/avatar/4.jpg" alt=""></a>
 									<span class="avatar-tooltip">Added By  <strong>Mary Jones</strong></span>
 								</div>
@@ -388,7 +455,7 @@
 					<div class="listing-item">
 						<article class="geodir-category-listing fl-wrap">
 							<div class="geodir-category-img">
-								<a href="listing-single.html"><img src="http://easybook.kwst.net/images/gal/3.jpg" alt=""></a>
+								<a href="{{url('/detail')}}"><img src="http://easybook.kwst.net/images/gal/3.jpg" alt=""></a>
 								<div class="listing-avatar"><a href="author-single.html"><img src="images/avatar/5.jpg" alt=""></a>
 								<span class="avatar-tooltip">Added By  <strong>Fider Mamby</strong></span>
 							</div>
@@ -433,7 +500,7 @@
 				<div class="listing-item">
 					<article class="geodir-category-listing fl-wrap">
 						<div class="geodir-category-img">
-							<a href="listing-single.html"><img src="http://easybook.kwst.net/images/gal/5.jpg" alt=""></a>
+							<a href="{{url('/detail')}}"><img src="http://easybook.kwst.net/images/gal/5.jpg" alt=""></a>
 							<div class="listing-avatar"><a href="author-single.html"><img src="images/avatar/1.jpg" alt=""></a>
 							<span class="avatar-tooltip">Added By  <strong>Alisa Noory</strong></span>
 						</div>

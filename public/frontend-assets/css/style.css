@@ -1099,7 +1099,7 @@ nav li ul a:before , nav li ul a:after {
   overflow:hidden;  
 }
 .footer-inner {
-  padding:70px 0;
+  padding:40px 0;
   z-index:2;
   border-top:2px solid  rgba(0,0,0,0.21);
 }
@@ -1209,7 +1209,7 @@ nav li ul a:before , nav li ul a:after {
 }
 .footer-fw-widget {
   padding-bottom:30px;
-  margin-bottom:70px;
+  margin-bottom:20px;
   border-bottom:1px solid rgba(255,255,255,0.21);
 }
 .footer-carousel-item img {
