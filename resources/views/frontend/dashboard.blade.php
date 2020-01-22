@@ -198,7 +198,7 @@
               </div>
               <!-- dashboard-list-box end-->
             </div>
-            <div class="tab-pane fade" id="booking" role="tabpanel" aria-labelledby="booking-tab">
+            <div class="tab-pane fade hide" id="booking" role="tabpanel" aria-labelledby="booking-tab">
               <!-- dashboard-content--> 
               <div class="dashboard-content fl-wrap">
                   <div class="dashboard-list-box fl-wrap">

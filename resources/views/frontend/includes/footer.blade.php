@@ -1,58 +1,58 @@
-<!--footer -->
+footer -->
 <footer class="main-footer">
   <!--footer-inner-->
   <div class="footer-inner">
     <div class="container">
       <!--footer-fw-widget-->
-      <div class="footer-fw-widget fl-wrap">
+      <!-- <div class="footer-fw-widget fl-wrap">
         <div class="row">
           <div class="col-md-3">
             <div class="footer-carousel-title">
               Our partners
             </div>
           </div>
-          <div class="col-md-9">
+          <div class="col-md-9"> -->
             <!--footer-carousel-wrap-->
-            <div class="footer-carousel-wrap fl-wrap">
-              <div class="footer-carousel fl-wrap">
+            <!-- <div class="footer-carousel-wrap fl-wrap">
+              <div class="footer-carousel fl-wrap"> -->
                 <!--footer-carousel-item-->
-                <div class="footer-carousel-item">
+                <!-- <div class="footer-carousel-item">
                   <a href="#"><img src="http://easybook.kwst.net/images/partners/1.png" alt=""></a>
-                </div>
+                </div> -->
                 <!--footer-carousel-item end-->
                 <!--footer-carousel-item-->
-                <div class="footer-carousel-item">
+                <!-- <div class="footer-carousel-item">
                   <a href="#"><img src="http://easybook.kwst.net/images/partners/2.png" alt=""></a>
-                </div>
+                </div> -->
                 <!--footer-carousel-item end-->
                 <!--footer-carousel-item-->
-                <div class="footer-carousel-item">
+                <!-- <div class="footer-carousel-item">
                   <a href="#"><img src="http://easybook.kwst.net/images/partners/3.png" alt=""></a>
-                </div>
+                </div> -->
                 <!--footer-carousel-item end-->
                 <!--footer-carousel-item-->
-                <div class="footer-carousel-item">
+                <!-- <div class="footer-carousel-item">
                   <a href="#"><img src="http://easybook.kwst.net/images/partners/4.png" alt=""></a>
-                </div>
+                </div> -->
                 <!--footer-carousel-item end-->
                 <!--footer-carousel-item-->
-                <div class="footer-carousel-item">
+                <!-- <div class="footer-carousel-item">
                   <a href="#"><img src="http://easybook.kwst.net/images/partners/5.png" alt=""></a>
-                </div>
+                </div> -->
                 <!--footer-carousel-item end-->
                 <!--footer-carousel-item-->
-                <div class="footer-carousel-item">
+                <!-- <div class="footer-carousel-item">
                   <a href="#"><img src="http://easybook.kwst.net/images/partners/6.png" alt=""></a>
-                </div>
+                </div> -->
                 <!--footer-carousel-item end-->
-              </div>
+              <!-- </div>
               <div class="fc-cont  fc-cont-prev"><i class="fal fa-angle-left"></i></div>
               <div class="fc-cont  fc-cont-next"><i class="fal fa-angle-right"></i></div>
-            </div>
+            </div> -->
             <!--footer-carousel-wrap end-->
-          </div>
+          <!-- </div>
         </div>
-      </div>
+      </div> -->
       <!--footer-fw-widget end-->
       <!-- <div class="row"> -->
         <!--footer-widget -->
@@ -165,4 +165,4 @@
   </div>
   <!--sub-footer end -->
 </footer>
-<!--footer end -->
+<!--footer end 

@@ -1112,6 +1112,9 @@ $(document).ready(function () {
 if ($("#profile").hasClass("show")) {
     $("#profile").addClass('hide');
   }
+if ($("#booking").hasClass("show")) {
+    $("#booking").addClass('hide');
+  }
 $(".dasboard-menu-wrap li a").on("click", function () {
     
     $(".dasboard-menu-wrap li a").removeClass("user-profile-act");
@@ -1119,4 +1122,4 @@ $(".dasboard-menu-wrap li a").on("click", function () {
      
 });
 
-// End Dashboard tabs                                                                                      
+// End Dashboard tabs

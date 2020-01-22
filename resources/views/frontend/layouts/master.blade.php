@@ -129,7 +129,7 @@
     <script type="text/javascript" src="{{asset('frontend-assets/js/jquery.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('frontend-assets/js/plugins.js')}}"></script>
     <script type="text/javascript" src="{{asset('frontend-assets/js/scripts.js')}}"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkCYdMuRkyApHONAWqjzNYYvYX2INz-nM&libraries=places&callback=initAutocomplete"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkCYdMuRkyApHONAWq&libraries=places&callback=initAutocomplete"></script>
     <script type="text/javascript" src="{{asset('frontend-assets/js/map-single.js')}}"></script>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
