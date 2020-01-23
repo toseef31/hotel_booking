@@ -8,7 +8,7 @@
     <?php
     $image = $hotel->photo_1;
     $image = substr($image,37);
-    $hotel_image = 'http://tour2thailand.com/images/hotels'.$image;
+    $hotel_image = url('http://tour2thailand.com/images/hotels'.$image);
     $hotel_image2=urldecode($hotel_image);
     // print_r($hotel_image); die;
      ?>
@@ -119,7 +119,7 @@
               <li><a href="#sec2">Details</a></li>
               <li><a href="#sec3">Amenities</a></li>
               <li><a href="#sec4">Rooms</a></li>
-              <!-- <li><a href="#sec5">Reviews</a></li> -->
+              <li><a href="#sec5">Reviews</a></li>
             </ul>
           </nav>
           <a href="#" class="show-hidden-map">  <span>On The Map</span> <i class="fal fa-map-marked-alt"></i></a>
@@ -155,7 +155,7 @@
                   <?php
                   $gallery = $gallery->photos->photo;
                   $gallery = substr($gallery,37);
-                  $gallery_img = 'http://tour2thailand.com/images/hotels'.$gallery;
+                  $gallery_img = url('http://tour2thailand.com/images/hotels'.$gallery);
                   // print_r($count_gallery); die;
                    ?>
                   <div class="gallery-item ">
@@ -171,6 +171,47 @@
                   @break
                   @endif
                   @endforeach
+                  <!-- 1 end -->
+                  <!-- 2 -->
+                  <!-- <div class="gallery-item">
+                    <div class="grid-item-holder">
+                      <div class="box-item">
+                        <img  src="images/gal/7.jpg"   alt="">
+                        <a href="images/gal/7.jpg" class="gal-link popup-image"><i class="fa fa-search"></i></a>
+                      </div>
+                    </div>
+                  </div> -->
+                  <!-- 2 end -->
+                  <!-- 3 -->
+                  <!-- <div class="gallery-item gallery-item-second">
+                    <div class="grid-item-holder">
+                      <div class="box-item">
+                        <img  src="images/gal/3.jpg"   alt="">
+                        <a href="images/gal/3.jpg" class="gal-link popup-image"><i class="fa fa-search"></i></a>
+                      </div>
+                    </div>
+                  </div> -->
+                  <!-- 3 end -->
+                  <!-- 4 -->
+                  <!-- <div class="gallery-item">
+                    <div class="grid-item-holder">
+                      <div class="box-item">
+                        <img  src="images/gal/4.jpg"   alt="">
+                        <a href="images/gal/4.jpg" class="gal-link popup-image"><i class="fa fa-search"  ></i></a>
+                      </div>
+                    </div>
+                  </div> -->
+                  <!-- 4 end -->
+                  <!-- 5 -->
+                  <!-- <div class="gallery-item">
+                    <div class="grid-item-holder">
+                      <div class="box-item">
+                        <img  src="http://easybook.kwst.net/images/gal/5.jpg"   alt="">
+                        <a href="images/gal/5.jpg" class="gal-link popup-image"><i class="fa fa-search"  ></i></a>
+                      </div>
+                    </div>
+                  </div> -->
+                  <!-- 5 end -->
                   <!-- 7 -->
                   <div class="gallery-item">
                     <div class="grid-item-holder">
@@ -181,7 +222,7 @@
                         $other = $count_gallery-$show_photos;
                         $gall = $hotel_gallery[11]->photos->photo;
                         $gall = substr($gall,37);
-                        $gallery_image = 'http://tour2thailand.com/images/hotels'.$gall;
+                        $gallery_image = url('http://tour2thailand.com/images/hotels'.$gall);
                         // print_r($other); die;
 
                          ?>
@@ -191,7 +232,7 @@
                         <?php
                         $gal = $hotel_gallery[$i]->photos->photo;
                         $gal = substr($gal,37);
-                        $other_image = 'http://tour2thailand.com/images/hotels/'.$gal;
+                        $other_image = url('http://tour2thailand.com/images/hotels/'.$gal);
                         // print_r($gal);
                          ?>
                          {'src':'{{$other_image}}'}, @endfor]">Other <span>{{$other}} photos</span><i class="far fa-long-arrow-right"></i></div>
@@ -306,18 +347,9 @@
               <!--   list-single-main-item end -->
               <!-- accordion-->
               <div class="accordion mar-top">
-                <a class="toggle act-accordion" href="#"> Location   <span></span></a>
+                <a class="toggle act-accordion" href="#"> Details option   <span></span></a>
                 <div class="accordion-inner visible">
-                  <h4>Address</h4>
-                  <p>{{$hotel->address}}</p>
-                  <h4>City</h4>
-                  <p>{{$hotel->city}}</p>
-                  <h4>State</h4>
-                  <p>{{$hotel->state_province}}</p>
-                  <h4>Country</h4>
-                  <p>{{$hotel->country}}</p>
-
-                  <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque. Nulla finibus lobortis pulvinar. Donec a consectetur nulla. Nulla posuere sapien vitae lectus suscipit, et pulvinar nisi tincidunt. Aliquam erat volutpat. Curabitur convallis fringilla diam sed aliquam. Sed tempor iaculis massa faucibus feugiat. In fermentum facilisis massa, a consequat purus viverra.</p> -->
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque. Nulla finibus lobortis pulvinar. Donec a consectetur nulla. Nulla posuere sapien vitae lectus suscipit, et pulvinar nisi tincidunt. Aliquam erat volutpat. Curabitur convallis fringilla diam sed aliquam. Sed tempor iaculis massa faucibus feugiat. In fermentum facilisis massa, a consequat purus viverra.</p>
                 </div>
                 <a class="toggle" href="#"> Details option 2  <span></span></a>
                 <div class="accordion-inner">
@@ -337,58 +369,91 @@
                 <!--   rooms-container -->
                 <div class="rooms-container fl-wrap">
                   <!--  rooms-item -->
-                  @foreach($rooms as $room)
-                  <?php
-                  if ($room->photos !="") {
-                  $room_image = $room->photos->photo_1;
-                  $room_image = substr($room_image,37);
-                  $room_images = 'http://tour2thailand.com/images/hotels'.$room_image;
-                  // print_r($room_image); die;
-                }
-
-                   ?>
                   <div class="rooms-item fl-wrap">
                     <div class="rooms-media">
-                      @if($room->photos !='')
-                      <img src="{{$room_images}}" alt="">
-                      @else
-                      <img src="{{asset('frontend-assets/no-image.jpeg')}}" alt="">
-                      @endif
+                      <img src="images/gal/5.jpg" alt="">
                       <div class="dynamic-gal more-photos-button" data-dynamicPath="[{'src': 'images/gal/slider/1.jpg'}, {'src': 'images/gal/slider/2.jpg'},{'src': 'images/gal/slider/3.jpg'}]">  View Gallery <span>3 photos</span> <i class="far fa-long-arrow-right"></i></div>
                     </div>
                     <div class="rooms-details">
                       <div class="rooms-details-header fl-wrap">
-                        <!-- <span class="rooms-price">$81 <strong> / person</strong></span> -->
-                        <h3>{{$room->name}}</h3>
+                        <span class="rooms-price">$81 <strong> / person</strong></span>
+                        <h3>Standard Family Room</h3>
                         <h5>Max Guests: <span>3 persons</span></h5>
                       </div>
-                      <p>{{$room->description_en->description}}</p>
+                      <p>Morbi varius, nulla sit amet rutrum elementum, est elit finibus tellus, ut tristique elit risus at metus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                       <div class="facilities-list fl-wrap">
                         <ul>
-                          <!-- <li><i class="fal fa-wifi"></i><span>Free WiFi</span></li> -->
+                          <li><i class="fal fa-wifi"></i><span>Free WiFi</span></li>
                           <li><i class="fal fa-bath"></i><span>1 Bathroom</span></li>
-                          <!-- <li><i class="fal fa-snowflake"></i><span>Air conditioner</span></li> -->
-                          <!-- <li><i class="fal fa-tv"></i><span> Tv Inside</span></li> -->
+                          <li><i class="fal fa-snowflake"></i><span>Air conditioner</span></li>
+                          <li><i class="fal fa-tv"></i><span> Tv Inside</span></li>
                           <li><i class="fas fa-concierge-bell"></i><span>Breakfast</span></li>
                         </ul>
-                        <a href="{{url('room-detail-ajax/'.$room->rid)}}" class="btn color-bg ajax-link">Details<i class="fas fa-caret-right"></i></a>
+                        <a href="rooms/room1.html" class="btn color-bg ajax-link">Details<i class="fas fa-caret-right"></i></a>
                       </div>
                     </div>
                   </div>
-                  @endforeach
+                  <!--  rooms-item end -->
+                  <!--  rooms-item -->
+                  <div class="rooms-item fl-wrap">
+                    <div class="rooms-media">
+                      <img src="http://easybook.kwst.net/images/gal/9.jpg" alt="">
+                      <div class="dynamic-gal more-photos-button" data-dynamicPath="[{'src': 'images/gal/slider/4.jpg'}, {'src': 'images/gal/slider/5.jpg'}, {'src': 'images/gal/slider/2.jpg'} ]">View Gallery <span>3 photos</span> <i class="far fa-long-arrow-right"></i></div>
+                    </div>
+                    <div class="rooms-details">
+                      <div class="rooms-details-header fl-wrap">
+                        <span class="rooms-price">$122 <strong> / person</strong></span>
+                        <h3>Superior Double Room</h3>
+                        <h5>Max Guests: <span>4 persons</span></h5>
+                      </div>
+                      <p>Morbi varius, nulla sit amet rutrum elementum, est elit finibus tellus, ut tristique elit risus at metus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                      <div class="facilities-list fl-wrap">
+                        <ul>
+                          <li><i class="fal fa-wifi"></i><span>Free WiFi</span></li>
+                          <li><i class="fal fa-parking"></i><span>Parking</span></li>
+                          <li><i class="fal fa-smoking-ban"></i><span>Non-smoking Rooms</span></li>
+                          <li><i class="fal fa-utensils"></i><span> Restaurant</span></li>
+                        </ul>
+                        <a href="http://easybook.kwst.net/rooms/room2.html" class="btn color-bg ajax-link">Details<i class="fas fa-caret-right"></i></a>
+                      </div>
+                    </div>
+                  </div>
+                  <!--  rooms-item end -->
+                  <!--  rooms-item -->
+                  <div class="rooms-item fl-wrap">
+                    <div class="rooms-media">
+                      <img src="http://easybook.kwst.net/images/gal/4.jpg" alt="">
+                      <div class="dynamic-gal more-photos-button" data-dynamicPath="[{'src': 'images/gal/slider/7.jpg'},{'src': 'images/gal/slider/4.jpg'}, {'src': 'images/gal/slider/5.jpg'},{'src': 'images/gal/slider/6.jpg'}]"> View Gallery <span>4 photos</span> <i class="far fa-long-arrow-right"></i> </div>
+                    </div>
+                    <div class="rooms-details">
+                      <div class="rooms-details-header fl-wrap">
+                        <span class="rooms-price">$310 <strong> / person</strong></span>
+                        <h3>Deluxe Single Room</h3>
+                        <h5>Max Guests: <span>2 persons</span></h5>
+                      </div>
+                      <p>Morbi varius, nulla sit amet rutrum elementum, est elit finibus tellus, ut tristique elit risus at metus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                      <div class="facilities-list fl-wrap">
+                        <ul>
+                          <li><i class="fal fa-wifi"></i><span>Free WiFi</span></li>
+                          <li><i class="fal fa-parking"></i><span>Parking</span></li>
+                          <li><i class="fal fa-smoking-ban"></i><span>Non-smoking Rooms</span></li>
+                          <li><i class="fal fa-utensils"></i><span> Restaurant</span></li>
+                        </ul>
+                        <a href="rooms/room3.html" class="btn color-bg ajax-link">Details<i class="fas fa-caret-right"></i></a>
+                      </div>
+                    </div>
+                  </div>
                   <!--  rooms-item end -->
                 </div>
                 <!--   rooms-container end -->
               </div>
               <!-- list-single-main-item end -->
               <!-- list-single-main-item -->
-
-              <!-- Review Section -->
-              <!-- <div class="list-single-main-item fl-wrap" id="sec5">
+              <div class="list-single-main-item fl-wrap" id="sec5">
                 <div class="list-single-main-item-title fl-wrap">
                   <h3>Item Reviews -  <span> 2 </span></h3>
                 </div>
-
+                <!--reviews-score-wrap-->
                 <div class="reviews-score-wrap fl-wrap">
                   <div class="review-score-total">
                     <span>
@@ -398,7 +463,9 @@
                     <a href="#" class="color2-bg">Add Review</a>
                   </div>
                   <div class="review-score-detail">
+                    <!-- review-score-detail-list-->
                     <div class="review-score-detail-list">
+                      <!-- rate item-->
                       <div class="rate-item fl-wrap">
                         <div class="rate-item-title fl-wrap"><span>Cleanliness</span></div>
                         <div class="rate-item-bg" data-percent="100%">
@@ -406,6 +473,8 @@
                         </div>
                         <div class="rate-item-percent">5.0</div>
                       </div>
+                      <!-- rate item end-->
+                      <!-- rate item-->
                       <div class="rate-item fl-wrap">
                         <div class="rate-item-title fl-wrap"><span>Comfort</span></div>
                         <div class="rate-item-bg" data-percent="90%">
@@ -413,6 +482,8 @@
                         </div>
                         <div class="rate-item-percent">5.0</div>
                       </div>
+                      <!-- rate item end-->
+                      <!-- rate item-->
                       <div class="rate-item fl-wrap">
                         <div class="rate-item-title fl-wrap"><span>Staf</span></div>
                         <div class="rate-item-bg" data-percent="80%">
@@ -420,6 +491,8 @@
                         </div>
                         <div class="rate-item-percent">4.0</div>
                       </div>
+                      <!-- rate item end-->
+                      <!-- rate item-->
                       <div class="rate-item fl-wrap">
                         <div class="rate-item-title fl-wrap"><span>Facilities</span></div>
                         <div class="rate-item-bg" data-percent="90%">
@@ -427,10 +500,14 @@
                         </div>
                         <div class="rate-item-percent">4.5</div>
                       </div>
+                      <!-- rate item end-->
                     </div>
+                    <!-- review-score-detail-list end-->
                   </div>
                 </div>
+                <!-- reviews-score-wrap end -->
                 <div class="reviews-comments-wrap">
+                  <!-- reviews-comments-item -->
                   <div class="reviews-comments-item">
                     <div class="review-comments-avatar">
                       <img src="images/avatar/2.jpg" alt="">
@@ -446,6 +523,8 @@
                       <div class="reviews-comments-item-date"><span><i class="far fa-calendar-check"></i>12 April 2018</span><a href="#"><i class="fal fa-reply"></i> Reply</a></div>
                     </div>
                   </div>
+                  <!--reviews-comments-item end-->
+                  <!-- reviews-comments-item -->
                   <div class="reviews-comments-item">
                     <div class="review-comments-avatar">
                       <img src="http://easybook.kwst.net/images/avatar/5.jpg" alt="">
@@ -461,46 +540,54 @@
                       <div class="reviews-comments-item-date"><span><i class="far fa-calendar-check"></i>03 December 2017</span><a href="#"><i class="fal fa-reply"></i> Reply</a></div>
                     </div>
                   </div>
+                  <!--reviews-comments-item end-->
                 </div>
-              </div> -->
-              <!-- Review Section End -->
-
+              </div>
               <!-- list-single-main-item end -->
               <!-- list-single-main-item -->
-              <!-- ADD Review Section -->
-              <!-- <div class="list-single-main-item fl-wrap" id="sec6">
+              <div class="list-single-main-item fl-wrap" id="sec6">
                 <div class="list-single-main-item-title fl-wrap">
                   <h3>Add Review</h3>
                 </div>
+                <!-- Add Review Box -->
                 <div id="add-review" class="add-review-box">
+                  <!-- Review Comment -->
                   <form id="add-comment" class="add-comment  custom-form" name="rangeCalc" >
                     <fieldset>
                       <div class="review-score-form fl-wrap">
                         <div class="review-range-container">
+                          <!-- review-range-item-->
                           <div class="review-range-item">
                             <div class="range-slider-title">Cleanliness</div>
                             <div class="range-slider-wrap ">
                               <input type="text" class="rate-range" data-min="0" data-max="5"  name="rgcl"  data-step="1" value="4">
                             </div>
                           </div>
+                          <!-- review-range-item end -->
+                          <!-- review-range-item-->
                           <div class="review-range-item">
                             <div class="range-slider-title">Comfort</div>
                             <div class="range-slider-wrap ">
                               <input type="text" class="rate-range" data-min="0" data-max="5"  name="rgcl"  data-step="1"  value="1">
                             </div>
                           </div>
+                          <!-- review-range-item end -->
+                          <!-- review-range-item-->
                           <div class="review-range-item">
                             <div class="range-slider-title">Staf</div>
                             <div class="range-slider-wrap ">
                               <input type="text" class="rate-range" data-min="0" data-max="5"  name="rgcl"  data-step="1" value="5" >
                             </div>
                           </div>
+                          <!-- review-range-item end -->
+                          <!-- review-range-item-->
                           <div class="review-range-item">
                             <div class="range-slider-title">Facilities</div>
                             <div class="range-slider-wrap">
                               <input type="text" class="rate-range" data-min="0" data-max="5"  name="rgcl"  data-step="1" value="3">
                             </div>
                           </div>
+                          <!-- review-range-item end -->
                         </div>
                         <div class="review-total">
                           <span><input type="text" name="rg_total"  data-form="AVG({rgcl})" value="0"></span>
@@ -522,8 +609,8 @@
                     <button class="btn  big-btn flat-btn float-btn color2-bg" style="margin-top:30px">Submit Review <i class="fal fa-paper-plane"></i></button>
                   </form>
                 </div>
-              </div> -->
-              <!-- Add Review Section Ends -->
+                <!-- Add Review Box / End -->
+              </div>
               <!-- list-single-main-item end -->
             </div>
           </div>
@@ -666,9 +753,9 @@
               </div>
               <!--box-widget-item end -->
               <!--box-widget-item -->
-              <!-- <div class="box-widget-item fl-wrap">
+              <div class="box-widget-item fl-wrap">
                 <div id="weather-widget" class="gradient-bg ideaboxWeather" data-city="New York"></div>
-              </div> -->
+              </div>
               <!--box-widget-item end -->
               <!--box-widget-item end -->
               <!--box-widget-item -->

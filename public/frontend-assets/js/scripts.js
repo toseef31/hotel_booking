@@ -67,8 +67,10 @@ function initCitybook() {
         });
     }
     initHiddenGal();
+
     //   Alax modal------------------
     $(".ajax-link").on('click', function () {
+      // alert(this.href);
         $("html, body").addClass("hid-body");
         $(".ajax-modal-overlay").fadeIn(400);
         $(".ajax-modal-container").animate({
@@ -1116,10 +1118,10 @@ if ($("#booking").hasClass("show")) {
     $("#booking").addClass('hide');
   }
 $(".dasboard-menu-wrap li a").on("click", function () {
-    
+
     $(".dasboard-menu-wrap li a").removeClass("user-profile-act");
     $(this).addClass("user-profile-act");
-     
+
 });
 
 // End Dashboard tabs

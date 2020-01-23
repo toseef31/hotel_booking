@@ -13,7 +13,7 @@
     <link type="text/css" rel="stylesheet" href="{{asset('frontend-assets/css/style.css')}}">
     <link type="text/css" rel="stylesheet" href="{{asset('frontend-assets/css/color.css')}}">
     <link type="text/css" rel="stylesheet" href="{{asset('frontend-assets/css/custom.css')}}">
-    
+
     <!-- Bootstrap CSS -->
     <!-- <link rel="stylesheet" href="{{asset('frontend-assets/bootstrap/css/bootstrap.min.css')}}" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
     <!-- <link rel="stylesheet" type="text/css" href="{{asset('frontend-assets/fontawesome/css/all.min.css')}}"> -->
@@ -34,13 +34,13 @@
     </div>
     <!--loader end-->
     <div id="main" style="opacity: 1;">
-      
+
     @include('frontend.includes.header')
 
     @yield('content')
 
     @include('frontend.includes.footer')
-    
+
     <!--map-modal -->
     <div class="map-modal-wrap">
       <div class="map-modal-wrap-overlay"></div>
@@ -122,6 +122,18 @@
     </div>
     <!--register form end -->
     <a class="to-top"><i class="fas fa-caret-up"></i></a>
+    <!--ajax-modal-container-->
+            <div class="ajax-modal-overlay"></div>
+            <div class="ajax-modal-container">
+                <!--ajax-modal -->
+                <div class='ajax-loader'>
+                    <div class='ajax-loader-cirle'></div>
+                </div>
+                <div id="ajax-modal" class="fl-wrap">
+                </div>
+                <!--ajax-modal-container end -->
+            </div>
+            <!--ajax-modal-container end -->
     </div>
 
     <!-- Optional JavaScript -->
