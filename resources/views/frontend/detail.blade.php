@@ -115,63 +115,8 @@
         <div class="hidden-map-container fl-wrap">
           <input id="pac-input" class="controls fl-wrap controls-mapwn" type="text" placeholder="What Nearby ?   Bar , Gym , Restaurant ">
           <div class="map-container">
-            <?php
-            $lat = $hotel->latitude;
-            $long = $hotel->longitude;
-            $latitude  = DMStoDD($lat);
-            $longitude  = DMStoDD($long);
-            function DMStoDD($input)
-            {
-              $deg = " " ;
-              $min = " " ;
-              $sec = " " ;
-              $inputM = " " ;
-
-
-              // print "<br> Input is ".$input." <br>";
-              for ($i=0; $i < strlen($input); $i++)
-              {
-                $tempD = $input[$i];
-                //print "<br> TempD [$i] is : $tempD";
-
-                if ($tempD == iconv("UTF-8", "ISO-8859-1//TRANSLIT", '°') )
-                {
-                  $newI = $i + 1 ;
-                  //print "<br> newI is : $newI";
-                  $inputM =  substr($input, $newI, -1) ;
-                  break;
-                }//close if degree
-
-                $deg .= $tempD ;
-              }//close for degree
-
-              //print "InputM is ".$inputM." <br>";
-
-              for ($j=0; $j < strlen($inputM); $j++)
-              {
-                $tempM = $inputM[$j];
-                //print "<br> TempM [$j] is : $tempM";
-
-                if ($tempM == "'")
-                {
-                  $newI = $j + 1 ;
-                  //print "<br> newI is : $newI";
-                  $sec =  substr($inputM, $newI, -1) ;
-                  break;
-                }//close if minute
-                $min .= $tempM ;
-              }//close for min
-              $deg = round($deg);
-
-              $result =  $deg+( (( $min*60)+($sec) ) /3600 );
-              // print_r($result); die;
-
-              return $result;
-
-            }
-            ?>
             <!-- <div id="singleMap" data-latitude="40.7427837" data-longitude="-73.11445617675781"></div> -->
-            <div id="singleMap" data-latitude="{{$latitude}}" data-longitude="{{$longitude}}"></div>
+            <div id="singleMap" data-latitude="{{Booking::DMStoDD($hotel->latitude)}}" data-longitude="{{Booking::DMStoDD($hotel->longitude)}}"></div>
           </div>
         </div>
         <div class="clearfix"></div>
@@ -488,6 +433,15 @@
                     </div>
                   </div>
                 </div>
+                @if($hotel_remarks->count() != '')
+                <a class="toggle" href="#"> Remarks  <span></span></a>
+                <div class="accordion-inner">
+                  <h5>Remarks</h5>
+                  @foreach($hotel_remarks as $remark)
+                  <p>{{$remark->remarks}}</p>
+                  @endforeach
+                </div>
+                @endif
               </div>
               <!-- accordion end -->
               <!--   list-single-main-item -->

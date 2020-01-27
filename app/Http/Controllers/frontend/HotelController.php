@@ -43,11 +43,12 @@ class HotelController extends Controller
       $hotel_decription_en = DB::table('hotel_description_en')->where('hid',$id)->get();
       $hotel_decription_ru = DB::table('hotel_description_ru')->where('hid',$id)->get();
       $hotel_distance = DB::table('hotel_distance')->where('hid',$id)->get();
+      $hotel_remarks = DB::table('hotel_remarks')->where('hid',$id)->get();
       $hotel_gallery = DB::table('hotel_gallery_title')->where('hid',$id)->get();
       foreach ($hotel_gallery as $rec) {
         $rec->photos = DB::table('hotel_gallery_photos')->where('hptid',$rec->hptid)->first();
       }
-      // dd($hotel_gallery);
+      // dd($hotel_remarks);
       $rooms = DB::table('rooms')->where('hid',$id)->get();
       foreach ($rooms as $rec) {
         $rec->quotation = DB::table('hotel_quotations')->where('rid',$rec->rid)->get();
@@ -58,7 +59,7 @@ class HotelController extends Controller
       $similar_list = DB::table('hotels')->join('hotel_photos','hotel_photos.hid','=','hotels.hid')->where('hotels.city',$hotel->city)->where('hotels.hid','<>',$id)->limit(5)->get();
 
     // dd($similar_list);
-    return view('frontend.detail',compact('hotel','hotel_decription_en','hotel_decription_ru','hotel_distance','hotel_gallery','rooms','similar_list'));
+    return view('frontend.detail',compact('hotel','hotel_decription_en','hotel_decription_ru','hotel_distance','hotel_gallery','rooms','similar_list','hotel_remarks'));
 
   }
 

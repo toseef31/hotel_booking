@@ -127,6 +127,12 @@ background-color: #f2f2f2;
             <!--ajax-modal-details-box-->
             <!--ajax-modal-details-box-->
             <div class="ajax-modal-details-box">
+              <h3>Remarks</h3>
+              <p>{{$quote->remarks}}</p>
+            </div>
+            <!--ajax-modal-details-box-->
+            <!--ajax-modal-details-box-->
+            <div class="ajax-modal-details-box">
                 <h3>Room Amenities</h3>
                 <div class="listing-features fl-wrap">
                     <ul>
