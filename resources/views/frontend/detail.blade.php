@@ -8,9 +8,10 @@
     <?php
     $image = $hotel->photo_1;
     $image = substr($image,37);
-    $hotel_image = 'http://tour2thailand.com/images/hotels'.$image;
+    $base_path_mod = str_replace('\\', '/', $image);
+    $hotel_image ='http://tour2thailand.com/images/hotels'.$base_path_mod;
     $hotel_image2=urldecode($hotel_image);
-    // print_r($hotel_image); die;
+    //print_r($hotel_image); die;
      ?>
     <section class="list-single-hero" data-scrollax-parent="true" id="sec1">
       <!-- <div class="bg par-elem "  data-bg="images/bg/9.jpg" data-scrollax="properties: { translateY: '30%' }"></div> -->
@@ -20,7 +21,16 @@
           <div class="row">
             <div class="col-md-7">
               <div class="listing-rating-wrap">
-                <div class="listing-rating card-popup-rainingvis" data-starrating2="5"></div>
+              @if($hotel->rate == '2*')
+                 <div class="listing-rating card-popup-rainingvis" data-starrating2="2"></div>
+              @elseif($hotel->rate == '3*')
+                 <div class="listing-rating card-popup-rainingvis" data-starrating2="3"></div>
+              @elseif($hotel->rate == '4*')
+                 <div class="listing-rating card-popup-rainingvis" data-starrating2="4"></div>
+              @else
+                 <div class="listing-rating card-popup-rainingvis" data-starrating2="5"></div>
+              @endif
+              
               </div>
               <h2><span>{{$hotel->name}}</span></h2>
               <div class="list-single-header-contacts fl-wrap">
@@ -34,15 +44,15 @@
             <div class="col-md-5">
               <!--  list-single-hero-details-->
               <div class="list-single-hero-details fl-wrap">
-                <!--  list-single-hero-rating-->
+                <!--  list-single-hero-rating
                 <div class="list-single-hero-rating">
                   <div class="rate-class-name">
                     <div class="score"><strong>Very Good</strong>2 Reviews </div>
                     <span>4.5</span>
                   </div>
-                  <!-- list-single-hero-rating-list-->
+                  
                   <div class="list-single-hero-rating-list">
-                    <!-- rate item-->
+                   
                     <div class="rate-item fl-wrap">
                       <div class="rate-item-title fl-wrap"><span>Cleanliness</span></div>
                       <div class="rate-item-bg" data-percent="100%">
@@ -50,8 +60,8 @@
                       </div>
                       <div class="rate-item-percent">5.0</div>
                     </div>
-                    <!-- rate item end-->
-                    <!-- rate item-->
+                    
+                    
                     <div class="rate-item fl-wrap">
                       <div class="rate-item-title fl-wrap"><span>Comfort</span></div>
                       <div class="rate-item-bg" data-percent="90%">
@@ -59,8 +69,7 @@
                       </div>
                       <div class="rate-item-percent">5.0</div>
                     </div>
-                    <!-- rate item end-->
-                    <!-- rate item-->
+                    
                     <div class="rate-item fl-wrap">
                       <div class="rate-item-title fl-wrap"><span>Staf</span></div>
                       <div class="rate-item-bg" data-percent="80%">
@@ -68,8 +77,7 @@
                       </div>
                       <div class="rate-item-percent">4.0</div>
                     </div>
-                    <!-- rate item end-->
-                    <!-- rate item-->
+                    
                     <div class="rate-item fl-wrap">
                       <div class="rate-item-title fl-wrap"><span>Facilities</span></div>
                       <div class="rate-item-bg" data-percent="90%">
@@ -77,24 +85,23 @@
                       </div>
                       <div class="rate-item-percent">4.5</div>
                     </div>
-                    <!-- rate item end-->
+                  
                   </div>
-                  <!-- list-single-hero-rating-list end-->
+               
                 </div>
                 <!--  list-single-hero-rating  end-->
                 <div class="clearfix"></div>
-                <!-- list-single-hero-links-->
+                <!-- 
                 <div class="list-single-hero-links">
                   <a class="lisd-link" href="booking-single.html"><i class="fal fa-bookmark"></i> Book Now</a>
                   <a class="custom-scroll-link lisd-link" href="#sec6"><i class="fal fa-comment-alt-check"></i> Add review</a>
-                </div>
-                <!--  list-single-hero-links end-->
+                </div>-->
               </div>
               <!--  list-single-hero-details  end-->
             </div>
           </div>
           <div class="breadcrumbs-hero-buttom fl-wrap">
-            <div class="breadcrumbs"><a href="#">Home</a><a href="#">Listings</a><a href="#">New York</a><span>Listing Single</span></div>
+            <div class="breadcrumbs"><a href="#">Home</a><a href="#">Listings</a><a href="#">{{$hotel->city}}</a><span>Listing Single</span></div>
             <!-- <div class="list-single-hero-price">AWG/NIGHT<span>$ 320</span></div> -->
           </div>
         </div>
@@ -154,15 +161,18 @@
                   @foreach($hotel_gallery as $key => $gallery)
                   <?php
                   $gallery = $gallery->photos->photo;
-                  $gallery = substr($gallery,37);
-                  $gallery_img = 'http://tour2thailand.com/images/hotels'.$gallery;
-                  // print_r($count_gallery); die;
+                 // print_r($gallery); die;
+                  $galleris = substr($gallery,37);
+                   $galleris_path_mod = str_replace('\\', '/', $galleris);
+                  //print_r($base_path_mod); die;
+                  $gallery_img = 'http://tour2thailand.com/images/hotels'.$galleris_path_mod;
+                 
                    ?>
                   <div class="gallery-item ">
                     <div class="grid-item-holder">
                       <div class="box-item">
-                        <img  src="{{url($gallery_img)}}"   alt="">
-                        <a href="{{url($gallery_img)}}" class="gal-link popup-image"><i class="fa fa-search"></i></a>
+                        <img  src="{{$gallery_img}}"   alt="">
+                        <a href="{{$gallery_img}}" class="gal-link popup-image"><i class="fa fa-search"></i></a>
                       </div>
                     </div>
                   </div>
@@ -180,18 +190,20 @@
                         $count_gallery = count($hotel_gallery);
                         $other = $count_gallery-$show_photos;
                         $gall = $hotel_gallery[11]->photos->photo;
-                        $gall = substr($gall,37);
-                        $gallery_image = 'http://tour2thailand.com/images/hotels'.$gall;
+                        $galls = substr($gall,37);
+                         $base_path = str_replace('\\', '/', $galls);
+                        $gallery_image = 'http://tour2thailand.com/images/hotels'.$base_path;
                         // print_r($other); die;
 
                          ?>
-                        <img  src="{{url($gallery_image)}}"   alt="">
+                        <img  src="{{$gallery_image}}"   alt="">
                         <!-- <div class="more-photos-button dynamic-gal"  data-dynamicPath="[{'src': 'images/gal/2.jpg'}, {'src': 'images/gal/8.jpg'},{'src': 'images/gal/1.jpg'}]">Other <span>{{$other}} photos</span><i class="far fa-long-arrow-right"></i></div> -->
                         <div class="more-photos-button dynamic-gal"  data-dynamicPath="[@for($i = 11; $i < $count_gallery; $i++)
                         <?php
                         $gal = $hotel_gallery[$i]->photos->photo;
-                        $gal = substr($gal,37);
-                        $other_image = 'http://tour2thailand.com/images/hotels/'.$gal;
+                        $gals = substr($gal,37);
+                         $gals_path_mod = str_replace('\\', '/', $gals);
+                        $other_image = 'http://tour2thailand.com/images/hotels/'.$gals_path_mod;
                         // print_r($gal);
                          ?>
                          {'src':'{{$other_image}}'}, @endfor]">Other <span>{{$other}} photos</span><i class="far fa-long-arrow-right"></i></div>
@@ -268,7 +280,9 @@
                 </div>
                 @foreach($hotel_decription_en as $desc)
                 <h4>{{$desc->title}}</h4>
+                @if($desc->description)
                 <p>{{$desc->description}}</p>
+                @endif
                 @endforeach
                   <!-- <a href="https://vimeo.com/70851162" class="btn flat-btn color-bg big-btn float-btn image-popup">Video Presentation <i class="fal fa-play"></i></a> -->
               </div>
@@ -362,7 +376,9 @@
                         <h3>{{$room->name}}</h3>
                         <h5>Max Guests: <span>3 persons</span></h5>
                       </div>
-                      <p>{{$room->description_en->description}}</p>
+                       @if($room->description_en)
+                      <p>{{Str::limit($room->description_en->description,180)}}</p>
+                        @endif
                       <div class="facilities-list fl-wrap">
                         <ul>
                           <!-- <li><i class="fal fa-wifi"></i><span>Free WiFi</span></li> -->
@@ -545,10 +561,12 @@
                           <div class="listsearch-input-item">
                             <label>Room Type</label>
                             <select data-placeholder="Room Type" name="repopt"   class="chosen-select no-search-select" >
-                              <option value="0" selected>Select Room</option>
-                              <option value="81">Standard Family Room - 81$</option>
-                              <option value="122">Superior Double Room - 122$</option>
-                              <option value="310">Deluxe Single Room - 310$</option>
+                            <option value="0" selected>Select Room</option>
+                            @foreach($rooms as $roomdata)
+                             
+                              <option value="{{$roomdata->rid}}">{{$roomdata->name}}</option>
+                              
+                              @endforeach
                             </select>
                             <!--data-formula -->
                             <input type="text" name="item_total" class="hid-input"  value=""  data-form="{repopt}">
@@ -590,36 +608,7 @@
               </div>
               <!--box-widget-item end -->
               <!--box-widget-item -->
-              <div class="box-widget-item fl-wrap">
-                <div class="box-widget counter-widget" data-countDate="09/12/2021">
-                  <div class="banner-wdget fl-wrap">
-                    <div class="overlay"></div>
-                    <div class="bg"  data-bg="images/bg/10.jpg"></div>
-                    <div class="banner-wdget-content fl-wrap">
-                      <h4>Get a discount <span>20%</span> when ordering a room from three days.</h4>
-                      <div class="countdown fl-wrap">
-                        <div class="countdown-item">
-                          <span class="days rot">00</span>
-                          <p>days</p>
-                        </div>
-                        <div class="countdown-item">
-                          <span class="hours rot">00</span>
-                          <p>hours </p>
-                        </div>
-                        <div class="countdown-item">
-                          <span class="minutes rot">00</span>
-                          <p>minutes </p>
-                        </div>
-                        <div class="countdown-item">
-                          <span class="seconds rot">00</span>
-                          <p>seconds</p>
-                        </div>
-                      </div>
-                      <a href="#">Book Now</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            
               <!--box-widget-item end -->
               <!--box-widget-item -->
               <div class="box-widget-item fl-wrap">
@@ -629,11 +618,12 @@
                       <h3> Contact Information</h3>
                     </div>
                     <div class="box-widget-list">
+                  
                       <ul>
-                        <li><span><i class="fal fa-map-marker"></i> Adress :</span> <a href="#">USA 27TH Brooklyn NY</a></li>
-                        <li><span><i class="fal fa-phone"></i> Phone :</span> <a href="#">+7(123)987654</a></li>
-                        <li><span><i class="fal fa-envelope"></i> Mail :</span> <a href="#">AlisaNoory@domain.com</a></li>
-                        <li><span><i class="fal fa-browser"></i> Website :</span> <a href="#">themeforest.net</a></li>
+                        <li><span><i class="fal fa-map-marker"></i> Adress :</span> <a href="#">{{$hotel->address}}</a></li>
+                        <li><span><i class="fal fa-phone"></i> Phone :</span> <a href="#">{{$hotel->phone_1}}</a></li>
+                        <li><span><i class="fal fa-envelope"></i> Mail :</span> <a href="#">{{$hotel->email_primary}}</a></li>
+                        <li><span><i class="fal fa-browser"></i> Website :</span> <a href="#">{{$hotel->web_address}}</a></li>
                       </ul>
                     </div>
                     <div class="list-widget-social">
@@ -649,94 +639,11 @@
               </div>
               <!--box-widget-item end -->
               <!--box-widget-item -->
-              <div class="box-widget-item fl-wrap">
-                <div class="box-widget">
-                  <div class="box-widget-content">
-                    <div class="box-widget-item-header">
-                      <h3> Price Range </h3>
-                    </div>
-                    <div class="claim-price-wdget fl-wrap">
-                      <div class="claim-price-wdget-content fl-wrap">
-                        <div class="pricerange fl-wrap"><span>Price : </span> 81$ - 320$ </div>
-                        <div class="claim-widget-link fl-wrap"><span>Own or work here?</span><a href="#">Claim Now!</a></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!--box-widget-item end -->
-              <!--box-widget-item -->
+            
               <!-- <div class="box-widget-item fl-wrap">
                 <div id="weather-widget" class="gradient-bg ideaboxWeather" data-city="New York"></div>
               </div> -->
-              <!--box-widget-item end -->
-              <!--box-widget-item end -->
-              <!--box-widget-item -->
-              <div class="box-widget-item fl-wrap">
-                <div class="box-widget widget-posts">
-                  <div class="box-widget-content">
-                    <div class="box-widget-item-header">
-                      <h3>Recommended Attractions</h3>
-                    </div>
-                    <!--box-image-widget-->
-                    <div class="box-image-widget">
-                      <div class="box-image-widget-media"><img src="images/all/4.jpg" alt="">
-                        <a href="#" class="color2-bg" target="_blank">Details</a>
-                      </div>
-                      <div class="box-image-widget-details">
-                        <h4>Times Square <span>2.3 km</span></h4>
-                        <p>It�s impossible to miss the colossal billboards, glitzy lights and massive crowds that make this intersection the city�s beating heart.</p>
-                      </div>
-                    </div>
-                    <!--box-image-widget end -->
-                    <!--box-image-widget-->
-                    <div class="box-image-widget">
-                      <div class="box-image-widget-media"><img src="images/all/5.jpg" alt="">
-                        <a href="#" class="color2-bg" target="_blank">Details</a>
-                      </div>
-                      <div class="box-image-widget-details">
-                        <h4>Broadway<span>1.7 km</span></h4>
-                        <p>Tap your feet to catchy ditties, hold back tears or bust your gut laughing at a world renowned Broadway performance.</p>
-                      </div>
-                    </div>
-                    <!--box-image-widget end -->
-                    <!--box-image-widget-->
-                    <div class="box-image-widget">
-                      <div class="box-image-widget-media"><img src="images/all/6.jpg" alt="">
-                        <a href="#" class="color2-bg" target="_blank">Details</a>
-                      </div>
-                      <div class="box-image-widget-details">
-                        <h4>Grand Central Station<span>0.7 km</span></h4>
-                        <p>With its elegantly designed main concourse, this rail station is much more than just a massive transport hub.</p>
-                      </div>
-                    </div>
-                    <!--box-image-widget end -->
-                  </div>
-                </div>
-              </div>
-              <!--box-widget-item end -->
-              <!--box-widget-item -->
-              <div class="box-widget-item fl-wrap">
-                <div class="box-widget">
-                  <div class="box-widget-content">
-                    <div class="box-widget-item-header">
-                      <h3>Hosted By</h3>
-                    </div>
-                    <div class="box-widget-author fl-wrap">
-                      <div class="box-widget-author-title fl-wrap">
-                        <div class="box-widget-author-title-img">
-                          <img src="images/avatar/4.jpg" alt="">
-                        </div>
-                        <a href="user-single.html">Jessie Manrty</a>
-                        <span>4 Places Hosted</span>
-                      </div>
-                      <a href="author-single.html" class="btn flat-btn color-bg   float-btn image-popup">View Profile<i class="fal fa-user-alt"></i></a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!--box-widget-item end -->
-              <!--box-widget-item -->
+            
               <div class="box-widget-item fl-wrap">
                 <div class="box-widget">
                   <div class="box-widget-content">
