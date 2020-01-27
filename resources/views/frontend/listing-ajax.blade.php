@@ -52,8 +52,9 @@ if ($hotel->decription_en !='') {
       <li><i class="fal fa-smoking-ban"></i><span>Non-smoking Rooms</span></li>
       <li><i class="fal fa-utensils"></i><span> Restaurant</span></li>
     </ul> -->
-    <div class="geodir-category-footer fl-wrap" style="margin-bottom:20px;">
-      <!-- <div class="geodir-category-price">Awg/Night <span>$ 320</span></div> -->
+    <div class="geodir-category-footer fl-wrap">
+      <div class="discount">@if($hotel->discount) Discount <span style="color: #f9b90f;">{{$hotel->discount}}%</span>@endif</div>
+      <div class="geodir-category-price">Awg/Night <span>$ {{$hotel->low_rate}}</span></div>
       <div class="geodir-opt-list">
         <a href="#" class="single-map-item" data-newlatitude="40.72956781" data-newlongitude="-73.99726866"><i class="fal fa-map-marker-alt"></i><span class="geodir-opt-tooltip">On the map</span></a>
         <a href="#" class="geodir-js-favorite"><i class="fal fa-heart"></i><span class="geodir-opt-tooltip">Save</span></a>

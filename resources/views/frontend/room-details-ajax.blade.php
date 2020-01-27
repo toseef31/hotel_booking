@@ -31,7 +31,8 @@ background-color: #f2f2f2;
           if ($room_photos !="") {
           $room_image = $room_photos->photo_1;
           $room_image = substr($room_image,37);
-          $room_images = url('http://tour2thailand.com/images/hotels'.$room_image);
+          $base_path_mod = str_replace('\\', '/', $room_image);
+          $room_images = url('http://tour2thailand.com/images/hotels'.$base_path_mod);
           // print_r($room_image); die;
           }
            ?>
@@ -39,7 +40,8 @@ background-color: #f2f2f2;
           @if($room_photos !='')
             <img src="{{url($room_images)}}" alt="">
             @else
-            <img src="http://easybook.kwst.net/images/gal/9.jpg" alt="">
+            <!-- <img src="http://easybook.kwst.net/images/gal/9.jpg" alt=""> -->
+            <img src="{{asset('frontend-assets/no-image.jpeg')}}" alt="">
             @endif
             <div class="ajax-modal-title">
                 <div class="section-title-separator"><span></span></div>
@@ -71,7 +73,9 @@ background-color: #f2f2f2;
             <!--ajax-modal-details-box-->
             <div class="ajax-modal-details-box">
                 <h3>Details</h3>
+                @if($room_description_en)
                 <p>{{$room_description_en->description}}</p>
+                @endif
             </div>
             <!--ajax-modal-details-box end-->
             <!--ajax-modal-details-box-->

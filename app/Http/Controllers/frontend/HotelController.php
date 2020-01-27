@@ -55,8 +55,10 @@ class HotelController extends Controller
         $rec->description_ru = DB::table('room_description_ru')->where('rid',$rec->rid)->first();
         $rec->photos = DB::table('room_photos')->where('rid',$rec->rid)->first();
       }
-    // dd($rooms);
-    return view('frontend.detail',compact('hotel','hotel_decription_en','hotel_decription_ru','hotel_distance','hotel_gallery','rooms'));
+      $similar_list = DB::table('hotels')->join('hotel_photos','hotel_photos.hid','=','hotels.hid')->where('hotels.city',$hotel->city)->where('hotels.hid','<>',$id)->limit(5)->get();
+
+    // dd($similar_list);
+    return view('frontend.detail',compact('hotel','hotel_decription_en','hotel_decription_ru','hotel_distance','hotel_gallery','rooms','similar_list'));
 
   }
 
@@ -68,7 +70,7 @@ class HotelController extends Controller
     $room_photos = DB::table('room_photos')->where('rid',$id)->first();
     $room_quotation = DB::table('hotel_quotations')->where('rid',$id)->where('from_date','>=',Carbon\Carbon::now())->get();
     // dd(Carbon\Carbon::now());
-    // dd($room_quotation);
+    // dd($room_description_en);
     return view('frontend.room-details-ajax',compact('room_info','room_photos','room_quotation','room_description_en','room_description_ru'));
 
   }

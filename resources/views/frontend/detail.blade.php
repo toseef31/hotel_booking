@@ -30,7 +30,7 @@
               @else
                  <div class="listing-rating card-popup-rainingvis" data-starrating2="5"></div>
               @endif
-              
+
               </div>
               <h2><span>{{$hotel->name}}</span></h2>
               <div class="list-single-header-contacts fl-wrap">
@@ -50,9 +50,9 @@
                     <div class="score"><strong>Very Good</strong>2 Reviews </div>
                     <span>4.5</span>
                   </div>
-                  
+
                   <div class="list-single-hero-rating-list">
-                   
+
                     <div class="rate-item fl-wrap">
                       <div class="rate-item-title fl-wrap"><span>Cleanliness</span></div>
                       <div class="rate-item-bg" data-percent="100%">
@@ -60,8 +60,8 @@
                       </div>
                       <div class="rate-item-percent">5.0</div>
                     </div>
-                    
-                    
+
+
                     <div class="rate-item fl-wrap">
                       <div class="rate-item-title fl-wrap"><span>Comfort</span></div>
                       <div class="rate-item-bg" data-percent="90%">
@@ -69,7 +69,7 @@
                       </div>
                       <div class="rate-item-percent">5.0</div>
                     </div>
-                    
+
                     <div class="rate-item fl-wrap">
                       <div class="rate-item-title fl-wrap"><span>Staf</span></div>
                       <div class="rate-item-bg" data-percent="80%">
@@ -77,7 +77,7 @@
                       </div>
                       <div class="rate-item-percent">4.0</div>
                     </div>
-                    
+
                     <div class="rate-item fl-wrap">
                       <div class="rate-item-title fl-wrap"><span>Facilities</span></div>
                       <div class="rate-item-bg" data-percent="90%">
@@ -85,13 +85,13 @@
                       </div>
                       <div class="rate-item-percent">4.5</div>
                     </div>
-                  
+
                   </div>
-               
+
                 </div>
                 <!--  list-single-hero-rating  end-->
                 <div class="clearfix"></div>
-                <!-- 
+                <!--
                 <div class="list-single-hero-links">
                   <a class="lisd-link" href="booking-single.html"><i class="fal fa-bookmark"></i> Book Now</a>
                   <a class="custom-scroll-link lisd-link" href="#sec6"><i class="fal fa-comment-alt-check"></i> Add review</a>
@@ -124,7 +124,7 @@
             <ul>
               <li><a class="act-scrlink" href="#sec1">Top</a></li>
               <li><a href="#sec2">Details</a></li>
-              <li><a href="#sec3">Amenities</a></li>
+              <!-- <li><a href="#sec3">Amenities</a></li> -->
               <li><a href="#sec4">Rooms</a></li>
               <!-- <li><a href="#sec5">Reviews</a></li> -->
             </ul>
@@ -147,7 +147,7 @@
                   <div class="share-holder fixed-scroll-column-share-container">
                     <div class="share-container  isShare"></div>
                   </div>
-                  <a class="fc-button custom-scroll-link" href="#sec6"><i class="far fa-comment-alt-check"></i> <span>  Add review </span></a>
+                  <!-- <a class="fc-button custom-scroll-link" href="#sec6"><i class="far fa-comment-alt-check"></i> <span>  Add review </span></a> -->
                   <a class="fc-button" href="#"><i class="far fa-heart"></i> <span>Save</span></a>
                   <a class="fc-button" href="booking-single.html"><i class="far fa-bookmark"></i> <span> Book Now </span></a>
                 </div>
@@ -166,7 +166,7 @@
                    $galleris_path_mod = str_replace('\\', '/', $galleris);
                   //print_r($base_path_mod); die;
                   $gallery_img = 'http://tour2thailand.com/images/hotels'.$galleris_path_mod;
-                 
+
                    ?>
                   <div class="gallery-item ">
                     <div class="grid-item-holder">
@@ -288,7 +288,7 @@
               </div>
               <!--   list-single-main-item end -->
               <!--   list-single-main-item -->
-              <div class="list-single-main-item fl-wrap" id="sec3">
+              <!-- <div class="list-single-main-item fl-wrap" id="sec3">
                 <div class="list-single-main-item-title fl-wrap">
                   <h3>Amenities</h3>
                 </div>
@@ -316,30 +316,121 @@
                   <a href="#">Restourant</a>
                   <a href="#">Parking</a>
                 </div>
-              </div>
+              </div> -->
               <!--   list-single-main-item end -->
               <!-- accordion-->
               <div class="accordion mar-top">
                 <a class="toggle act-accordion" href="#"> Location   <span></span></a>
                 <div class="accordion-inner visible">
-                  <h4>Address</h4>
-                  <p>{{$hotel->address}}</p>
-                  <h4>City</h4>
-                  <p>{{$hotel->city}}</p>
-                  <h4>State</h4>
-                  <p>{{$hotel->state_province}}</p>
-                  <h4>Country</h4>
-                  <p>{{$hotel->country}}</p>
+                  <div class="row">
+                    <div class="col-md-3">
+                      Address:
+                    </div>
+                    <div class="col-md-9">
+                      <p>{{$hotel->address}}</p>
+                    </div>
+                    <div class="col-md-3">
+                      Post Code:
+                    </div>
+                    <div class="col-md-9">
+                      <p>{{$hotel->postal_code}}</p>
+                    </div>
+                    <div class="col-md-3">
+                      City:
+                    </div>
+                    <div class="col-md-9">
+                      <p>{{$hotel->city}}</p>
+                    </div>
+                    <div class="col-md-3">
+                      State:
+                    </div>
+                    <div class="col-md-9">
+                      <p>{{$hotel->state_province}}</p>
+                    </div>
+                    <div class="col-md-3">
+                      Country:
+                    </div>
+                    <div class="col-md-9">
+                      <p>{{$hotel->country}}</p>
+                    </div>
+                  </div>
+
 
                   <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque. Nulla finibus lobortis pulvinar. Donec a consectetur nulla. Nulla posuere sapien vitae lectus suscipit, et pulvinar nisi tincidunt. Aliquam erat volutpat. Curabitur convallis fringilla diam sed aliquam. Sed tempor iaculis massa faucibus feugiat. In fermentum facilisis massa, a consequat purus viverra.</p> -->
                 </div>
-                <a class="toggle" href="#"> Details option 2  <span></span></a>
+                <a class="toggle" href="#"> Contact Details <span></span></a>
                 <div class="accordion-inner">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque. Nulla finibus lobortis pulvinar. Donec a consectetur nulla. Nulla posuere sapien vitae lectus suscipit, et pulvinar nisi tincidunt. Aliquam erat volutpat. Curabitur convallis fringilla diam sed aliquam. Sed tempor iaculis massa faucibus feugiat. In fermentum facilisis massa, a consequat purus viverra.</p>
+                  <div class="row">
+                    <div class="col-md-3">
+                      Reservation Email:
+                    </div>
+                    <div class="col-md-9">
+                      <p>{{$hotel->email_reservation}}</p>
+                    </div>
+                    <div class="col-md-3">
+                      General Manger Email:
+                    </div>
+                    <div class="col-md-9">
+                      <p>{{$hotel->email_general_manager}}</p>
+                    </div>
+                    <div class="col-md-3">
+                      FAX:
+                    </div>
+                    <div class="col-md-9">
+                      <p>{{$hotel->fax_hotel}}</p>
+                    </div>
+                    <div class="col-md-3">
+                      Reservation FAX:
+                    </div>
+                    <div class="col-md-9">
+                      <p>{{$hotel->fax_reservation}}</p>
+                    </div>
+                    <div class="col-md-3">
+                      General Manger FAX:
+                    </div>
+                    <div class="col-md-9">
+                      <p>{{$hotel->fax_general}}</p>
+                    </div>
+                    <div class="col-md-3">
+                      Website:
+                    </div>
+                    <div class="col-md-9">
+                      <p>{{$hotel->web_address}}</p>
+                    </div>
+                  </div>
                 </div>
-                <a class="toggle" href="#"> Details option 3  <span></span></a>
+                <a class="toggle" href="#"> Reservation Conditions  <span></span></a>
                 <div class="accordion-inner">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque. Nulla finibus lobortis pulvinar. Donec a consectetur nulla. Nulla posuere sapien vitae lectus suscipit, et pulvinar nisi tincidunt. Aliquam erat volutpat. Curabitur convallis fringilla diam sed aliquam. Sed tempor iaculis massa faucibus feugiat. In fermentum facilisis massa, a consequat purus viverra.</p>
+                  <div class="row">
+                    <div class="col-md-3">
+                      Payment Condition:
+                    </div>
+                    <div class="col-md-9">
+                      <p>{{$hotel->payment_conditions}}</p>
+                    </div>
+                    <div class="col-md-3">
+                      Child Allow:
+                    </div>
+                    <div class="col-md-9">
+                      @if($hotel->child_permitted ==0)
+                      <p>YES</p>
+                      @else
+                      <p>No</p>
+                      @endif
+                    </div>
+                    <div class="col-md-3">
+                      Child Age Limit From:
+                    </div>
+                    <div class="col-md-9">
+                      <p>{{round($hotel->child_age_from)}}</p>
+                    </div>
+                    <div class="col-md-3">
+                      Child Age Limit To:
+                    </div>
+                    <div class="col-md-9">
+                      <p>{{round($hotel->child_age_to)}}</p>
+                    </div>
+                  </div>
                 </div>
               </div>
               <!-- accordion end -->
@@ -368,13 +459,14 @@
                       @else
                       <img src="{{asset('frontend-assets/no-image.jpeg')}}" alt="">
                       @endif
-                      <div class="dynamic-gal more-photos-button" data-dynamicPath="[{'src': 'images/gal/slider/1.jpg'}, {'src': 'images/gal/slider/2.jpg'},{'src': 'images/gal/slider/3.jpg'}]">  View Gallery <span>3 photos</span> <i class="far fa-long-arrow-right"></i></div>
+                      <!-- <div class="dynamic-gal more-photos-button" data-dynamicPath="[{'src': 'images/gal/slider/1.jpg'}, {'src': 'images/gal/slider/2.jpg'},{'src': 'images/gal/slider/3.jpg'}]">  View Gallery <span>3 photos</span> <i class="far fa-long-arrow-right"></i></div> -->
                     </div>
                     <div class="rooms-details">
                       <div class="rooms-details-header fl-wrap">
                         <!-- <span class="rooms-price">$81 <strong> / person</strong></span> -->
                         <h3>{{$room->name}}</h3>
-                        <h5>Max Guests: <span>3 persons</span></h5>
+                        <h5>Allow Guests: <span>{{$room->permitted_occupants}}</span></h5>
+                        <h5>Max Guests with Extra Charge: <span>{{$room->max_with_extra_charge}}</span></h5>
                       </div>
                        @if($room->description_en)
                       <p>{{Str::limit($room->description_en->description,180)}}</p>
@@ -563,9 +655,9 @@
                             <select data-placeholder="Room Type" name="repopt"   class="chosen-select no-search-select" >
                             <option value="0" selected>Select Room</option>
                             @foreach($rooms as $roomdata)
-                             
+
                               <option value="{{$roomdata->rid}}">{{$roomdata->name}}</option>
-                              
+
                               @endforeach
                             </select>
                             <!--data-formula -->
@@ -608,7 +700,7 @@
               </div>
               <!--box-widget-item end -->
               <!--box-widget-item -->
-            
+
               <!--box-widget-item end -->
               <!--box-widget-item -->
               <div class="box-widget-item fl-wrap">
@@ -618,10 +710,10 @@
                       <h3> Contact Information</h3>
                     </div>
                     <div class="box-widget-list">
-                  
+
                       <ul>
                         <li><span><i class="fal fa-map-marker"></i> Adress :</span> <a href="#">{{$hotel->address}}</a></li>
-                        <li><span><i class="fal fa-phone"></i> Phone :</span> <a href="#">{{$hotel->phone_1}}</a></li>
+                        <li><span><i class="fal fa-phone"></i> Phone :</span> <a href="#">{{$hotel->phone_1}}</a><a href="#">{{$hotel->phone_2}}</a></li>
                         <li><span><i class="fal fa-envelope"></i> Mail :</span> <a href="#">{{$hotel->email_primary}}</a></li>
                         <li><span><i class="fal fa-browser"></i> Website :</span> <a href="#">{{$hotel->web_address}}</a></li>
                       </ul>
@@ -639,11 +731,11 @@
               </div>
               <!--box-widget-item end -->
               <!--box-widget-item -->
-            
+
               <!-- <div class="box-widget-item fl-wrap">
                 <div id="weather-widget" class="gradient-bg ideaboxWeather" data-city="New York"></div>
               </div> -->
-            
+
               <div class="box-widget-item fl-wrap">
                 <div class="box-widget">
                   <div class="box-widget-content">
@@ -652,35 +744,36 @@
                     </div>
                     <div class="widget-posts fl-wrap">
                       <ul>
+                        @foreach($similar_list as $list)
+                        <?php
+                        $li_image = $list->photo_1;
+                        $li_image = substr($li_image,37);
+                        $base_path_mod = str_replace('\\', '/', $li_image);
+                        $list_image ='http://tour2thailand.com/images/hotels'.$base_path_mod;
+                        $hotel_image2=urldecode($hotel_image);
+                        //print_r($hotel_image); die;
+                         ?>
                         <li class="clearfix">
-                          <a href="#"  class="widget-posts-img"><img src="images/gal/3.jpg" class="respimg" alt=""></a>
+                          <a href="{{url('hotel-detail/'.$list->hid)}}"  class="widget-posts-img"><img src="{{url($list_image)}}" class="respimg" alt=""></a>
                           <div class="widget-posts-descr">
-                            <a href="#" title="">Park Central</a>
-                            <div class="listing-rating card-popup-rainingvis" data-starrating2="5"></div>
-                            <div class="geodir-category-location fl-wrap"><a href="#"><i class="fas fa-map-marker-alt"></i> 40 JOURNAL SQUARE PLAZA, NJ, US</a></div>
-                            <span class="rooms-price">$80 <strong> /  Awg</strong></span>
+                            <a href="{{url('hotel-detail/'.$list->hid)}}" title="">{{$list->name}}</a>
+                            @if($list->rate == '2*')
+                               <div class="listing-rating card-popup-rainingvis" data-starrating2="2"></div>
+                            @elseif($list->rate == '3*')
+                               <div class="listing-rating card-popup-rainingvis" data-starrating2="3"></div>
+                            @elseif($list->rate == '4*')
+                               <div class="listing-rating card-popup-rainingvis" data-starrating2="4"></div>
+                            @else
+                               <div class="listing-rating card-popup-rainingvis" data-starrating2="5"></div>
+                            @endif
+                            <!-- <div class="listing-rating card-popup-rainingvis" data-starrating2="5"></div> -->
+                            <div class="geodir-category-location fl-wrap"><a href="#"><i class="fas fa-map-marker-alt"></i>{{$list->address}}</a></div>
+                            <span class="rooms-price">${{$list->low_rate}} <strong> /  Awg</strong></span>
                           </div>
                         </li>
-                        <li class="clearfix">
-                          <a href="#"  class="widget-posts-img"><img src="images/gal/1.jpg" class="respimg" alt=""></a>
-                          <div class="widget-posts-descr">
-                            <a href="#" title="">Holiday Home</a>
-                            <div class="listing-rating card-popup-rainingvis" data-starrating2="3"></div>
-                            <div class="geodir-category-location fl-wrap"><a href="#"><i class="fas fa-map-marker-alt"></i> 75 PRINCE ST, NY, USA</a></div>
-                            <span class="rooms-price">$50 <strong> /   Awg</strong></span>
-                          </div>
-                        </li>
-                        <li class="clearfix">
-                          <a href="#"  class="widget-posts-img"><img src="images/gal/2.jpg" class="respimg" alt=""></a>
-                          <div class="widget-posts-descr">
-                            <a href="#" title="">Moonlight Hotel</a>
-                            <div class="listing-rating card-popup-rainingvis" data-starrating2="4"></div>
-                            <div class="geodir-category-location fl-wrap"><a href="#"><i class="fas fa-map-marker-alt"></i>  70 BRIGHT ST NEW YORK, USA</a></div>
-                            <span class="rooms-price">$105 <strong> /  Awg</strong></span>
-                          </div>
-                        </li>
+                        @endforeach
                       </ul>
-                      <a class="widget-posts-link" href="#">See All Listing <i class="fal fa-long-arrow-right"></i> </a>
+                      <a class="widget-posts-link" href="{{url('/listing')}}">See All Listing <i class="fal fa-long-arrow-right"></i> </a>
                     </div>
                   </div>
                 </div>
