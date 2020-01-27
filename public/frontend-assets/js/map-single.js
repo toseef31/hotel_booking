@@ -1,13 +1,14 @@
 function singleMap() {
     var markerIcon = {
-        url: 'images/marker2.png',
+        // url: 'http://easybook.kwst.net/images/marker2.png',
+        url: '../frontend-assets/marker2.png',
     }
     var myLatLng = {
         lng: $('#singleMap').data('longitude'),
         lat: $('#singleMap').data('latitude'),
     };
     var single_map = new google.maps.Map(document.getElementById('singleMap'), {
-        zoom: 14,
+        zoom: 18,
         center: myLatLng,
         scrollwheel: false,
         zoomControl: false,
@@ -105,8 +106,10 @@ function singleMap() {
             single_map.setZoom(single_map.getZoom() - 1);
         });
     }
-    $(".single-map-item").on("click", function (e) {
+    $(document).on("click",".single-map-item", function (e) {
+    // $(".single-map-item").on("click", function (e) {
         e.preventDefault();
+        // alert("asd");
         google.maps.event.trigger(single_map, 'resize');
         $(".map-modal-wrap").fadeIn(400);
         var $that = $(this),
@@ -121,7 +124,7 @@ function singleMap() {
     });
     $(".map-modal-close , .map-modal-wrap-overlay").on("click", function (e) {
         $(".map-modal-wrap").fadeOut(400);
-        single_map.setZoom(14);
+        single_map.setZoom(19);
         single_map.getStreetView().setVisible(false);
         $('#pac-input').val('');
         markers.forEach(function (marker) {
