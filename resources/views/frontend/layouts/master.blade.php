@@ -141,12 +141,12 @@
     <script type="text/javascript" src="{{asset('frontend-assets/js/jquery.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('frontend-assets/js/plugins.js')}}"></script>
     <script type="text/javascript" src="{{asset('frontend-assets/js/scripts.js')}}"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkCYdMuRkyApHONAWq&libraries=places&callback=initAutocomplete"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIgGlP4x2CNrSRBfgfCgDtmJmQ5-jkvB0&libraries=places&callback=initAutocomplete"></script>
     <script type="text/javascript" src="{{asset('frontend-assets/js/map-single.js')}}"></script>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="{{asset('frontend-assets/bootstrap/js/bootstrap.min.js')}}" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" ></script>
+    <script src="{{asset('frontend-assets/bootstrap/js/bootstrap.min.js')}}" ></script>
     <script>
   $('#total-child').change(function(){
     var input = $('#total-child').val();
