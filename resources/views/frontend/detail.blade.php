@@ -116,7 +116,9 @@
           <input id="pac-input" class="controls fl-wrap controls-mapwn" type="text" placeholder="What Nearby ?   Bar , Gym , Restaurant ">
           <div class="map-container">
             <!-- <div id="singleMap" data-latitude="40.7427837" data-longitude="-73.11445617675781"></div> -->
+            @if($hotel->latitude)
             <div id="singleMap" data-latitude="{{Booking::DMStoDD($hotel->latitude)}}" data-longitude="{{Booking::DMStoDD($hotel->longitude)}}"></div>
+            @endif
           </div>
         </div>
         <div class="clearfix"></div>

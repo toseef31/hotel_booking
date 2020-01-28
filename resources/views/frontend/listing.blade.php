@@ -335,8 +335,9 @@
 												<div class="geodir-category-price">Awg/Night <span>$ {{$hotel->low_rate}}</span></div>
 												<div class="geodir-opt-list">
 
-
+													@if($hotel->latitude)
 													<a href="#" class="single-map-item" data-newlatitude="{{Booking::DMStoDD($hotel->latitude)}}" data-newlongitude="{{Booking::DMStoDD($hotel->longitude)}}"><i class="fal fa-map-marker-alt"></i><span class="geodir-opt-tooltip">On the map</span></a>
+													@endif
 													<a href="#" class="geodir-js-favorite"><i class="fal fa-heart"></i><span class="geodir-opt-tooltip">Save</span></a>
 													<!-- <a href="#" class="geodir-js-booking"><i class="fal fa-exchange"></i><span class="geodir-opt-tooltip">Find Directions</span></a> -->
 												</div>
@@ -438,9 +439,11 @@
 </article>
 </div> -->
 <!-- listing-item end -->
+@if(count($hotels)>=10)
 <div id="remove-row" class="">
 	<button id="btn-more" data-id="{{$hotel->hid}}" class="load-more-button" href="javascript:void(0)">Load more <i class="fal fa-spinner" style="display:none;"></i> </button>
 </div>
+@endif
 </div>
 <!-- listing-item-container end-->
 

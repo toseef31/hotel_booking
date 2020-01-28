@@ -12,42 +12,67 @@ class HotelController extends Controller
   public function hotel_listing(Request $request)
   {
     // dd($request->all());
-    if ($request->isMethod('post')) {
       $date = $request->input('header-search');
+      $from_date='';
+      $to_date='';
+      $min='';
+      $max='';
+      if ($date !="") {
       $result_explode = explode('-', $date);
       $from_date = trim($result_explode[0]);
       // 2020-01-01
       $from_date=date("Y-m-d", strtotime($from_date));
       $to_date = trim($result_explode[1]);
       $to_date=date("Y-m-d", strtotime($to_date));
+    }
+
+      $city = $request->input('city');
       $room = $request->input('room');
       $adult = $request->input('adult');
       $child = $request->input('child');
       $age = $request->input('age');
       $total_person = $child+$adult;
-      $min = min($age);
-     $max = max($age);
-     // dd($from_date);
-     // $searchResult=DB::table('hotels')->join('rooms','rooms.hid','=','hotels.hid')
-     // ->join('hotel_quotations','hotel_quotations.rid','=','rooms.rid')
-     // ->where('hotels.city','=','Pattaya')->select('hotels.*')->where('hotels.child_age_from','>=',1)->where('hotels.child_age_to','<=',5)->where('hotel_quotations.from_date','>=','2020-01-28')->where('hotel_quotations.to_date','<=','2020-01-29')->where('rooms.permitted_occupants','>=',4)->groupBy('hotels.hid')->get();
-     // dd($searchResult);
+
+      if ($age !="") {
+        $min = min($age);
+        $max = max($age);
+      }
+     // dd($total_person);
+
       $hotels=DB::table('hotels')->join('rooms','rooms.hid','=','hotels.hid')
       ->join('hotel_quotations','hotel_quotations.rid','=','rooms.rid')
-      ->join('hotel_photos','hotel_photos.hid','=','hotels.hid')->where('hotels.city','=','Pattaya')->select('hotels.*','hotel_photos.*')->where('hotels.child_age_from','>=',$min)->where('hotels.child_age_to','<=',$max)->where('hotel_quotations.from_date','>=',$from_date)->where('hotel_quotations.to_date','<=',$to_date)->where('rooms.permitted_occupants','>=',$total_person)->groupBy('hotels.hid')->get();
+      ->join('hotel_photos','hotel_photos.hid','=','hotels.hid')
+      ->select('hotels.*','hotel_photos.*');
+      if ($city !="") {
+        $hotels->where('hotels.city','like','%'.$city.'%');
+        // $hotels=$hotels->groupBy('hotels.hid')->orderBy('hotels.hid','asc')->limit(10)->get();
+        // dd($hotels);
+      }
+      if ($min !="") {
+        $hotels->where('hotels.child_age_from','>=',$min);
+      }
+      if ($max !="") {
+        $hotels->where('hotels.child_age_to','<=',$max);
+      }
+      if ($total_person !="") {
+        $hotels->where('rooms.permitted_occupants','=',$total_person);
+      }
+      if ($from_date !="") {
+        // $hotels->where('hotel_quotations.from_date','<=',$from_date.' 00:00:00');
+        // $hotels->where('hotel_quotations.from_date','>=',$to_date.' 00:00:00');
+        $hotels->where('hotel_quotations.from_date','>=',$from_date.' 00:00:00');
+        $hotels->where('hotel_quotations.to_date','<=',$to_date.' 00:00:00');
+      }
+    $hotels=$hotels->groupBy('hotels.hid')->orderBy('hotels.hid','asc')->limit(9)->get();
       // dd($hotels);
-  }else {
-
-    // $searchResult=DB::table('hotels')->join('rooms','rooms.hid','=','hotels.hid')
-    // ->join('hotel_quotations','hotel_quotations.rid','=','rooms.rid')
-    // ->where('hotels.city','=','Pattaya')->select('hotels.*')->where('hotels.child_age_from','>=',3)->where('hotels.child_age_to','<=',12)->where('hotel_quotations.from_date','>=','2020-01-01')->where('hotel_quotations.to_date','<=','2022-11-01')->where('rooms.permitted_occupants','>=',4)->groupBy('hotels.hid')->get();
-    // dd($searchResult);
-    $hotels = DB::table('hotels')->join('hotel_photos','hotel_photos.hid','=','hotels.hid')->orderBy('hotels.hid','asc')->limit(10)->get();
-  }
     foreach ($hotels as $rec) {
       $rec->decription_en = DB::table('hotel_description_en')->where('hid',$rec->hid)->first();
       $rec->decription_ru = DB::table('hotel_description_ru')->where('hid',$rec->hid)->first();
     }
+    // $searchResult=DB::table('hotels')->join('rooms','rooms.hid','=','hotels.hid')
+    // ->join('hotel_quotations','hotel_quotations.rid','=','rooms.rid')
+    // ->where('hotels.city','=','Pattaya')->select('hotels.*')->where('hotels.child_age_from','>=',3)->where('hotels.child_age_to','<=',12)->where('hotel_quotations.from_date','>=','2020-01-01')->where('hotel_quotations.to_date','<=','2022-11-01')->where('rooms.permitted_occupants','>=',4)->groupBy('hotels.hid')->get();
+    // dd($searchResult);
 
     // dd($hotels);
     return view('frontend.listing',compact('hotels'));
@@ -102,34 +127,13 @@ class HotelController extends Controller
     $room_description_en = DB::table('room_description_en')->where('rid',$id)->first();
     $room_description_ru = DB::table('room_description_ru')->where('rid',$id)->first();
     $room_photos = DB::table('room_photos')->where('rid',$id)->first();
-    $room_quotation = DB::table('hotel_quotations')->where('rid',$id)->where('from_date','>=',Carbon\Carbon::now())->get();
+    $room_quotation = DB::table('hotel_quotations')->where('rid',$id)->where('to_date','>=',Carbon\Carbon::now())->get();
     // dd(Carbon\Carbon::now());
-    // dd($room_description_en);
+    // dd($room_quotation);
     return view('frontend.room-details-ajax',compact('room_info','room_photos','room_quotation','room_description_en','room_description_ru'));
 
   }
 
-  public function get_cities(Request $request)
-  {
-    // dd($request->all());
-    $keyword = $request->input('search');
-    $cities = DB::table('cities');
-    if ($keyword !="") {
-      $cities->Where('name','like','%'.$keyword.'%');
-    }
-    $result=$cities->limit(15)->get();
-    // dd($cities);
-    $template='';
-       foreach($result as $serarch){
-          if($serarch->cid != null){
-            // $url=url('shoppingmall/product/'.$serarch->product_id);
-              $template .= '<li style="display: list-item;border-bottom: 2px solid #3838381a;padding: 8px;text-align:left;">'.$serarch->name.' </li>';
-              // $template .= '<option value="'.$serarch->name.'">'.$serarch->name.'</option>';
-              }
-             }
-             // dd($template);
-        return json_encode($template);
-  }
 
 
     /**
