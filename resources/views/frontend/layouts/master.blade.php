@@ -148,76 +148,75 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" ></script>
     <script src="{{asset('frontend-assets/bootstrap/js/bootstrap.min.js')}}" ></script>
     <script>
-  $('#total-child').change(function(){
-    var input = $('#total-child').val();
-    if(input === "1"){
-      $('#age-1').addClass('show');
-      $('#age-1').removeClass('hide');
-      $('#age-2').addClass('hide');
-      $('#age-2').removeClass('show');
-      $('#age-3').addClass('hide');
-      $('#age-3').removeClass('show');
-      $('#age-4').addClass('hide');
-      $('#age-4').removeClass('show');
-      $('#age-5').addClass('hide');
-      $('#age-5').removeClass('show');
-    }else if(input === "2"){
-      $('#age-1').addClass('show');
-      $('#age-1').removeClass('hide');
-      $('#age-2').addClass('show');
-      $('#age-2').removeClass('hide');
-      $('#age-3').addClass('hide');
-      $('#age-3').removeClass('show');
-      $('#age-4').addClass('hide');
-      $('#age-4').removeClass('show');
-      $('#age-5').addClass('hide');
-      $('#age-5').removeClass('show');
-    }else if(input === "3"){
-      $('#age-1').addClass('show');
-      $('#age-1').removeClass('hide');
-      $('#age-2').addClass('show');
-      $('#age-2').removeClass('hide');
-      $('#age-3').addClass('show');
-      $('#age-3').removeClass('hide');
-      $('#age-4').addClass('hide');
-      $('#age-4').removeClass('show');
-      $('#age-5').addClass('hide');
-      $('#age-5').removeClass('show');
-    }else if(input === "4"){
-      $('#age-1').addClass('show');
-      $('#age-1').removeClass('hide');
-      $('#age-2').addClass('show');
-      $('#age-2').removeClass('hide');
-      $('#age-3').addClass('show');
-      $('#age-3').removeClass('hide');
-      $('#age-4').addClass('show');
-      $('#age-4').removeClass('hide');
-      $('#age-5').addClass('hide');
-      $('#age-5').removeClass('show');
-    }else if(input === "5"){
-      $('#age-1').addClass('show');
-      $('#age-1').removeClass('hide');
-      $('#age-2').addClass('show');
-      $('#age-2').removeClass('hide');
-      $('#age-3').addClass('show');
-      $('#age-3').removeClass('hide');
-      $('#age-4').addClass('show');
-      $('#age-4').removeClass('hide');
-      $('#age-5').addClass('show');
-      $('#age-5').removeClass('hide');
-    }else{
-      $('#age-1').addClass('hide');
-      $('#age-1').removeClass('show');
-      $('#age-2').addClass('hide');
-      $('#age-2').removeClass('show');
-      $('#age-3').addClass('hide');
-      $('#age-3').removeClass('show');
-      $('#age-4').addClass('hide');
-      $('#age-4').removeClass('show');
-      $('#age-5').addClass('hide');
-      $('#age-5').removeClass('show');
-    }
+    var x = 0;
+  $(document).ready(function(){
+  // $(document).on('click','.children .quantity-up',function(){
+    var maxField = 5; //Input fields increment limitation
+    var addButton = $('.children .quantity-up'); //Add button selector
+    var wrapper = $('.field_wrapper'); //Input field wrapper
+    $(addButton).click(function(){
+        //Check maximum number of input fields
+      if(x < maxField){
+        x++; //Increment field counter
+        // alert(x);
+
+    var fieldHTML = '<div class="quantity-item age-items child'+x+'">'+
+                      '<div class="quantity">'+
+                        '<select name="age[]">'+
+                          '<option value="">0 years</option>'+
+                          '<option value="1">1 years</option>'+
+                          '<option value="2">2 years</option>'+
+                          '<option value="3">3 years</option>'+
+                          '<option value="4">4 years</option>'+
+                          '<option value="5">5 years</option>'+
+                          '<option value="6">6 years</option>'+
+                          '<option value="7">7 years</option>'+
+                          '<option value="8">8 years</option>'+
+                          '<option value="9">9 years</option>'+
+                          '<option value="10">10 years</option>'+
+                          '<option value="11">11 years</option>'+
+                          '<option value="12">12 years</option>'+
+                          '<option value="13">13 years</option>'+
+                          '<option value="14">14 years</option>'+
+                          '<option value="15">15 years</option>'+
+                        '</select>'+
+                      '</div>'+
+                    '</div>'; //New input field html
+
+    $('#field_wrapper').append(fieldHTML); //Add field html
+  }
+
+});
+    //Once remove button is clicked
+    $(document).on('click', '.children .quantity-down', function(e){
+      e.preventDefault();
+      // alert(x);
+      $('.child'+x).remove();
+      // $(this).parent('div').remove(); //Remove field html
+      if (x>=0) {
+        x--; //Decrement field counter
+      }
+    });
   });
+
+  function search(container,value){
+    // alert(value);
+    var search  = value;
+    var token   = "{{ csrf_Token() }}";
+    $.ajax({
+      url:"{{url('/getcities')}}",
+      type:"POST",
+      data:{search:search,_token:token},
+      success:function(res){
+       var searchData = JSON.parse(res);
+       console.log(searchData);
+        // $('#'+container).html(searchData);
+        // $('#'+container).css('display','block');
+        $('#search-container').html(searchData);
+        $('#search-container').show();
+      }
+    });
+  }
 </script>
     @yield('script')
   </body>

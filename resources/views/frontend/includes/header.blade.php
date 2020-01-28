@@ -167,130 +167,95 @@ header-->
   <!-- header-inner end-->
   <!-- header-search -->
   <div class="header-search vis-search">
-    <div class="container">
-      <div class="row">
-        <!-- header-search-input-item -->
-        <div class="col-sm-4">
-          <div class="header-search-input-item fl-wrap location autocomplete-container">
-            <label>Destination or Hotel Name</label>
-            <span class="header-search-input-item-icon"><i class="fal fa-map-marker-alt"></i></span>
-            <input type="text" placeholder="Location" class="autocomplete-input" id="autocompleteid" value=""/>
-            <a href="#"><i class="fal fa-dot-circle"></i></a>
+    <form class="" action="{{url('/listing')}}" method="post">
+      {{csrf_field()}}
+      <div class="container">
+        <div class="row">
+          <!-- header-search-input-item -->
+          <div class="col-sm-4">
+            <div class="header-search-input-item fl-wrap location autocomplete-container">
+              <label>Destination or Hotel Name</label>
+              <span class="header-search-input-item-icon"><i class="fal fa-map-marker-alt"></i></span>
+              <input type="text" placeholder="City" name="keyword" class="" onkeyup="search('search-container',this.value)" id="" value=""/>
+              <!-- <input type="text" placeholder="Location" class="autocomplete-input" id="autocompleteid" value=""/> -->
+              <a href="#"><i class="fal fa-dot-circle"></i></a>
+              <div class="search-dropdown" style="position: absolute; top: 100%;z-index: 99999;">
+                <ul id="search-container" style="display: none; background:white;width: 387px;">
+                </ul>
+                <!-- <select class="form-control" name="cities" id="search-container" style="display: none; background:white;">
+                </select> -->
+              </div>
+              <!-- <input type="text" name="keyword" class="form-control" id="transcripts" onkeyup="search('search-container',this.value)" placeholder="Get ..."  style="position: relative;">
+              <div class="search-dropdown" style="position: absolute; top: 100%;    z-index: 99999;">
+                <ul id="search-container" style="display: none">
+                </ul>
+              </div> -->
+            </div>
           </div>
-        </div>
-        <!-- header-search-input-item end -->
-        <!-- header-search-input-item -->
-        <div class="col-sm-3">
-          <div class="header-search-input-item fl-wrap date-parent">
-            <label>Date In-Out </label>
-            <span class="header-search-input-item-icon"><i class="fal fa-calendar-check"></i></span>
-            <input type="text" placeholder="When" name="header-search"   value=""/>
+          <!-- header-search-input-item end -->
+          <!-- header-search-input-item -->
+          <div class="col-sm-3">
+            <div class="header-search-input-item fl-wrap date-parent">
+              <label>Date In-Out </label>
+              <span class="header-search-input-item-icon"><i class="fal fa-calendar-check"></i></span>
+              <input type="text" placeholder="When" name="header-search"   value=""/>
+            </div>
           </div>
-        </div>
-        <!-- header-search-input-item end -->
-        <!-- header-search-input-item -->
-        <div class="col-sm-3">
-          <div class="header-search-input-item fl-wrap">
-            <div class="quantity-item">
-              <label>Rooms</label>
-              <div class="quantity">
-                <input type="number" min="1" max="5" step="1" value="1">
+          <!-- header-search-input-item end -->
+          <!-- header-search-input-item -->
+          <div class="col-sm-3">
+            <div class="header-search-input-item fl-wrap">
+              <div class="quantity-item">
+                <label>Rooms</label>
+                <div class="quantity">
+                  <input type="number" name="room" min="1" max="5" step="1" value="1">
+                </div>
               </div>
-            </div>
-            <div class="quantity-item">
-              <label>Adults</label>
-              <div class="quantity">
-                <input type="number" min="1" max="5" step="1" value="1">
+              <div class="quantity-item">
+                <label>Adults</label>
+                <div class="quantity">
+                  <input type="number" name="adult" min="1" max="5" step="1" value="1">
+                </div>
               </div>
-            </div>
-            <div class="quantity-item">
-              <label>Children</label>
-              <div class="quantity">
-                <input type="number" min="0" max="5" step="1" value="0" id="total-child">
+              <div class="quantity-item">
+                <label>Children</label>
+                <div class="quantity children">
+                  <!-- <input type="number" name="child" min="0" max="5" step="1" value="0" id="total-child"> -->
+                  <input type="number" name="child" min="0" max="5" step="1" value="0" id="total-child" onclick="Dosmothing()">
+                </div>
               </div>
-            </div>
 
-            <!-- children Age -->
-          
-            <div class="quantity-item hide age-items" id="age-1">
-              <div class="quantity">
-                <select>
-                  <option>0 years</option>
-                  <option>1 years</option>
-                  <option>2 years</option>
-                  <option>3 years</option>
-                  <option>4 years</option>
-                  <option>5 years</option>
-                  <option>6 years</option>
-                </select>
+              <!-- children Age -->
+              <div class="field_wrapper" id="field_wrapper">
               </div>
+              <!-- <div class="quantity-item hide age-items" id="age-1">
+                <div class="quantity">
+                  <select name="age[]">
+                    <option value="">0 years</option>
+                    <option value="1">1 years</option>
+                    <option value="2">2 years</option>
+                    <option value="3">3 years</option>
+                    <option value="4">4 years</option>
+                    <option value="5">5 years</option>
+                    <option value="6">6 years</option>
+                  </select>
+                </div>
+              </div> -->
+
+              <!-- End children age -->
             </div>
-            <div class="quantity-item hide age-items" id="age-2">
-              <div class="quantity">
-                <select>
-                  <option>0 years</option>
-                  <option>1 years</option>
-                  <option>2 years</option>
-                  <option>3 years</option>
-                  <option>4 years</option>
-                  <option>5 years</option>
-                  <option>6 years</option>
-                </select>
-              </div>
-            </div>
-            <div class="quantity-item hide age-items" id="age-3">
-              <div class="quantity">
-                <select>
-                  <option>0 years</option>
-                  <option>1 years</option>
-                  <option>2 years</option>
-                  <option>3 years</option>
-                  <option>4 years</option>
-                  <option>5 years</option>
-                  <option>6 years</option>
-                </select>
-              </div>
-            </div>
-            <div class="quantity-item hide age-items" id="age-4">
-              <div class="quantity">
-                <select>
-                  <option>0 years</option>
-                  <option>1 years</option>
-                  <option>2 years</option>
-                  <option>3 years</option>
-                  <option>4 years</option>
-                  <option>5 years</option>
-                  <option>6 years</option>
-                </select>
-              </div>
-            </div>
-            <div class="quantity-item hide age-items" id="age-5">
-              <div class="quantity">
-                <select>
-                  <option>0 years</option>
-                  <option>1 years</option>
-                  <option>2 years</option>
-                  <option>3 years</option>
-                  <option>4 years</option>
-                  <option>5 years</option>
-                  <option>6 years</option>
-                </select>
-              </div>
-            </div>
-            
-            <!-- End children age -->
           </div>
-        </div>
-        <!-- header-search-input-item end -->
-        <!-- header-search-input-item -->
-        <div class="col-sm-2">
-          <div class="header-search-input-item fl-wrap">
-            <button class="header-search-button" onclick="window.location.href='listing.html'">Search <i class="far fa-search"></i></button>
+          <!-- header-search-input-item end -->
+          <!-- header-search-input-item -->
+          <div class="col-sm-2">
+            <div class="header-search-input-item fl-wrap">
+              <button class="header-search-button" type="submit" >Search <i class="far fa-search"></i></button>
+            </div>
           </div>
+          <!-- header-search-input-item end -->
         </div>
-        <!-- header-search-input-item end -->
       </div>
-    </div>
+    </form>
     <div class="close-header-search"><i class="fal fa-angle-double-up"></i></div>
   </div>
   <!-- header-search  end -->
