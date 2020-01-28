@@ -15,10 +15,11 @@ Route::get('/', function () {
     return view('frontend.index');
 });
 
-Route::get('/listing','frontend\HotelController@hotel_listing');
+Route::match(['get','post'],'/listing','frontend\HotelController@hotel_listing');
 Route::match(['get','post'],'/listing-ajax','frontend\HotelController@hotel_listing_ajax');
 Route::get('hotel-detail/{id}','frontend\HotelController@hotel_detail');
 Route::match(['get','post'],'/room-detail-ajax/{id}','frontend\HotelController@room_detail');
+Route::match(['get','post'],'/getcities','frontend\HotelController@get_cities');
 // Route::get('/room-detail-ajax/{id}', function () {
 //     return view('frontend.room-details-ajax');
 // });
