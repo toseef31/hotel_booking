@@ -11,6 +11,7 @@ class HotelController extends Controller
 
   public function hotel_listing(Request $request)
   {
+    
     $hotels = DB::table('hotels')->join('hotel_photos','hotel_photos.hid','=','hotels.hid')->orderBy('hotels.hid','asc')->limit(10)->get();
     foreach ($hotels as $rec) {
       $rec->decription_en = DB::table('hotel_description_en')->where('hid',$rec->hid)->first();
