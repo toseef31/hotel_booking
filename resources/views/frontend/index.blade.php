@@ -140,7 +140,7 @@
 				<div class="container"><a href="#sec2" class="custom-scroll-link color-bg"><i class="fal fa-angle-double-down"></i></a></div>
 			</div>
 		</section>
-		
+
 		<!-- section end -->
 		<!--section -->
 		<section id="sec2">
@@ -157,6 +157,7 @@
 				<!-- gallery-item-->
 				<div class="gallery-item">
 					<div class="grid-item-holder">
+						<a href="{{ url('/listing?city=Bangkok')}}">
 						<div class="listing-item-grid">
 							<div class="listing-counter"><span>{{ Booking::Bangkok() }}</span> Hotels</div>
 							<img  src="{{ url('frontend-assets/hotelsimages/Bangkok.jpg')}}"   alt="">
@@ -167,12 +168,14 @@
 								<p>Constant care and attention to the patients makes good record</p>
 							</div>
 						</div>
+					</a>
 					</div>
 				</div>
 				<!-- gallery-item end-->
 				<!-- gallery-item-->
 				<div class="gallery-item gallery-item-second">
 					<div class="grid-item-holder">
+						<a href="{{ url('/listing?city=Pattaya')}}">
 						<div class="listing-item-grid">
 							<img  src="{{ url('frontend-assets/hotelsimages/pattaya_beach.jpg')}}"   alt="">
 							<div class="listing-counter"><span>{{ Booking::Pattaya() }} </span> Hotels</div>
@@ -183,12 +186,14 @@
 								<p>Constant care and attention to the patients makes good record</p>
 							</div>
 						</div>
+					</a>
 					</div>
 				</div>
 				<!-- gallery-item end-->
 				<!-- gallery-item-->
 				<div class="gallery-item">
 					<div class="grid-item-holder">
+						<a href="{{ url('/listing?city=Sihanoukville')}}">
 						<div class="listing-item-grid">
 							<div class="listing-counter"><span>{{ Booking::Sihanoukville() }} </span> Hotels</div>
 							<img  src="{{ url('frontend-assets/hotelsimages/Sihanoukville.jpg')}}"  alt="">
@@ -199,12 +204,14 @@
 								<p>Constant care and attention to the patients makes good record</p>
 							</div>
 						</div>
+					</a>
 					</div>
 				</div>
 				<!-- gallery-item end-->
 				<!-- gallery-item-->
 				<div class="gallery-item">
 					<div class="grid-item-holder">
+							<a href="{{ url('/listing?city=Sihanoukville')}}">
 						<div class="listing-item-grid">
 							<div class="listing-counter"><span>{{ Booking::KualaLumpur() }}</span> Hotels</div>
 							<img  src="{{ url('frontend-assets/hotelsimages/KualaLumpur.jpg')}}"   alt="">
@@ -215,6 +222,7 @@
 								<p>Constant care and attention to the patients makes good record</p>
 							</div>
 						</div>
+					</a>
 					</div>
 				</div>
 				<!-- gallery-item end-->
