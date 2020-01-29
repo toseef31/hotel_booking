@@ -17,6 +17,9 @@ class Booking {
 		$min = " " ;
 		$sec = " " ;
 		$inputM = " " ;
+		// dd($input);
+		$input = str_replace("'' ", '"', $input);
+
 		for ($i=0; $i < strlen($input); $i++)
 		{
 			$tempD = $input[$i];
@@ -53,6 +56,11 @@ class Booking {
 	{
 		$cities = DB::table('cities')->get();
 		return $cities;
+	}
+	public function getRoomType()
+	{
+		$rooms = DB::table('rooms_type')->get();
+		return $rooms;
 	}
 }
 

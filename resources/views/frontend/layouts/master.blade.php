@@ -13,6 +13,7 @@
     <link type="text/css" rel="stylesheet" href="{{asset('frontend-assets/css/style.css')}}">
     <link type="text/css" rel="stylesheet" href="{{asset('frontend-assets/css/color.css')}}">
     <link type="text/css" rel="stylesheet" href="{{asset('frontend-assets/css/custom.css')}}">
+    <link href="{{ asset('/frontend-assets/css/toastr.css') }}" rel="stylesheet">
 
     <!-- Bootstrap CSS -->
     <!-- <link rel="stylesheet" href="{{asset('frontend-assets/bootstrap/css/bootstrap.min.css')}}" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
@@ -23,6 +24,13 @@
     <link rel="shortcut icon" href="images/favicon.ico">
 
     <title>Booking</title>
+    <style>
+      .asterisk {
+        float:left;
+        margin-bottom: 10px;
+        margin-top: -12px;
+      }
+    </style>
     @yield('style')
   </head>
   <body>
@@ -73,11 +81,18 @@
               <div id="tab-1" class="tab-content">
                 <h3>Sign In <span>Easy<strong>Book</strong></span></h3>
                 <div class="custom-form">
-                  <form method="post"  name="registerform">
-                    <label>Username or Email Address <span>*</span> </label>
-                    <input name="email" type="text"   onClick="this.select()" value="">
-                    <label >Password <span>*</span> </label>
-                    <input name="password" type="password"   onClick="this.select()" value="" >
+                  <form method="post"  name="registerform" id="login-form">
+                    {{csrf_field()}}
+                    <div class="form-group">
+                      <label>Username or Email Address <span>*</span> </label>
+                      <input name="email" type="text" class="required2"   onClick="this.select()" value="">
+                      <span class="asterisk"  style="display:none; color:#f9b90f;">* Email Required</span>
+                    </div>
+                    <div class="form-group">
+                      <label >Password <span>*</span> </label>
+                      <input name="password" type="password" class="required2"   onClick="this.select()" value="" >
+                      <span class="asterisk"  style="display:none; color:#f9b90f;">* Password Required</span>
+                    </div>
                     <button type="submit"  class="log-submit-btn color-bg"><span>Log In</span></button>
                     <div class="clearfix"></div>
                     <div class="filter-tags">
@@ -96,14 +111,30 @@
                 <div id="tab-2" class="tab-content">
                   <h3>Sign Up <span>Easy<strong>Book</strong></span></h3>
                   <div class="custom-form">
-                    <form method="post"   name="registerform" class="main-register-form" id="main-register-form2">
-                      <label >Full Name <span>*</span> </label>
-                      <input name="name" type="text"   onClick="this.select()" value="">
-                      <label>Email Address <span>*</span></label>
-                      <input name="email" type="text"  onClick="this.select()" value="">
-                      <label >Password <span>*</span></label>
-                      <input name="password" type="password"   onClick="this.select()" value="" >
-                      <button type="submit"     class="log-submit-btn color-bg"  ><span>Register</span></button>
+                    <form method="post"  name="registerform" class="main-register-form" id="register-form">
+                      {{csrf_field()}}
+
+                      <div class="form-group">
+                        <label >Full Name <span>*</span> </label>
+                        <input name="name" type="text" class="required"   onClick="this.select()" value="">
+                        <span class="asterisk"  style="display:none; color:#f9b90f;">* Name Required</span>
+                      </div>
+                      <div class="form-group">
+                        <label>Email Address <span>*</span></label>
+                        <input name="email" type="text" class="required"  onClick="this.select()" value="">
+                        <span class="asterisk"  style="display:none; color:#f9b90f;">* Email Required</span>
+                      </div>
+                      <div class="form-group">
+                        <label>Phone Number <span>*</span></label>
+                        <input name="phone" type="text" class="required"  onClick="this.select()" value="">
+                        <span class="asterisk"  style="display:none; color:#f9b90f;">* Phone Required</span>
+                      </div>
+                      <div class="form-group">
+                        <label >Password <span>*</span></label>
+                        <input name="password" type="password" class="required"   onClick="this.select()" value="" >
+                        <span class="asterisk"  style="display:none; color:#f9b90f;">* Password Required</span>
+                      </div>
+                      <button type="submit" class="log-submit-btn color-bg"  ><span>Register</span></button>
                     </form>
                   </div>
                 </div>
@@ -112,10 +143,7 @@
             </div>
             <!--tabs end -->
             <div class="log-separator fl-wrap"><span>or</span></div>
-            <div class="soc-log fl-wrap">
-              <p>For faster login or register use your social account.</p>
-              <a href="#" class="facebook-log"><i class="fab fa-facebook-f"></i>Connect with Facebook</a>
-            </div>
+            
           </div>
         </div>
       </div>
@@ -147,10 +175,10 @@
     <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" ></script>
     <script src="{{asset('frontend-assets/bootstrap/js/bootstrap.min.js')}}" ></script>
+    <script type="text/javascript" src="{{ asset('frontend-assets/js/toastr.min.js') }}"></script>
     <script>
     var x = 0;
   $(document).ready(function(){
-  // $(document).on('click','.children .quantity-up',function(){
     var maxField = 5; //Input fields increment limitation
     var addButton = $('.children .quantity-up'); //Add button selector
     var wrapper = $('.field_wrapper'); //Input field wrapper
@@ -198,25 +226,137 @@
       }
     });
   });
+    var y = 0;
+  $(document).ready(function(){
+    var maxField = 5; //Input fields increment limitation
+    var addButton = $('.sidebar-children .quantity-up'); //Add button selector
+    var wrapper = $('.field_wrapper_sidebar'); //Input field wrapper
+    $(addButton).click(function(){
+        //Check maximum number of input fields
+      if(y < maxField){
+        y++; //Increment field counter
+        // alert(x);
 
-  function search(container,value){
-    // alert(value);
-    var search  = value;
-    var token   = "{{ csrf_Token() }}";
-    $.ajax({
-      url:"{{url('/getcities')}}",
-      type:"POST",
-      data:{search:search,_token:token},
-      success:function(res){
-       var searchData = JSON.parse(res);
-       console.log(searchData);
-        // $('#'+container).html(searchData);
-        // $('#'+container).css('display','block');
-        $('#search-container').html(searchData);
-        $('#search-container').show();
+    var fieldHTML = '<div class="quantity-item age-items child-'+y+'">'+
+                      '<div class="quantity">'+
+                        '<select name="age[]">'+
+                          '<option value="">0 years</option>'+
+                          '<option value="1">1 years</option>'+
+                          '<option value="2">2 years</option>'+
+                          '<option value="3">3 years</option>'+
+                          '<option value="4">4 years</option>'+
+                          '<option value="5">5 years</option>'+
+                          '<option value="6">6 years</option>'+
+                          '<option value="7">7 years</option>'+
+                          '<option value="8">8 years</option>'+
+                          '<option value="9">9 years</option>'+
+                          '<option value="10">10 years</option>'+
+                          '<option value="11">11 years</option>'+
+                          '<option value="12">12 years</option>'+
+                          '<option value="13">13 years</option>'+
+                          '<option value="14">14 years</option>'+
+                          '<option value="15">15 years</option>'+
+                        '</select>'+
+                      '</div>'+
+                    '</div>'; //New input field html
+
+    $('#field_wrapper_sidebar').append(fieldHTML); //Add field html
+  }
+
+});
+    //Once remove button is clicked
+    $(document).on('click', '.sidebar-children .quantity-down', function(e){
+      e.preventDefault();
+      // alert(x);
+      $('.child-'+y).remove();
+      // $(this).parent('div').remove(); //Remove field html
+      if (y>=0) {
+        y--; //Decrement field counter
       }
     });
-  }
+  });
+
+  // Registeration through ajax
+  $("#register-form").on('submit', function (e) {
+  	// alert('hello');
+  	e.preventDefault();
+  	form = new FormData(this);
+  	// var actionUrl = "{{ url('/add_category')}}";
+  	$(".asterisk").hide();
+          var empty = $(".required").filter(function() { return !this.value; })
+  									.next(".asterisk").show();
+  								  if(empty.length != 0){
+  								  $("#empty_error").show();
+  						setTimeout(function () {
+  							$("#empty_error").hide();
+  						},5000);
+  					}
+
+        if(empty.length) return false;   //uh oh, one was empty!
+        $('.right').stop().animate({scrollTop: 0}, { duration: 1500, easing: 'easeOutQuart'});
+
+  	$.ajax({
+  		type: "POST",
+  		url:" {{ url('/register')}}",
+  		data: form,
+  		cache: false,
+  		contentType: false,
+  		processData: false,
+  		success: function(data){
+        if (data == 1) {
+          toastr.success('User Register Successfully', '', {timeOut: 5000, positionClass: "toast-top-right"});
+        }
+
+  		},
+  		error: function() {
+  			alert("Error posting feed");
+  		}
+  	});
+  	//return false;
+  });
+
+  // Login through ajax
+  $("#login-form").on('submit', function (e) {
+  	// alert('hello');
+  	e.preventDefault();
+  	form = new FormData(this);
+    console.log(form);
+  	$(".asterisk").hide();
+          var empty = $(".required2").filter(function() { return !this.value; })
+  									.next(".asterisk").show();
+  								  if(empty.length != 0){
+  								  $("#empty_error").show();
+  						setTimeout(function () {
+  							$("#empty_error").hide();
+  						},5000);
+  					}
+        if(empty.length) return false;   //uh oh, one was empty!
+        $('.right').stop().animate({scrollTop: 0}, { duration: 1500, easing: 'easeOutQuart'});
+
+  	$.ajax({
+  		type: "POST",
+  		url:" {{ url('/login')}}",
+  		data: form,
+  		cache: false,
+  		contentType: false,
+  		processData: false,
+  		success: function(data){
+        if (data=='invalid') {
+          toastr.warning('Invalid Email or Password', '', {timeOut: 5000, positionClass: "toast-top-right"});
+        }
+        if (data == 1) {
+          toastr.success('Login Successfully', '', {timeOut: 5000, positionClass: "toast-top-right"});
+          window.location.href = "{{url('/dashboard')}}/";
+      }
+
+  		},
+  		error: function() {
+  			alert("Error posting feed");
+  		}
+  	});
+  	//return false;
+  });
+
 </script>
     @yield('script')
   </body>

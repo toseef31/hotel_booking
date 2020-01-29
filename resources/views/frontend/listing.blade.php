@@ -4,6 +4,22 @@
 	.discount {
 		text-align: left;
 	}
+  .show-city .nice-select .list {
+    max-height: 300px;
+  }
+	.room-no {
+		float: left;
+    width: 100%;
+    border: 1px solid #eee;
+    padding: 12px 32px 12px 33px;
+    border-radius: 6px;
+    background: #F7F9FB;
+    height: 42px;
+    line-height: 42px;
+	}
+	.rating-star {
+		margin-bottom: 20px;
+	}
 </style>
 <!--  wrapper  -->
 <div id="wrapper">
@@ -16,7 +32,7 @@
 			<div class="container">
 				<div class="section-title center-align big-title">
 					<div class="section-title-separator"><span></span></div>
-					<h2><span>New York Hotels</span></h2>
+					<h2><span>@if($city){{$city}} @else All @endif Hotels</span></h2>
 					<span class="section-separator"></span>
 					<h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut nec tincidunt arcu, sit amet fermentum sem.</h4>
 				</div>
@@ -28,7 +44,7 @@
 		<!--  section  end-->
 		<div class="breadcrumbs-fs fl-wrap">
 			<div class="container">
-				<div class="breadcrumbs fl-wrap"><a href="#">Home</a><a href="#">Listing </a><span>Fullwidth Map</span></div>
+				<div class="breadcrumbs fl-wrap"><a href="#">Home</a><a href="#">Listing </a><span>{{$city}}</span></div>
 			</div>
 		</div>
 		<!--  section-->
@@ -41,31 +57,33 @@
 							<div class="mlc show-list-wrap-search fl-wrap"><i class="fal fa-filter"></i> Filter</div>
 						</div>
 						<div class="fl-wrap filter-sidebar_item fixed-bar">
+							<form class="" action="{{url('/listing')}}" method="get">
+								{{csrf_field()}}
+
 							<div class="filter-sidebar fl-wrap lws_mobile">
 								<!--col-list-search-input-item -->
 								<div class="col-list-search-input-item in-loc-dec fl-wrap not-vis-arrow">
 									<label>City/Category</label>
-									<div class="listsearch-input-item">
-										<select data-placeholder="City" class="chosen-select" >
-											<option>All Cities</option>
-											<option>New York</option>
-											<option>London</option>
-											<option>Paris</option>
-											<option>Kiev</option>
-											<option>Moscow</option>
-											<option>Dubai</option>
-											<option>Rome</option>
-											<option>Beijing</option>
+									<div class="listsearch-input-item show-city">
+										<select data-placeholder="City" name="city" class="chosen-select" >
+											<option value="">All Cities</option>
+											@foreach(Booking::getcities() as $city)
+		                  <option value="{{$city->name}}">{{$city->name}}</option>
+		                  @endforeach
 										</select>
 									</div>
 								</div>
 								<!--col-list-search-input-item end-->
 								<!--col-list-search-input-item -->
 								<div class="col-list-search-input-item fl-wrap location autocomplete-container">
-									<label>Destination</label>
-									<span class="header-search-input-item-icon"><i class="fal fa-map-marker-alt"></i></span>
-									<input type="text" placeholder="Destination or Hotel Name" class="autocomplete-input" id="autocompleteid3" value=""/>
-									<a href="#"><i class="fal fa-dot-circle"></i></a>
+									<label>Number Of Beds</label>
+									<!-- <input type="text" placeholder="Destination or Hotel Name" class="autocomplete-input" id="autocompleteid3" value=""/>
+									<a href="#"><i class="fal fa-dot-circle"></i></a> -->
+									<div class="quantity-item">
+										<div class="quantity" style="width:252px">
+												<input type="number" name="bed" min="1" max="5" step="1" value="1">
+										</div>
+									</div>
 								</div>
 								<!--col-list-search-input-item end-->
 								<!--col-list-search-input-item -->
@@ -73,6 +91,7 @@
 									<label>Date In-Out </label>
 									<span class="header-search-input-item-icon"><i class="fal fa-calendar-check"></i></span>
 									<input type="text"   placeholder="When" name="dates"   value=""/>
+									<!-- <input type="text" placeholder="When" name="header-search"   value=""/> -->
 								</div>
 								<!--col-list-search-input-item end-->
 								<!--col-list-search-input-item -->
@@ -80,95 +99,45 @@
 									<div class="quantity-item">
 										<label>Rooms</label>
 										<div class="quantity">
-											<input type="number" min="1" max="3" step="1" value="1">
+											<input type="number" name="room" min="1" max="5" step="1" value="1">
 										</div>
 									</div>
 									<div class="quantity-item">
 										<label>Adults</label>
 										<div class="quantity">
-											<input type="number" min="1" max="5" step="1" value="1">
+											<input type="number" name="adult" min="1" max="5" step="1" value="1">
 										</div>
 									</div>
 									<div class="quantity-item">
 										<label>Children</label>
-										<div class="quantity">
-											<input type="number" min="0" max="3" step="1" value="0" id="total-child">
+										<div class="quantity sidebar-children">
+											<input type="number" name="child" min="0" max="5" step="1" value="0" id="total-child">
 										</div>
 									</div>
 									<!-- Children Age -->
-									<div class="quantity-item hide age-items" id="age-1">
-									  <div class="quantity">
-									    <select>
-									      <option>0 years</option>
-									      <option>1 years</option>
-									      <option>2 years</option>
-									      <option>3 years</option>
-									      <option>4 years</option>
-									      <option>5 years</option>
-									      <option>6 years</option>
-									    </select>
-									  </div>
-									</div>
-									<div class="quantity-item hide age-items" id="age-2">
-									  <div class="quantity">
-									    <select>
-									      <option>0 years</option>
-									      <option>1 years</option>
-									      <option>2 years</option>
-									      <option>3 years</option>
-									      <option>4 years</option>
-									      <option>5 years</option>
-									      <option>6 years</option>
-									    </select>
-									  </div>
-									</div>
-									<div class="quantity-item hide age-items" id="age-3">
-									  <div class="quantity">
-									    <select>
-									      <option>0 years</option>
-									      <option>1 years</option>
-									      <option>2 years</option>
-									      <option>3 years</option>
-									      <option>4 years</option>
-									      <option>5 years</option>
-									      <option>6 years</option>
-									    </select>
-									  </div>
-									</div>
-									<div class="quantity-item hide age-items" id="age-4">
-									  <div class="quantity">
-									    <select>
-									      <option>0 years</option>
-									      <option>1 years</option>
-									      <option>2 years</option>
-									      <option>3 years</option>
-									      <option>4 years</option>
-									      <option>5 years</option>
-									      <option>6 years</option>
-									    </select>
-									  </div>
-									</div>
-									<div class="quantity-item hide age-items" id="age-5">
-									  <div class="quantity">
-									    <select>
-									      <option>0 years</option>
-									      <option>1 years</option>
-									      <option>2 years</option>
-									      <option>3 years</option>
-									      <option>4 years</option>
-									      <option>5 years</option>
-									      <option>6 years</option>
-									    </select>
-									  </div>
+									<div class="field_wrapper_sidebar" id="field_wrapper_sidebar">
 									</div>
 									<!-- Children Age -->
+								</div>
+								<!--col-list-search-input-item end-->
+								<!--col-list-search-input-item -->
+								<div class="col-list-search-input-item in-loc-dec fl-wrap not-vis-arrow">
+									<label>Room Type</label>
+									<div class="listsearch-input-item show-city">
+										<select data-placeholder="City" name="room_type" class="chosen-select" >
+											<option value="">All Rooms</option>
+											@foreach(Booking::getRoomType() as $room)
+											<option value="{{$room->unit_type_en}}">{{$room->unit_type_en}}</option>
+											@endforeach
+										</select>
+									</div>
 								</div>
 								<!--col-list-search-input-item end-->
 								<!--col-list-search-input-item -->
 								<div class="col-list-search-input-item fl-wrap">
 									<div class="range-slider-title">Price range</div>
 									<div class="range-slider-wrap fl-wrap">
-										<input class="range-slider" data-from="300" data-to="1200" data-step="50" data-min="50" data-max="2000" data-prefix="$">
+										<input class="range-slider" name="price" data-from="50" data-to="400" data-step="30" data-min="30" data-max="1000" data-prefix="$">
 									</div>
 								</div>
 								<!--col-list-search-input-item end-->
@@ -179,15 +148,15 @@
 										<!-- Checkboxes -->
 										<ul class="fl-wrap filter-tags">
 											<li class="five-star-rating">
-												<input id="check-aa2" type="checkbox" name="check" checked>
+												<input id="check-aa2" type="checkbox" name="rating[]" value="5*">
 												<label for="check-aa2"><span class="listing-rating card-popup-rainingvis" data-starrating2="5"><span>5 Stars</span></span></label>
 											</li>
 											<li class="four-star-rating">
-												<input id="check-aa3" type="checkbox" name="check">
+												<input id="check-aa3" type="checkbox" name="rating[]" value="4*">
 												<label for="check-aa3"><span class="listing-rating card-popup-rainingvis" data-starrating2="5"><span>4 Star</span></span></label>
 											</li>
 											<li class="three-star-rating">
-												<input id="check-aa4" type="checkbox" name="check">
+												<input id="check-aa4" type="checkbox" name="rating[]" value="3*">
 												<label for="check-aa4"><span class="listing-rating card-popup-rainingvis" data-starrating2="5"><span>3 Star</span></span></label>
 											</li>
 										</ul>
@@ -196,10 +165,11 @@
 								</div>
 								<!--col-list-search-input-item end-->
 								<!--col-list-search-input-item -->
-								<div class="col-list-search-input-item fl-wrap">
+
+								<!-- Amenities -->
+								<!-- <div class="col-list-search-input-item fl-wrap">
 									<label>Facility</label>
 									<div class="search-opt-container fl-wrap">
-										<!-- Checkboxes -->
 										<ul class="fl-wrap filter-tags half-tags">
 											<li>
 												<input id="check-aaa5" type="checkbox" name="check" checked>
@@ -214,8 +184,6 @@
 												<label for="check-dd5">Fitness Center</label>
 											</li>
 										</ul>
-										<!-- Checkboxes end -->
-										<!-- Checkboxes -->
 										<ul class="fl-wrap filter-tags half-tags">
 											<li>
 												<input id="check-ff5" type="checkbox" name="check">
@@ -230,16 +198,18 @@
 												<label for="check-c4">Air Conditioning</label>
 											</li>
 										</ul>
-										<!-- Checkboxes end -->
 									</div>
-								</div>
+								</div> -->
+								<!-- Amenities End -->
+
 								<!--col-list-search-input-item end-->
 								<!--col-list-search-input-item  -->
 								<div class="col-list-search-input-item fl-wrap">
-									<button class="header-search-button" onclick="window.location.href='listing.html'">Search <i class="far fa-search"></i></button>
+									<button class="header-search-button" type="submit" >Search <i class="far fa-search"></i></button>
 								</div>
 								<!--col-list-search-input-item end-->
 							</div>
+						</form>
 						</div>
 					</div>
 					<!--filter sidebar end-->
@@ -306,13 +276,21 @@
 													</div>
 													<!-- <div class="sale-window">Sale 20%</div> -->
 													<!-- <div class="sale-window big-sale">Sale 50%</div> -->
-													<!-- <div class="geodir-category-opt">
-													<div class="listing-rating card-popup-rainingvis" data-starrating2="5"></div>
-													<div class="rate-class-name">
+													<div class="geodir-category-opt">
+													@if($hotel->rate == '2*')
+													<div class="listing-rating card-popup-rainingvis rating-star" data-starrating2="2"></div>
+													@elseif($hotel->rate == '3*')
+													<div class="listing-rating card-popup-rainingvis rating-star" data-starrating2="3"></div>
+													@elseif($hotel->rate == '4*')
+													<div class="listing-rating card-popup-rainingvis rating-star" data-starrating2="4"></div>
+													@else
+													<div class="listing-rating card-popup-rainingvis rating-star" data-starrating2="5"></div>
+													@endif
+													<!-- <div class="rate-class-name">
 													<div class="score"><strong>Very Good</strong>27 Reviews </div>
 													<span>5.0</span>
-												</div>
-											</div> -->
+												</div> -->
+											</div>
 										</div>
 										<div class="geodir-category-content fl-wrap title-sin_item">
 											<div class="geodir-category-content-title fl-wrap">

@@ -6,17 +6,26 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 Use DB;
 use Carbon;
+use Session;
 class HotelController extends Controller
 {
 
   public function hotel_listing(Request $request)
   {
     // dd($request->all());
-      $date = $request->input('header-search');
+      $date='';
       $from_date='';
       $to_date='';
       $min='';
       $max='';
+      $min_price='';
+      $max_price='';
+      if($request->input('header-search') !=""){
+      $date = $request->input('header-search');
+      }elseif($request->input('dates') !=""){
+      $date = $request->input('dates');
+      }
+
       if ($date !="") {
       $result_explode = explode('-', $date);
       $from_date = trim($result_explode[0]);
@@ -27,26 +36,40 @@ class HotelController extends Controller
     }
 
       $city = $request->input('city');
+      $bed = $request->input('bed');
       $room = $request->input('room');
       $adult = $request->input('adult');
       $child = $request->input('child');
       $age = $request->input('age');
       $total_person = $child+$adult;
+      $price = $request->input('price');
+      $room_type = $request->input('room_type');
+      $rating = $request->input('rating');
+      if ($price !="") {
+      $result_explode2 = explode(';', $price);
+      $min_price = trim($result_explode2[0]);
+      $max_price = trim($result_explode2[1]);
+    }
 
       if ($age !="") {
         $min = min($age);
         $max = max($age);
       }
-     // dd($total_person);
+     // dd($rating);
 
-      $hotels=DB::table('hotels')->join('rooms','rooms.hid','=','hotels.hid')
-      ->join('hotel_quotations','hotel_quotations.rid','=','rooms.rid')
+      $hotels=DB::table('hotels')
+      ->join('rooms','rooms.hid','=','hotels.hid')
+      // ->join('hotel_quotations','hotel_quotations.rid','=','rooms.rid')
       ->join('hotel_photos','hotel_photos.hid','=','hotels.hid')
-      ->select('hotels.*','hotel_photos.*');
+      ->select('hotels.*','hotel_photos.*','rooms.units_type','rooms.number_of_bedrooms');
+      // if ($bed !="") {
+      //   $hotels->where('rooms.number_of_bedrooms','=',$bed);
+      //   }
       if ($city !="") {
         $hotels->where('hotels.city','like','%'.$city.'%');
-        // $hotels=$hotels->groupBy('hotels.hid')->orderBy('hotels.hid','asc')->limit(10)->get();
-        // dd($hotels);
+      }
+      if ($room_type !="") {
+        $hotels->where('rooms.units_type','like','%'.$room_type.'%');
       }
       if ($min !="") {
         $hotels->where('hotels.child_age_from','>=',$min);
@@ -54,16 +77,22 @@ class HotelController extends Controller
       if ($max !="") {
         $hotels->where('hotels.child_age_to','<=',$max);
       }
-      if ($total_person !="") {
-        $hotels->where('rooms.permitted_occupants','=',$total_person);
+      if ($min_price !="" && $max_price !="") {
+        $hotels->whereBetween('hotels.low_rate',[$min_price, $max_price]);
       }
-      if ($from_date !="") {
-        // $hotels->where('hotel_quotations.from_date','<=',$from_date.' 00:00:00');
-        // $hotels->where('hotel_quotations.from_date','>=',$to_date.' 00:00:00');
-        $hotels->where('hotel_quotations.from_date','>=',$from_date.' 00:00:00');
-        $hotels->where('hotel_quotations.to_date','<=',$to_date.' 00:00:00');
+      if ($rating !="") {
+        foreach ($rating as $rate) {
+          $hotels->orwhere('hotels.rate','=',$rate);
+        }
       }
-    $hotels=$hotels->groupBy('hotels.hid')->orderBy('hotels.hid','asc')->limit(9)->get();
+      // if ($total_person !="") {
+      //   $hotels->where('rooms.permitted_occupants','=',$total_person);
+      // }
+      // if ($from_date !="") {
+      //   $hotels->where('hotel_quotations.from_date','>=',$from_date.' 00:00:00');
+      //   $hotels->where('hotel_quotations.to_date','<=',$to_date.' 00:00:00');
+      // }
+    $hotels=$hotels->groupBy('hotels.hid')->orderBy('hotels.hid','asc')->limit(10)->get();
       // dd($hotels);
     foreach ($hotels as $rec) {
       $rec->decription_en = DB::table('hotel_description_en')->where('hid',$rec->hid)->first();
@@ -73,9 +102,9 @@ class HotelController extends Controller
     // ->join('hotel_quotations','hotel_quotations.rid','=','rooms.rid')
     // ->where('hotels.city','=','Pattaya')->select('hotels.*')->where('hotels.child_age_from','>=',3)->where('hotels.child_age_to','<=',12)->where('hotel_quotations.from_date','>=','2020-01-01')->where('hotel_quotations.to_date','<=','2022-11-01')->where('rooms.permitted_occupants','>=',4)->groupBy('hotels.hid')->get();
     // dd($searchResult);
-
+    // $hotels=$hotels[4];
     // dd($hotels);
-    return view('frontend.listing',compact('hotels'));
+    return view('frontend.listing',compact('hotels','city'));
 
   }
 
@@ -133,8 +162,6 @@ class HotelController extends Controller
     return view('frontend.room-details-ajax',compact('room_info','room_photos','room_quotation','room_description_en','room_description_ru'));
 
   }
-
-
 
     /**
      * Store a newly created resource in storage.
