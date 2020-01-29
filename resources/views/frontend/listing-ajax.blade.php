@@ -13,6 +13,11 @@ if ($hotel->decription_en !='') {
 }
 // print_r($hotel_image); die;
  ?>
+ <style>
+ .rating-star {
+  margin-bottom: 20px;
+}
+ </style>
 <div class="listing-item">
   <article class="geodir-category-listing fl-wrap">
     <div class="geodir-category-img">
@@ -28,13 +33,21 @@ if ($hotel->decription_en !='') {
     </div>
     <!-- <div class="sale-window">Sale 20%</div> -->
     <!-- <div class="sale-window big-sale">Sale 50%</div> -->
-    <!-- <div class="geodir-category-opt">
-      <div class="listing-rating card-popup-rainingvis" data-starrating2="5"></div>
-      <div class="rate-class-name">
-        <div class="score"><strong>Very Good</strong>27 Reviews </div>
-        <span>5.0</span>
-      </div>
-    </div> -->
+    <div class="geodir-category-opt">
+    @if($hotel->rate == '2*')
+    <div class="listing-rating card-popup-rainingvis rating-star" data-starrating2="2"></div>
+    @elseif($hotel->rate == '3*')
+    <div class="listing-rating card-popup-rainingvis rating-star" data-starrating2="3"></div>
+    @elseif($hotel->rate == '4*')
+    <div class="listing-rating card-popup-rainingvis rating-star" data-starrating2="4"></div>
+    @else
+    <div class="listing-rating card-popup-rainingvis rating-star" data-starrating2="5"></div>
+    @endif
+    <!-- <div class="rate-class-name">
+    <div class="score"><strong>Very Good</strong>27 Reviews </div>
+    <span>5.0</span>
+  </div> -->
+</div>
   </div>
   <div class="geodir-category-content fl-wrap title-sin_item">
     <div class="geodir-category-content-title fl-wrap">

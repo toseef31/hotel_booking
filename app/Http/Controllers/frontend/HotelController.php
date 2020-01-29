@@ -13,6 +13,7 @@ class HotelController extends Controller
   public function hotel_listing(Request $request)
   {
     // dd($request->all());
+    $all_data = json_encode($request->all());
       $date='';
       $from_date='';
       $to_date='';
@@ -104,15 +105,90 @@ class HotelController extends Controller
     // dd($searchResult);
     // $hotels=$hotels[4];
     // dd($hotels);
-    return view('frontend.listing',compact('hotels','city'));
+    return view('frontend.listing',compact('hotels','city','all_data'));
 
   }
 
   public function hotel_listing_ajax(Request $request)
   {
-    // dd($request->all());
+    $data2= $request->input('data');
+    dd($data2);
+    $date='';
+    $from_date='';
+    $to_date='';
+    $min='';
+    $max='';
+    $min_price='';
+    $max_price='';
+    if($request->input('header-search') !=""){
+    $date = $request->input('header-search');
+    }elseif($request->input('dates') !=""){
+    $date = $request->input('dates');
+    }
+
+    if ($date !="") {
+    $result_explode = explode('-', $date);
+    $from_date = trim($result_explode[0]);
+    // 2020-01-01
+    $from_date=date("Y-m-d", strtotime($from_date));
+    $to_date = trim($result_explode[1]);
+    $to_date=date("Y-m-d", strtotime($to_date));
+  }
+
+    $city = $request->input('city');
+    $bed = $request->input('bed');
+    $room = $request->input('room');
+    $adult = $request->input('adult');
+    $child = $request->input('child');
+    $age = $request->input('age');
+    $total_person = $child+$adult;
+    $price = $request->input('price');
+    $room_type = $request->input('room_type');
+    $rating = $request->input('rating');
+    if ($price !="") {
+    $result_explode2 = explode(';', $price);
+    $min_price = trim($result_explode2[0]);
+    $max_price = trim($result_explode2[1]);
+  }
+
+    if ($age !="") {
+      $min = min($age);
+      $max = max($age);
+    }
+   // dd($rating);
+
+    $hotels=DB::table('hotels')
+    ->join('rooms','rooms.hid','=','hotels.hid')
+    // ->join('hotel_quotations','hotel_quotations.rid','=','rooms.rid')
+    ->join('hotel_photos','hotel_photos.hid','=','hotels.hid')
+    ->select('hotels.*','hotel_photos.*','rooms.units_type','rooms.number_of_bedrooms');
+    // if ($bed !="") {
+    //   $hotels->where('rooms.number_of_bedrooms','=',$bed);
+    //   }
+    if ($city !="") {
+      $hotels->where('hotels.city','like','%'.$city.'%');
+    }
+    if ($room_type !="") {
+      $hotels->where('rooms.units_type','like','%'.$room_type.'%');
+    }
+    if ($min !="") {
+      $hotels->where('hotels.child_age_from','>=',$min);
+    }
+    if ($max !="") {
+      $hotels->where('hotels.child_age_to','<=',$max);
+    }
+    if ($min_price !="" && $max_price !="") {
+      $hotels->whereBetween('hotels.low_rate',[$min_price, $max_price]);
+    }
+    if ($rating !="") {
+      foreach ($rating as $rate) {
+        $hotels->orwhere('hotels.rate','=',$rate);
+      }
+    }
     $id = $request->input('id');
-    $hotels = DB::table('hotels')->join('hotel_photos','hotel_photos.hid','=','hotels.hid')->where('hotels.hid','>',$id)->orderBy('hotels.hid','asc')->limit(10)->get();
+    $hotels=$hotels->where('hotels.hid','>',$id)->groupBy('hotels.hid')->orderBy('hotels.hid','asc')->limit(10)->get();
+
+    // $hotels = DB::table('hotels')->join('hotel_photos','hotel_photos.hid','=','hotels.hid')->where('hotels.hid','>',$id)->orderBy('hotels.hid','asc')->limit(10)->get();
     foreach ($hotels as $rec) {
       $rec->decription_en = DB::table('hotel_description_en')->where('hid',$rec->hid)->first();
       $rec->decription_ru = DB::table('hotel_description_ru')->where('hid',$rec->hid)->first();

@@ -23,6 +23,7 @@
 </style>
 <!--  wrapper  -->
 <div id="wrapper">
+	<?php print_r($all_data); die; ?>
 	<!-- content-->
 	<div class="content">
 		<!--  section  -->
@@ -446,12 +447,13 @@
 $(document).ready(function(){
 	 $(document).on('click','#btn-more',function(){
 			 var id = $(this).data('id');
-			 // alert(id);
+			 var all_data = "{{json_encode($all_data)}}";
+			 alert(all_data);
 			 $(".fa-spinner").show();
 			 $.ajax({
 					 url : '{{ url("listing-ajax") }}',
 					 method : "POST",
-					 data : {id:id,_token:"{{csrf_token()}}"},
+					 data : {id:id,data:all_data,_token:"{{csrf_token()}}"},
 					 dataType : "text",
 					 success : function (data)
 					 {
