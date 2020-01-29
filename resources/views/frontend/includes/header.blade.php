@@ -12,7 +12,9 @@ header-->
         <a href="index.html"><img src="http://easybook.kwst.net/images/logo.png" alt=""></a>
       </div>
       <!-- <a href="dashboard-add-listing.html" class="add-hotel">Add Your Hotel <span><i class="far fa-plus"></i></span></a> -->
+      @if(!Session::has('hbUser'))
       <div class="show-reg-form modal-open"><i class="fa fa-sign-in"></i>Sign In</div>
+      @endif
       <!-- <div class="lang-wrap">
         <div class="show-lang"><img src="http://easybook.kwst.net/images/lan/1.png" alt=""> <span>Eng</span><i class="fa fa-caret-down"></i></div>
         <ul class="lang-tooltip green-bg">
@@ -37,8 +39,10 @@ header-->
   <div class="header-inner fl-wrap">
     <div class="container">
       <div class="show-search-button"><span>Search</span> <i class="fas fa-search"></i> </div>
-      <div class="wishlist-link"><i class="fal fa-heart"></i><span class="wl_counter">3</span></div>
+
       <!-- <div class="show-reg-form modal-open hidden-xs"><i class="fa fa-sign-in"></i>Sign In</div> -->
+      @if(Session::has('hbUser'))
+      <div class="wishlist-link"><i class="fal fa-heart"></i><span class="wl_counter">3</span></div>
       <div class="header-user-menu">
         <div class="header-user-name">
           <span><img src="images/avatar/4.jpg" alt=""></span>
@@ -49,9 +53,10 @@ header-->
           <!-- <li><a href="dashboard-add-listing.html"> Add Listing</a></li>
           <li><a href="dashboard-bookings.html">  Bookings  </a></li>
           <li><a href="dashboard-review.html"> Reviews </a></li> -->
-          <li><a href="#">Log Out</a></li>
+          <li><a href="{{ url('/logout')}}">Log Out</a></li>
         </ul>
       </div>
+      @endif
       <div class="home-btn">
         <!-- <div class="logo-holder hidden-xs">
           <a href="index.html"><img src="http://easybook.kwst.net/images/logo.png" alt=""></a>
@@ -220,7 +225,7 @@ header-->
                 <label>Children</label>
                 <div class="quantity children">
                   <!-- <input type="number" name="child" min="0" max="5" step="1" value="0" id="total-child"> -->
-                  <input type="number" name="child" min="0" max="5" step="1" value="0" id="total-child" onclick="Dosmothing()">
+                  <input type="number" name="child" min="0" max="5" step="1" value="0" id="total-child">
                 </div>
               </div>
 
