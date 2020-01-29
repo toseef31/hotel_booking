@@ -63,10 +63,17 @@ class Booking {
 			$min .= $tempM ;
 		}//close for min
 		$deg = round($deg);
+		// dd($deg);
 		$result =  $deg+( (( $min*60)+($sec) ) /3600 );
 		// dd($result);
 		// print_r($result); die;
 		return $result;
+	}
+
+	public function getcities()
+	{
+		$cities = DB::table('cities')->get();
+		return $cities;
 	}
 }
 

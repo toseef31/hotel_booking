@@ -1,4 +1,9 @@
 header-->
+<style>
+  .show-city .nice-select .list {
+    max-height: 400px;
+  }
+</style>
 <header class="main-header">
   <!-- header-top-->
   <div class="header-top fl-wrap">
@@ -167,29 +172,23 @@ header-->
   <!-- header-inner end-->
   <!-- header-search -->
   <div class="header-search vis-search">
-    <form class="" action="{{url('/listing')}}" method="post">
+    <form class="" action="{{url('/listing')}}" method="get">
       {{csrf_field()}}
       <div class="container">
         <div class="row">
           <!-- header-search-input-item -->
           <div class="col-sm-4">
             <div class="header-search-input-item fl-wrap location autocomplete-container">
-              <label>Destination or Hotel Name</label>
+              <label>City</label>
               <span class="header-search-input-item-icon"><i class="fal fa-map-marker-alt"></i></span>
-              <input type="text" placeholder="City" name="keyword" class="" onkeyup="search('search-container',this.value)" id="" value=""/>
-              <!-- <input type="text" placeholder="Location" class="autocomplete-input" id="autocompleteid" value=""/> -->
-              <a href="#"><i class="fal fa-dot-circle"></i></a>
-              <div class="search-dropdown" style="position: absolute; top: 100%;z-index: 99999;">
-                <ul id="search-container" style="display: none; background:white;width: 387px;">
-                </ul>
-                <!-- <select class="form-control" name="cities" id="search-container" style="display: none; background:white;">
-                </select> -->
+              <div class="listsearch-input-item show-city">
+                <select data-placeholder="City" name="city" class="chosen-select" >
+                  <option value="">All Cities</option>
+                  @foreach(Booking::getcities() as $city)
+                  <option value="{{$city->name}}">{{$city->name}}</option>
+                  @endforeach
+                </select>
               </div>
-              <!-- <input type="text" name="keyword" class="form-control" id="transcripts" onkeyup="search('search-container',this.value)" placeholder="Get ..."  style="position: relative;">
-              <div class="search-dropdown" style="position: absolute; top: 100%;    z-index: 99999;">
-                <ul id="search-container" style="display: none">
-                </ul>
-              </div> -->
             </div>
           </div>
           <!-- header-search-input-item end -->
