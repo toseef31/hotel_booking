@@ -11,6 +11,27 @@ class Booking {
 		return 'abcdef';
 	}
 
+	public function Bangkok()
+	{
+		return DB::table('hotels')->select('city')->where('city','=','Bangkok')->count();
+
+	}
+	public function KualaLumpur()
+	{
+		return DB::table('hotels')->select('city')->where('city','=','Kuala Lumpur')->count();
+
+	}
+	public function Sihanoukville()
+	{
+		return DB::table('hotels')->select('city')->where('city','=','Sihanoukville')->count();
+
+	}
+	public function Pattaya()
+	{
+		return DB::table('hotels')->select('city')->where('city','=','Pattaya')->count();
+
+	}
+
 	public function DMStoDD($input)
 	{
 		$deg = " " ;

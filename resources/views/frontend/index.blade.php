@@ -140,6 +140,7 @@
 				<div class="container"><a href="#sec2" class="custom-scroll-link color-bg"><i class="fal fa-angle-double-down"></i></a></div>
 			</div>
 		</section>
+		
 		<!-- section end -->
 		<!--section -->
 		<section id="sec2">
@@ -157,10 +158,10 @@
 				<div class="gallery-item">
 					<div class="grid-item-holder">
 						<div class="listing-item-grid">
-							<div class="listing-counter"><span>79 </span> Hotels</div>
-							<img  src="http://easybook.kwst.net/images/city/7.jpg"   alt="">
+							<div class="listing-counter"><span>{{ Booking::Bangkok() }}</span> Hotels</div>
+							<img  src="{{ url('frontend-assets/hotelsimages/Bangkok.jpg')}}"   alt="">
 							<div class="listing-item-cat">
-								<h3><a href="listing.html">Rome</a></h3>
+								<h3><a href="listing.html">Bangkok</a></h3>
 								<div class="weather-grid"   data-grcity="Rome"></div>
 								<div class="clearfix"></div>
 								<p>Constant care and attention to the patients makes good record</p>
@@ -173,10 +174,10 @@
 				<div class="gallery-item gallery-item-second">
 					<div class="grid-item-holder">
 						<div class="listing-item-grid">
-							<img  src="http://easybook.kwst.net/images/city/3.jpg"   alt="">
-							<div class="listing-counter"><span>43 </span> Hotels</div>
+							<img  src="{{ url('frontend-assets/hotelsimages/pattaya_beach.jpg')}}"   alt="">
+							<div class="listing-counter"><span>{{ Booking::Pattaya() }} </span> Hotels</div>
 							<div class="listing-item-cat">
-								<h3><a href="listing.html">Paris</a></h3>
+								<h3><a href="listing.html">Pattaya</a></h3>
 								<div class="weather-grid"   data-grcity="Paris"></div>
 								<div class="clearfix"></div>
 								<p>Constant care and attention to the patients makes good record</p>
@@ -189,11 +190,11 @@
 				<div class="gallery-item">
 					<div class="grid-item-holder">
 						<div class="listing-item-grid">
-							<div class="listing-counter"><span>23 </span> Hotels</div>
-							<img  src="http://easybook.kwst.net/images/city/2.jpg"   alt="">
+							<div class="listing-counter"><span>{{ Booking::Sihanoukville() }} </span> Hotels</div>
+							<img  src="{{ url('frontend-assets/hotelsimages/Sihanoukville.jpg')}}"  alt="">
 							<div class="listing-item-cat">
-								<h3><a href="listing.html">London</a></h3>
-								<div class="weather-grid"   data-grcity="London"></div>
+								<h3><a href="listing.html">Sihanoukville</a></h3>
+								<div class="weather-grid"   data-grcity="Sihanoukville"></div>
 								<div class="clearfix"></div>
 								<p>Constant care and attention to the patients makes good record</p>
 							</div>
@@ -205,11 +206,11 @@
 				<div class="gallery-item">
 					<div class="grid-item-holder">
 						<div class="listing-item-grid">
-							<div class="listing-counter"><span>57</span> Hotels</div>
-							<img  src="http://easybook.kwst.net/images/city/5.jpg"   alt="">
+							<div class="listing-counter"><span>{{ Booking::KualaLumpur() }}</span> Hotels</div>
+							<img  src="{{ url('frontend-assets/hotelsimages/KualaLumpur.jpg')}}"   alt="">
 							<div class="listing-item-cat">
-								<h3><a href="listing.html">Dubai</a></h3>
-								<div class="weather-grid"   data-grcity="Dubai"></div>
+								<h3><a href="listing.html">Kuala Lumpur</a></h3>
+								<div class="weather-grid"   data-grcity="Kuala Lumpur"></div>
 								<div class="clearfix"></div>
 								<p>Constant care and attention to the patients makes good record</p>
 							</div>
