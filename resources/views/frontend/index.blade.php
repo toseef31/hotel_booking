@@ -157,72 +157,72 @@
 				<!-- gallery-item-->
 				<div class="gallery-item">
 					<div class="grid-item-holder">
-						<a href="{{ url('/listing?city=Bangkok')}}">
+						
 						<div class="listing-item-grid">
 							<div class="listing-counter"><span>{{ Booking::Bangkok() }}</span> Hotels</div>
 							<img  src="{{ url('frontend-assets/hotelsimages/Bangkok.jpg')}}"   alt="">
 							<div class="listing-item-cat">
-								<h3><a href="listing.html">Bangkok</a></h3>
+								<h3><a href="{{ url('/listing?city=Bangkok')}}">Bangkok</a></h3>
 								<div class="weather-grid"   data-grcity="Rome"></div>
 								<div class="clearfix"></div>
 								<p>Constant care and attention to the patients makes good record</p>
 							</div>
 						</div>
-					</a>
+					
 					</div>
 				</div>
 				<!-- gallery-item end-->
 				<!-- gallery-item-->
 				<div class="gallery-item gallery-item-second">
 					<div class="grid-item-holder">
-						<a href="{{ url('/listing?city=Pattaya')}}">
+						
 						<div class="listing-item-grid">
 							<img  src="{{ url('frontend-assets/hotelsimages/pattaya_beach.jpg')}}"   alt="">
 							<div class="listing-counter"><span>{{ Booking::Pattaya() }} </span> Hotels</div>
 							<div class="listing-item-cat">
-								<h3><a href="listing.html">Pattaya</a></h3>
+								<h3><a href="{{ url('/listing?city=Pattaya')}}">Pattaya</a></h3>
 								<div class="weather-grid"   data-grcity="Paris"></div>
 								<div class="clearfix"></div>
 								<p>Constant care and attention to the patients makes good record</p>
 							</div>
 						</div>
-					</a>
+					
 					</div>
 				</div>
 				<!-- gallery-item end-->
 				<!-- gallery-item-->
 				<div class="gallery-item">
 					<div class="grid-item-holder">
-						<a href="{{ url('/listing?city=Sihanoukville')}}">
+						
 						<div class="listing-item-grid">
 							<div class="listing-counter"><span>{{ Booking::Sihanoukville() }} </span> Hotels</div>
 							<img  src="{{ url('frontend-assets/hotelsimages/Sihanoukville.jpg')}}"  alt="">
 							<div class="listing-item-cat">
-								<h3><a href="listing.html">Sihanoukville</a></h3>
+								<h3><a href="{{ url('/listing?city=Sihanoukville')}}">Sihanoukville</a></h3>
 								<div class="weather-grid"   data-grcity="Sihanoukville"></div>
 								<div class="clearfix"></div>
 								<p>Constant care and attention to the patients makes good record</p>
 							</div>
 						</div>
-					</a>
+					
 					</div>
 				</div>
 				<!-- gallery-item end-->
 				<!-- gallery-item-->
 				<div class="gallery-item">
 					<div class="grid-item-holder">
-							<a href="{{ url('/listing?city=Sihanoukville')}}">
+							
 						<div class="listing-item-grid">
 							<div class="listing-counter"><span>{{ Booking::KualaLumpur() }}</span> Hotels</div>
 							<img  src="{{ url('frontend-assets/hotelsimages/KualaLumpur.jpg')}}"   alt="">
 							<div class="listing-item-cat">
-								<h3><a href="listing.html">Kuala Lumpur</a></h3>
+								<h3><a href="{{ url('/listing?city=Sihanoukville')}}">Kuala Lumpur</a></h3>
 								<div class="weather-grid"   data-grcity="Kuala Lumpur"></div>
 								<div class="clearfix"></div>
 								<p>Constant care and attention to the patients makes good record</p>
 							</div>
 						</div>
-					</a>
+					
 					</div>
 				</div>
 				<!-- gallery-item end-->
