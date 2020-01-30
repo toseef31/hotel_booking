@@ -1,5 +1,9 @@
 @extends('frontend.layouts.master')
 @section('content')
+<script>
+var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1)
+
+</script>
 <style>
 	.discount {
 		text-align: left;
@@ -23,6 +27,9 @@
 </style>
 <!--  wrapper  -->
 <div id="wrapper">
+<?php
+$parms=explode('?',Request::fullUrl());
+?>
 	<!-- content-->
 	<div class="content">
 		<!--  section  -->
@@ -264,7 +271,7 @@
 										<div class="listing-item">
 											<article class="geodir-category-listing fl-wrap">
 												<div class="geodir-category-img">
-													<a href="{{url('hotel-detail/'.$hotel->hid)}}">
+													<a href="{{url('hotel-detail/'.$hotel->hid.'?'.$parms[1])}}">
 														@if($image !="")
 														<img src="{{url($hotel_image)}}" alt="" style="height:270px; overflow:hidden;">
 														@else
@@ -295,7 +302,7 @@
 										<div class="geodir-category-content fl-wrap title-sin_item">
 											<div class="geodir-category-content-title fl-wrap">
 												<div class="geodir-category-content-title-item">
-													<h3 class="title-sin_map"><a href="{{url('hotel-detail/'.$hotel->hid)}}">{{$hotel->name}}</a></h3>
+													<h3 class="title-sin_map"><a href="{{url('hotel-detail/'.$hotel->hid.'?'.$parms[1])}}">{{$hotel->name}}</a></h3>
 													<div class="geodir-category-location fl-wrap"><a href="#" class="map-item"><i class="fas fa-map-marker-alt"></i> {{Str::limit($hotel->address,80)}}</a></div>
 												</div>
 											</div>
@@ -446,8 +453,8 @@
 $(document).ready(function(){
 	 $(document).on('click','#btn-more',function(){
 			 var id = $(this).data('id');
-			 var all_data = "{{json_encode($all_data)}}";
-			 alert(all_data);
+			 var all_data = <?php echo $all_data; ?>;
+			
 			 $(".fa-spinner").show();
 			 $.ajax({
 					 url : '{{ url("listing-ajax") }}',
