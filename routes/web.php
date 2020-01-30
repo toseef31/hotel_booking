@@ -24,6 +24,9 @@ Route::post('/register','frontend\UserController@accountRegister');
 Route::post('/login','frontend\UserController@accountLogin');
 Route::get('/logout', 'frontend\UserController@logout');
 
+Route::get('/booking', function () {
+    return view('frontend.booking');
+});
 Route::get('/detail', function () {
     return view('frontend.detail');
 });
