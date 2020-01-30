@@ -7,6 +7,7 @@
     <meta name="robots" content="index, follow"/>
     <meta name="keywords" content=""/>
     <meta name="description" content=""/>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!--=============== css  ===============-->
     <link type="text/css" rel="stylesheet" href="{{asset('frontend-assets/css/reset.css')}}">
     <link type="text/css" rel="stylesheet" href="{{asset('frontend-assets/css/plugins.css')}}">
@@ -143,7 +144,7 @@
             </div>
             <!--tabs end -->
             <div class="log-separator fl-wrap"><span>or</span></div>
-            
+
           </div>
         </div>
       </div>
@@ -276,6 +277,56 @@
     });
   });
 
+    var z = 0;
+  $(document).ready(function(){
+    var maxField = 5; //Input fields increment limitation
+    var addButton = $('.main-children .quantity-up'); //Add button selector
+    var wrapper = $('.field_wrapper_main'); //Input field wrapper
+    $(addButton).click(function(){
+        //Check maximum number of input fields
+      if(z < maxField){
+        z++; //Increment field counter
+        // alert(x);
+
+    var fieldHTML = '<div class="quantity-item age-items child-'+z+'">'+
+                      '<div class="quantity">'+
+                        '<select name="age[]">'+
+                          '<option value="">0 years</option>'+
+                          '<option value="1">1 years</option>'+
+                          '<option value="2">2 years</option>'+
+                          '<option value="3">3 years</option>'+
+                          '<option value="4">4 years</option>'+
+                          '<option value="5">5 years</option>'+
+                          '<option value="6">6 years</option>'+
+                          '<option value="7">7 years</option>'+
+                          '<option value="8">8 years</option>'+
+                          '<option value="9">9 years</option>'+
+                          '<option value="10">10 years</option>'+
+                          '<option value="11">11 years</option>'+
+                          '<option value="12">12 years</option>'+
+                          '<option value="13">13 years</option>'+
+                          '<option value="14">14 years</option>'+
+                          '<option value="15">15 years</option>'+
+                        '</select>'+
+                      '</div>'+
+                    '</div>'; //New input field html
+
+    $('#field_wrapper_main').append(fieldHTML); //Add field html
+  }
+
+});
+    //Once remove button is clicked
+    $(document).on('click', '.main-children .quantity-down', function(e){
+      e.preventDefault();
+      // alert(x);
+      $('.child-'+z).remove();
+      // $(this).parent('div').remove(); //Remove field html
+      if (z>=0) {
+        z--; //Decrement field counter
+      }
+    });
+  });
+
   // Registeration through ajax
   $("#register-form").on('submit', function (e) {
   	// alert('hello');
@@ -346,7 +397,7 @@
         }
         if (data == 1) {
           toastr.success('Login Successfully', '', {timeOut: 5000, positionClass: "toast-top-right"});
-          window.location.href = "{{url('/dashboard')}}/";
+          window.location.href = "{{url('/user-dashboard')}}/";
       }
 
   		},

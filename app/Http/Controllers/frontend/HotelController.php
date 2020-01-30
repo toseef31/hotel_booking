@@ -12,8 +12,9 @@ class HotelController extends Controller
 
   public function hotel_listing(Request $request)
   {
-    // dd($request->all());
     $all_data = json_encode($request->all());
+    // $all_data = $request->all();
+    // dd($all_data);
       $date='';
       $from_date='';
       $to_date='';
@@ -25,7 +26,10 @@ class HotelController extends Controller
       $date = $request->input('header-search');
       }elseif($request->input('dates') !=""){
       $date = $request->input('dates');
-      }
+    }elseif ($request->input('main-input-search') !="") {
+      $date = $request->input('main-input-search');
+    }
+    // dd($date);
 
       if ($date !="") {
       $result_explode = explode('-', $date);
@@ -86,9 +90,9 @@ class HotelController extends Controller
           $hotels->orwhere('hotels.rate','=',$rate);
         }
       }
-      // if ($total_person !="") {
-      //   $hotels->where('rooms.permitted_occupants','=',$total_person);
-      // }
+      if ($total_person !="") {
+        $hotels->where('rooms.permitted_occupants','=',$total_person);
+      }
       // if ($from_date !="") {
       //   $hotels->where('hotel_quotations.from_date','>=',$from_date.' 00:00:00');
       //   $hotels->where('hotel_quotations.to_date','<=',$to_date.' 00:00:00');
@@ -104,7 +108,7 @@ class HotelController extends Controller
     // ->where('hotels.city','=','Pattaya')->select('hotels.*')->where('hotels.child_age_from','>=',3)->where('hotels.child_age_to','<=',12)->where('hotel_quotations.from_date','>=','2020-01-01')->where('hotel_quotations.to_date','<=','2022-11-01')->where('rooms.permitted_occupants','>=',4)->groupBy('hotels.hid')->get();
     // dd($searchResult);
     // $hotels=$hotels[4];
-    // dd($hotels);
+    // dd($city);
     return view('frontend.listing',compact('hotels','city','all_data'));
 
   }
@@ -185,6 +189,9 @@ class HotelController extends Controller
         $hotels->orwhere('hotels.rate','=',$rate);
       }
     }
+    if ($total_person !="") {
+      $hotels->where('rooms.permitted_occupants','=',$total_person);
+    }
     $id = $request->input('id');
     $hotels=$hotels->where('hotels.hid','>',$id)->groupBy('hotels.hid')->orderBy('hotels.hid','asc')->limit(10)->get();
 
@@ -201,6 +208,13 @@ class HotelController extends Controller
 
   public function hotel_detail(Request $request,$id)
   {
+    $data = $request->all();
+    $data2 = $request->input('data');
+    $city = $request->get('city');
+    // $data2 = json_encode($data);
+    // $data3 = json_decode($data);
+    // $jsonData = rtrim($data3, "\0");
+    // dd($data);
     $hotel = DB::table('hotels')->join('hotel_photos','hotel_photos.hid','=','hotels.hid')->where('hotels.hid',$id)->first();
     // dd($hotel);
       $hotel_decription_en = DB::table('hotel_description_en')->where('hid',$id)->get();

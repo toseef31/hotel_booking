@@ -68,17 +68,54 @@ class UserController extends Controller
         }
       }
 
+      public function check_email(Request $request)
+      {
+        // dd($request->all());
+        $email= $request->input('email');
+        $first_name= $request->input('first_name');
+        $last_name= $request->input('last_name');
+        $phone= $request->input('phone');
+        $check_user = DB::table('hb_users')->where('email',$email)->count();
+        // dd($check_user);
+        if ($check_user >0) {
+          return $check_user;
+        }else {
+          $input['name'] = $first_name." ".$last_name;
+          $input['phone'] = $phone;
+          $input['email'] = $email;
+          $input['type'] = "guest";
+          $user = DB::table('hb_users')->insertGetId($input);
+          $request->session()->put('user_id',$user);
+          return "new";
+        }
+      }
+      public function update_detail(Request $request)
+      {
+        // dd($request->all());
+        $user_id='';
+        if ($request->session()->has('hbUser')) {
+          $user_id = $request->session()->get('hbUser')->user_id;
+        }
+        if ($user_id == "") {
+          $user_id = $request->session()->get('user_id');
+        }
+        // dd($user_id);
+        $input['city'] = $request->input('city');
+        $input['country'] = $request->input('country');
+        $input['address'] = $request->input('address');
+        $input['state'] = $request->input('state');
+        $input['post_code'] = $request->input('post_code');
+        $input['detail'] = $request->input('detail');
+        $user = DB::table('hb_users')->where('user_id',$user_id)->update($input);
+        return $user;
+      }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function logout()
-    {
-        Session::flush();
-       return redirect('/');
-    }
+      public function logout(Request $request)
+      {
+        $request->session()->flush();
+        return redirect('/');
+      }
+
 
     /**
      * Store a newly created resource in storage.

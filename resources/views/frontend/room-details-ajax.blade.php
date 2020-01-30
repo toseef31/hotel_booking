@@ -99,6 +99,7 @@ background-color: #f2f2f2;
                           <th>Child Breakfast</th>
                           <th>Child Lunch</th>
                           <th>Child Dinner</th>
+                          <th>Remarks</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -116,6 +117,7 @@ background-color: #f2f2f2;
                           <td>{{$quote->abf_ch}}</td>
                           <td>{{$quote->lunch_ch}}</td>
                           <td>{{$quote->dinner_ch}}</td>
+                          <td>{{$quote->remarks}}</td>
                         </tr>
                         @endforeach
                       </tbody>
@@ -125,12 +127,7 @@ background-color: #f2f2f2;
               </div>
             </div>
             <!--ajax-modal-details-box-->
-            <!--ajax-modal-details-box-->
-            <div class="ajax-modal-details-box">
-              <h3>Remarks</h3>
-              <p>{{$quote->remarks}}</p>
-            </div>
-            <!--ajax-modal-details-box-->
+            
             <!--ajax-modal-details-box-->
             <div class="ajax-modal-details-box">
                 <h3>Room Amenities</h3>

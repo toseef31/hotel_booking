@@ -349,6 +349,9 @@
                     </div>
                     <div class="col-md-9">
                       <p>{{$hotel->state_province}}</p>
+                      @if($hotel->state_province == "")
+                      <br>
+                      @endif
                     </div>
                     <div class="col-md-3">
                       Country:
@@ -410,6 +413,9 @@
                     </div>
                     <div class="col-md-9">
                       <p>{{$hotel->payment_conditions}}</p>
+                      @if($hotel->payment_conditions =="")
+                      <br>
+                      @endif
                     </div>
                     <div class="col-md-3">
                       Child Allow:

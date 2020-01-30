@@ -49,7 +49,7 @@ header-->
           My account
         </div>
         <ul>
-          <li><a href="{{url('/dashboard')}}"> Edit profile</a></li>
+          <li><a href="{{url('/user-dashboard')}}"> Edit profile</a></li>
           <!-- <li><a href="dashboard-add-listing.html"> Add Listing</a></li>
           <li><a href="dashboard-bookings.html">  Bookings  </a></li>
           <li><a href="dashboard-review.html"> Reviews </a></li> -->

@@ -264,7 +264,7 @@
 										<div class="listing-item">
 											<article class="geodir-category-listing fl-wrap">
 												<div class="geodir-category-img">
-													<a href="{{url('hotel-detail/'.$hotel->hid)}}">
+													<a href="{{url('hotel-detail/'.$hotel->hid.'?data='.$all_data)}}">
 														@if($image !="")
 														<img src="{{url($hotel_image)}}" alt="" style="height:270px; overflow:hidden;">
 														@else

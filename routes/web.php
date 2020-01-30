@@ -23,6 +23,8 @@ Route::match(['get','post'],'/getcities','frontend\HotelController@get_cities');
 Route::post('/register','frontend\UserController@accountRegister');
 Route::post('/login','frontend\UserController@accountLogin');
 Route::get('/logout', 'frontend\UserController@logout');
+Route::post('/check-email', 'frontend\UserController@check_email');
+Route::post('/update-detail', 'frontend\UserController@update_detail');
 
 Route::get('/booking', function () {
     return view('frontend.booking');
@@ -30,7 +32,7 @@ Route::get('/booking', function () {
 Route::get('/detail', function () {
     return view('frontend.detail');
 });
-Route::get('/dashboard', function () {
+Route::get('/user-dashboard', function () {
     return view('frontend.dashboard');
 });
 

@@ -35,21 +35,21 @@
 												<div class="row">
 													<div class="col-sm-6">
 														<label>First Name <i class="far fa-user"></i></label>
-														<input type="text" placeholder="Your Name" value=""/>
+														<input type="text" name="first_name" id="first_name" placeholder="Your Name" value=""/>
 													</div>
 													<div class="col-sm-6">
 														<label>Last Name <i class="far fa-user"></i></label>
-														<input type="text" placeholder="Your Last Name" value=""/>
+														<input type="text" name="last_name" id="last_name" placeholder="Your Last Name" value=""/>
 													</div>
 												</div>
 												<div class="row">
 													<div class="col-sm-6">
 														<label>Email Address<i class="far fa-envelope"></i>  </label>
-														<input type="text" placeholder="yourmail@domain.com" value=""/>
+														<input type="text" id="email" name="email" placeholder="yourmail@domain.com" value=""/>
 													</div>
 													<div class="col-sm-6">
 														<label>Phone<i class="far fa-phone"></i>  </label>
-														<input type="text" placeholder="87945612233" value=""/>
+														<input type="text" name="phone" id="phone" placeholder="87945612233" value=""/>
 													</div>
 												</div>
 												<div class="log-massage">Existing Customer? <a href="#" class="modal-open">Click here to login</a></div>
@@ -63,7 +63,11 @@
 													<label for="check-a">By continuing, you agree to the<a href="#" target="_blank">Terms and Conditions</a>.</label>
 												</div>
 												<span class="fw-separator"></span>
+												@if(Session::has('hbUser'))
 												<a  href="#"  class="next-form action-button btn no-shdow-btn color-bg">Billing Address <i class="fal fa-angle-right"></i></a>
+												@else
+												<a  href="#" id="billing_button"  class="action-button btn no-shdow-btn color-bg" style="float:right;">Billing Address <i class="fal fa-angle-right"></i></a>
+												@endif
 											</fieldset>
 											<fieldset class="fl-wrap book_mdf">
 												<div class="list-single-main-item-title fl-wrap">
@@ -72,12 +76,12 @@
 												<div class="row">
 													<div class="col-sm-6">
 														<label>City <i class="fal fa-globe-asia"></i></label>
-														<input type="text" placeholder="Your city" value=""/>
+														<input type="text" name="city" id="city" placeholder="Your city" value=""/>
 													</div>
 													<div class="col-sm-6">
 														<label>Country </label>
 														<div class="listsearch-input-item ">
-															<select data-placeholder="Your Country" class="chosen-select no-search-select" >
+															<select data-placeholder="Your Country" name="country" id="country" class="chosen-select no-search-select" >
 																<option>United states</option>
 																<option>Asia</option>
 																<option>Australia</option>
@@ -91,26 +95,27 @@
 												<div class="row">
 													<div class="col-sm-12">
 														<label>Street <i class="fal fa-road"></i> </label>
-														<input type="text" placeholder="Your Street" value=""/>
+														<input type="text" name="address" id="address" placeholder="Your Street" value=""/>
 													</div>
 												</div>
 												<div class="row">
 													<div class="col-sm-8">
 														<label>State<i class="fal fa-street-view"></i></label>
-														<input type="text" placeholder="Your State" value=""/>
+														<input type="text" name="state" id="state" placeholder="Your State" value=""/>
 													</div>
 													<div class="col-sm-4">
 														<label>Postal code<i class="fal fa-barcode"></i> </label>
-														<input type="text" placeholder="123456" value=""/>
+														<input type="text" name="post_code" id="post_code" placeholder="123456" value=""/>
 													</div>
 												</div>
 												<div class="list-single-main-item-title fl-wrap">
 													<h3>Addtional Notes</h3>
 												</div>
-												<textarea cols="40" rows="3" placeholder="Notes"></textarea>
+												<textarea cols="40" name="detail" id="detail" rows="3" placeholder="Notes"></textarea>
 												<span class="fw-separator"></span>
 												<a  href="#"  class="previous-form action-button back-form   color-bg"><i class="fal fa-angle-left"></i> Back</a>
-												<a  href="#"  class="next-form back-form action-button btn no-shdow-btn color-bg">Payment Step <i class="fal fa-angle-right"></i></a>
+												<a  href="#" id="payment_button"  class="next-form back-form action-button btn no-shdow-btn color-bg">Payment Step <i class="fal fa-angle-right"></i></a>
+
 											</fieldset>
 											<fieldset class="fl-wrap book_mdf">
 												<div class="list-single-main-item-title fl-wrap">
@@ -221,4 +226,103 @@
 	<!-- content end-->
 </div>
 <!--wrapper end -->
+@endsection
+@section('script')
+<script>
+// Registeration through ajax
+var current_fs, next_fs, previous_fs;
+var left, opacity, scale;
+var animating;
+$("#billing_button").on('click', function (e) {
+	e.preventDefault();
+	if (animating) return false;
+	animating = true;
+	current_fs = $(this).parent();
+	next_fs = $(this).parent().next();
+	var first_name = $('#first_name').val();
+	var last_name = $('#last_name').val();
+	var email = $('#email').val();
+	var phone = $('#phone').val();
+
+	$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+	$.ajax({
+		type: "POST",
+		url:" {{ url('/check-email')}}",
+		data: {first_name:first_name,last_name:last_name,email:email,phone:phone},
+
+		success: function(data){
+			if (data == 1) {
+				toastr.warning('Already Email Exist Please login!', '', {timeOut: 5000, positionClass: "toast-top-right"});
+			}else if (data == "new") {
+				$("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+				next_fs.show();
+				current_fs.animate({
+						opacity: 0
+				}, {
+						step: function (now, mx) {
+								scale = 1 - (1 - now) * 0.2;
+								left = (now * 50) + "%";
+								opacity = 1 - now;
+								current_fs.css({
+										'transform': 'scale(' + scale + ')',
+										'position': 'absolute'
+								});
+								next_fs.css({
+										'left': left,
+										'opacity': opacity,
+										'position': 'relative'
+								});
+						},
+						duration: 1200,
+						complete: function () {
+								current_fs.hide();
+								animating = false;
+						},
+						easing: 'easeInOutBack'
+				});
+			}
+
+		},
+		error: function() {
+			alert("Error posting feed");
+		}
+	});
+	//return false;
+});
+$("#payment_button").on('click', function (e) {
+	e.preventDefault();
+	var city = $('#city').val();
+	var country = $('#country').val();
+	var address = $('#address').val();
+	var state = $('#state').val();
+	var post_code = $('#post_code').val();
+	var detail = $('#detail').val();
+
+	$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+	$.ajax({
+		type: "POST",
+		url:" {{ url('/update-detail')}}",
+		data: {city:city,country:country,address:address,state:state,post_code:post_code,detail:detail},
+
+		success: function(data){
+			if (data == 1) {
+				toastr.success('Information updated successfully', '', {timeOut: 5000, positionClass: "toast-top-right"});
+			}
+
+		},
+		error: function() {
+			alert("Error posting feed");
+		}
+	});
+	//return false;
+});
+</script>
 @endsection

@@ -34,12 +34,22 @@
 						<span class="section-separator"></span>
 						<h3>Let's start exploring the world together with EasyBook</h3>
 					</div>
-					<div class="main-search-input-wrap">
+					<form class="" action="{{url('/listing')}}" method="get">
+			      {{csrf_field()}}
+						<div class="main-search-input-wrap">
 						<div class="main-search-input fl-wrap">
 							<div class="main-search-input-item location" id="autocomplete-container">
-								<span class="inpt_dec"><i class="fal fa-map-marker"></i></span>
-								<input type="text" placeholder="Hotel , City..." class="autocomplete-input" id="autocompleteid2"  value=""/>
-								<a href="#"><i class="fal fa-dot-circle"></i></a>
+								<!-- <span class="inpt_dec"><i class="fal fa-map-marker"></i></span> -->
+								<div class="listsearch-input-item show-city">
+	                <select data-placeholder="City" name="city" class="chosen-select" >
+	                  <option value="">All Cities</option>
+	                  @foreach(Booking::getcities() as $city)
+	                  <option value="{{$city->name}}">{{$city->name}}</option>
+	                  @endforeach
+	                </select>
+	              </div>
+								<!-- <input type="text" placeholder="Hotel , City..." class="autocomplete-input" id="autocompleteid2"  value=""/> -->
+								<!-- <a href="#"><i class="fal fa-dot-circle"></i></a> -->
 							</div>
 							<div class="main-search-input-item main-date-parent main-search-input-item_small">
 								<span class="inpt_dec"><i class="fal fa-calendar-check"></i></span> <input type="text" placeholder="When" name="main-input-search"   value=""/>
@@ -56,84 +66,20 @@
 										</div>
 										<div class="quantity-item">
 											<label><i class="fas fa-child"></i> Children</label>
-											<div class="quantity">
+											<div class="quantity main-children">
 												<input type="number" min="0" max="5" step="1" value="0" id="total-child">
 											</div>
 										</div>
+										<div class="field_wrapper_main" id="field_wrapper_main">
+										</div>
 
-										<!-- Children Age -->
-										<div class="quantity-item hide age-items" id="age-1">
-										  <div class="quantity">
-										    <select>
-										      <option>0 years</option>
-										      <option>1 years</option>
-										      <option>2 years</option>
-										      <option>3 years</option>
-										      <option>4 years</option>
-										      <option>5 years</option>
-										      <option>6 years</option>
-										    </select>
-										  </div>
-										</div>
-										<div class="quantity-item hide age-items" id="age-2">
-										  <div class="quantity">
-										    <select>
-										      <option>0 years</option>
-										      <option>1 years</option>
-										      <option>2 years</option>
-										      <option>3 years</option>
-										      <option>4 years</option>
-										      <option>5 years</option>
-										      <option>6 years</option>
-										    </select>
-										  </div>
-										</div>
-										<div class="quantity-item hide age-items" id="age-3">
-										  <div class="quantity">
-										    <select>
-										      <option>0 years</option>
-										      <option>1 years</option>
-										      <option>2 years</option>
-										      <option>3 years</option>
-										      <option>4 years</option>
-										      <option>5 years</option>
-										      <option>6 years</option>
-										    </select>
-										  </div>
-										</div>
-										<div class="quantity-item hide age-items" id="age-4">
-										  <div class="quantity">
-										    <select>
-										      <option>0 years</option>
-										      <option>1 years</option>
-										      <option>2 years</option>
-										      <option>3 years</option>
-										      <option>4 years</option>
-										      <option>5 years</option>
-										      <option>6 years</option>
-										    </select>
-										  </div>
-										</div>
-										<div class="quantity-item hide age-items" id="age-5">
-										  <div class="quantity">
-										    <select>
-										      <option>0 years</option>
-										      <option>1 years</option>
-										      <option>2 years</option>
-										      <option>3 years</option>
-										      <option>4 years</option>
-										      <option>5 years</option>
-										      <option>6 years</option>
-										    </select>
-										  </div>
-										</div>
-										<!-- End Children Age -->
 									</div>
 								</div>
 							</div>
 							<button class="main-search-button color2-bg" onclick="window.location.href='listing.html'">Search <i class="fal fa-search"></i></button>
 						</div>
 					</div>
+				</form>
 				</div>
 			</div>
 			<div class="header-sec-link">
@@ -157,7 +103,7 @@
 				<!-- gallery-item-->
 				<div class="gallery-item">
 					<div class="grid-item-holder">
-						
+
 						<div class="listing-item-grid">
 							<div class="listing-counter"><span>{{ Booking::Bangkok() }}</span> Hotels</div>
 							<img  src="{{ url('frontend-assets/hotelsimages/Bangkok.jpg')}}"   alt="">
@@ -168,14 +114,14 @@
 								<p>Constant care and attention to the patients makes good record</p>
 							</div>
 						</div>
-					
+
 					</div>
 				</div>
 				<!-- gallery-item end-->
 				<!-- gallery-item-->
 				<div class="gallery-item gallery-item-second">
 					<div class="grid-item-holder">
-						
+
 						<div class="listing-item-grid">
 							<img  src="{{ url('frontend-assets/hotelsimages/pattaya_beach.jpg')}}"   alt="">
 							<div class="listing-counter"><span>{{ Booking::Pattaya() }} </span> Hotels</div>
@@ -186,14 +132,14 @@
 								<p>Constant care and attention to the patients makes good record</p>
 							</div>
 						</div>
-					
+
 					</div>
 				</div>
 				<!-- gallery-item end-->
 				<!-- gallery-item-->
 				<div class="gallery-item">
 					<div class="grid-item-holder">
-						
+
 						<div class="listing-item-grid">
 							<div class="listing-counter"><span>{{ Booking::Sihanoukville() }} </span> Hotels</div>
 							<img  src="{{ url('frontend-assets/hotelsimages/Sihanoukville.jpg')}}"  alt="">
@@ -204,14 +150,14 @@
 								<p>Constant care and attention to the patients makes good record</p>
 							</div>
 						</div>
-					
+
 					</div>
 				</div>
 				<!-- gallery-item end-->
 				<!-- gallery-item-->
 				<div class="gallery-item">
 					<div class="grid-item-holder">
-							
+
 						<div class="listing-item-grid">
 							<div class="listing-counter"><span>{{ Booking::KualaLumpur() }}</span> Hotels</div>
 							<img  src="{{ url('frontend-assets/hotelsimages/KualaLumpur.jpg')}}"   alt="">
@@ -222,7 +168,7 @@
 								<p>Constant care and attention to the patients makes good record</p>
 							</div>
 						</div>
-					
+
 					</div>
 				</div>
 				<!-- gallery-item end-->
