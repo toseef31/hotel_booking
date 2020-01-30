@@ -79,8 +79,8 @@
 									<label>Number Of Beds</label>
 									<!-- <input type="text" placeholder="Destination or Hotel Name" class="autocomplete-input" id="autocompleteid3" value=""/>
 									<a href="#"><i class="fal fa-dot-circle"></i></a> -->
-									<div class="quantity-item">
-										<div class="quantity" style="width:252px">
+									<div class="quantity-item" style="width: 100%;">
+										<div class="quantity" style="width: 100%;">
 												<input type="number" name="bed" min="1" max="5" step="1" value="1">
 										</div>
 									</div>
