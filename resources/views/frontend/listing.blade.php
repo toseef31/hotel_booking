@@ -23,7 +23,6 @@
 </style>
 <!--  wrapper  -->
 <div id="wrapper">
-	<?php print_r($all_data); die; ?>
 	<!-- content-->
 	<div class="content">
 		<!--  section  -->

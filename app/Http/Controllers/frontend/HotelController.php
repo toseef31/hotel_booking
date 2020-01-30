@@ -112,7 +112,7 @@ class HotelController extends Controller
   public function hotel_listing_ajax(Request $request)
   {
     $data2= $request->input('data');
-    dd($data2);
+    dd(json_decode($data2,true));
     $date='';
     $from_date='';
     $to_date='';
