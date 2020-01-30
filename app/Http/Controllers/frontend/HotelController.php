@@ -116,7 +116,7 @@ class HotelController extends Controller
   public function hotel_listing_ajax(Request $request)
   {
     $data2= $request->input('data');
-    dd(json_decode($data2,true));
+    dd($data2);
     $date='';
     $from_date='';
     $to_date='';
@@ -208,13 +208,7 @@ class HotelController extends Controller
 
   public function hotel_detail(Request $request,$id)
   {
-    $data = $request->all();
-    $data2 = $request->input('data');
-    $city = $request->get('city');
-    // $data2 = json_encode($data);
-    // $data3 = json_decode($data);
-    // $jsonData = rtrim($data3, "\0");
-    // dd($data);
+    //dd($request->all());
     $hotel = DB::table('hotels')->join('hotel_photos','hotel_photos.hid','=','hotels.hid')->where('hotels.hid',$id)->first();
     // dd($hotel);
       $hotel_decription_en = DB::table('hotel_description_en')->where('hid',$id)->get();
