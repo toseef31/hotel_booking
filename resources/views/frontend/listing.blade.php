@@ -24,11 +24,25 @@ var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1)
 	.rating-star {
 		margin-bottom: 20px;
 	}
+	.calc-div {
+		text-align: left;
+	}
+	.calc-div h4{
+	 color: #46A5DC;
+	}
+	.calc-div h4 span{
+		color: #696363;
+ 		float: right;
+	}
+	.text-muted {
+		color: #acacac;
+	}
 </style>
 <!--  wrapper  -->
 <div id="wrapper">
 <?php
 $parms=explode('?',Request::fullUrl());
+// print_r(count($parms)); die;
 ?>
 	<!-- content-->
 	<div class="content">
@@ -271,7 +285,11 @@ $parms=explode('?',Request::fullUrl());
 										<div class="listing-item">
 											<article class="geodir-category-listing fl-wrap">
 												<div class="geodir-category-img">
+													@if(count($parms) >1)
 													<a href="{{url('hotel-detail/'.$hotel->hid.'?'.$parms[1])}}">
+													@else
+													<a href="{{url('hotel-detail/'.$hotel->hid)}}">
+													@endif
 														@if($image !="")
 														<img src="{{url($hotel_image)}}" alt="" style="height:270px; overflow:hidden;">
 														@else
@@ -302,12 +320,129 @@ $parms=explode('?',Request::fullUrl());
 										<div class="geodir-category-content fl-wrap title-sin_item">
 											<div class="geodir-category-content-title fl-wrap">
 												<div class="geodir-category-content-title-item">
-													<h3 class="title-sin_map"><a href="{{url('hotel-detail/'.$hotel->hid.'?'.$parms[1])}}">{{$hotel->name}}</a></h3>
+													<h3 class="title-sin_map">@if(count($parms) >1)<a href="{{url('hotel-detail/'.$hotel->hid.'?'.$parms[1])}}">@else <a href="{{url('hotel-detail/'.$hotel->hid)}}">@endif {{$hotel->name}}</a></h3>
 													<div class="geodir-category-location fl-wrap"><a href="#" class="map-item"><i class="fas fa-map-marker-alt"></i> {{Str::limit($hotel->address,80)}}</a></div>
 												</div>
 											</div>
-											<div class="" style="height:140px;">
-												<p>{{Str::limit($decription,115)}}</p>
+											<div class="" style="height:350px;">
+												<!-- {{Booking::HotelDetail($hotel->hid)->child_age_from}} -->
+												<?php
+
+												// $adult2 = $adult;
+												// print_r(Booking::HotelDetail($hotel->hid)->child_age_to); die;
+												if ($age !=null) {
+
+												for ($i=0; $i < count($age); $i++) {
+													if (Booking::HotelDetail($hotel->hid)->child_age_from <= $age[$i] && Booking::HotelDetail($hotel->hid)->child_age_to >= $age[$i]) {
+													}else {
+														$adult = $adult+1;
+														$child = $child-1;
+													}
+												}
+											}
+
+												// print_r($adult); die;
+												 ?>
+												<!-- <p>{{Str::limit($decription,115)}}</p> -->
+												<!-- <p>{{Booking::getRoomsCalculation($hotel->hid,$from_date,$to_date,$adult,$child,$age)}}</p> -->
+												@foreach(Booking::getRoomsCalculation($hotel->hid,$from_date,$to_date,$adult,$child,$age) as $price)
+												<div class="calc-div">
+													@if($price->quote !="")
+													<?php
+													// print_r($price->extra_price_ad); die;
+													 ?>
+												 	@if($adult == 1 && $child ==0)
+													<h4>{{$price->name}} <span>{{$price->price}} USD  X {{$price->days}} Nights</span> </h4>
+													<p>{{$adult}} Adult</p>
+
+													@elseif($adult == 1 && $child ==1)
+													<h4>{{$price->name}} <span>{{$price->price}} USD  X {{$price->days}} Nights</span> </h4>
+													<p>{{$adult}} Adult + {{$child}} Child (Double Twin)</p>
+
+													@elseif($adult == 1 && $child ==2)
+													<h4> {{$price->name}}<span>{{$price->price}} USD @if($price->room == 2) + {{$price->price}} USD @else + {{$price->childprice}} USD (Child) @endif X {{$price->days}} Nights</span> </h4>
+													@if($price->room == 2)
+													<p>{{$price->room}} X Rooms {{$adult}} Adult + {{$child}} Child (Double Twin)</p>
+													@else
+													<p>{{$adult}} Adult + 1 Child (Double Twin) + {{$child}} Child Extrabed</p>
+													@endif
+
+													@elseif($adult == 1 && $child ==3)
+													<h4>{{$price->name}} <span>{{$price->price}} USD + {{$price->price}} USD  X {{$price->days}} Nights</span> </h4>
+													<p>{{$price->room}} X Rooms {{$adult}} Adult + {{$child}} Child (2 Double Twin)</p>
+													<!-- 1 Adult Ends -->
+
+													<!-- 2 Adult Start -->
+													@elseif($adult == 2 && $child ==0)
+													<h4>{{$price->name}} <span>{{$price->price}} USD  X {{$price->days}} Nights</span> </h4>
+													<p>{{$adult}} Adults (Double Twin)</p>
+													@elseif($adult == 2 && $child ==1)
+													<h4>{{$price->name}} <span>{{$price->price}} USD @if($price->room == 2) + {{$price->price}} USD @else + {{$price->childprice}} USD (Child) @endif  X {{$price->days}} Nights</span> </h4>
+													@if($price->room == 2)
+													<p>{{$price->room}} X Rooms {{$adult}} Adult + {{$child}} Child (Double Twin)</p>
+													@else
+													<p>{{$adult}} Adult  (Double Twin) + {{$child}} Child Extrabed</p>
+													<!-- <p>{{$adult}} Adult + 1 Child  (Double Twin) </p> -->
+													@endif
+													@elseif($adult == 2 && $child ==2)
+													<h4> {{$price->name}}<span>{{$price->price}} USD @if($price->room == 2) + {{$price->price}} USD @else + {{$price->childprice}} USD (Child) @endif X {{$price->days}} Nights</span> </h4>
+													@if($price->room == 2)
+													<p>{{$price->room}} X Rooms {{$adult}} Adult + {{$child}} Child (Double Twin)</p>
+													@else
+													<p>{{$adult}} Adult + {{$child}} Child (Double Twin) + 1 Child Extrabed</p>
+													@endif
+													@elseif($adult == 2 && $child ==3)
+													<h4> {{$price->name}}<span>{{$price->price}} USD + {{$price->price}} USD X {{$price->days}} Nights</span> </h4>
+													<p>{{$price->room}} X Rooms {{$adult}} Adult (Double Twin) + {{$child}} Child (Double Twin)</p>
+													<!-- 2 Adult End -->
+
+													<!-- 3 Adult Start -->
+													@elseif($adult == 3 && $child ==0)
+													<h4>{{$price->name}} <span>{{$price->price}} USD + {{$price->extra_price_ad}} USD (Adult) X {{$price->days}} Nights</span> </h4>
+													@if($price->room == 2)
+													<p>{{$price->room}} X Rooms 2 Adult (Double Twin) + 1 Adult (Single) </p>
+													@else
+													<p>2 Adult (Double Twin) + 1 Adult Extrabed</p>
+													@endif
+													@elseif($adult == 3 && $child ==1)
+													<h4>{{$price->name}} <span>{{$price->price}} USD @if($price->room == 2) + {{$price->price}} USD @else + {{$price->childprice}} USD (Child) @endif  X {{$price->days}} Nights</span> </h4>
+													<p>{{$price->room}} X Rooms 2 Adult (Double Twin) + {{$child}} Child (Double Twin)</p>
+													@if($price->room == 2)
+													@else
+													<p>{{$adult}} Adult  (Double Twin) + {{$child}} Child Extrabed</p>
+													<!-- <p>{{$adult}} Adult + 1 Child  (Double Twin) </p> -->
+													@endif
+													@elseif($adult == 3 && $child ==2)
+													<h4> {{$price->name}}<span>{{$price->price}} USD @if($price->room == 2) + {{$price->price}} USD @else + {{$price->childprice}} USD (Child) @endif X {{$price->days}} Nights</span> </h4>
+													@if($price->room == 2)
+													<p>{{$price->room}} X Rooms {{$adult}} Adult + {{$child}} Child (Double Twin)</p>
+													@else
+													<p>{{$adult}} Adult + {{$child}} Child (Double Twin) + 1 Child Extrabed</p>
+													@endif
+													@elseif($adult == 3 && $child ==3)
+													<h4> {{$price->name}}<span>{{$price->price}} USD + {{$price->price}} USD X {{$price->days}} Nights</span> </h4>
+													<p>{{$price->room}} X Rooms {{$adult}} Adult (Double Twin) + {{$child}} Child (Double Twin)</p>
+
+													@endif
+													@if($price->quote->is_abf_included == '1')
+													<p><span class="text-muted">Breakfast Included</span> <span style="float:right;color: #46A5DC; font-size:20px;">{{$price->totalprice}} USD</span> </p>
+													@else
+													<p><span style="float:right;color: #46A5DC; font-size:20px;">{{$price->totalprice}} USD</span></p>
+													@endif
+
+													@else
+													<p>Get Price on Call</p>
+													@endif
+												</div>
+												@endforeach
+												<div class="gala-sec">
+													<?php
+													$gala =Booking::getGalaDinner($hotel->hid,$from_date,$to_date);
+													 ?>
+													 @if($gala !="")
+													<span>Gala Dinner {{$gala->date}} - adult:<b>{{$gala->price_ad}} USD</b> child: <b>{{$gala->price_ch}} USD</b> </span>
+													@endif
+												</div>
 											</div>
 											<!-- <ul class="facilities-list fl-wrap">
 												<li><i class="fal fa-wifi"></i><span>Free WiFi</span></li>
@@ -331,99 +466,7 @@ $parms=explode('?',Request::fullUrl());
 									</article>
 								</div>
 								@endforeach
-								<!-- listing-item end -->
 
-								<!-- listing-item  -->
-								<!-- <div class="listing-item">
-								<article class="geodir-category-listing fl-wrap">
-								<div class="geodir-category-img">
-								<a href="{{url('/detail')}}"><img src="http://easybook.kwst.net/images/gal/4.jpg" alt=""></a>
-								<div class="listing-avatar"><a href="author-single.html"><img src="images/avatar/2.jpg" alt=""></a>
-								<span class="avatar-tooltip">Added By  <strong>Julie Cramp</strong></span>
-							</div>
-							<div class="sale-window big-sale">Sale 50%</div>
-							<div class="geodir-category-opt">
-							<div class="listing-rating card-popup-rainingvis" data-starrating2="4"></div>
-							<div class="rate-class-name">
-							<div class="score"><strong>Good</strong>12 Reviews </div>
-							<span>4.2</span>
-						</div>
-					</div>
-				</div>
-				<div class="geodir-category-content fl-wrap title-sin_item">
-				<div class="geodir-category-content-title fl-wrap">
-				<div class="geodir-category-content-title-item">
-				<h3 class="title-sin_map"><a href="listing-single.html">Grand Hero Palace</a></h3>
-				<div class="geodir-category-location fl-wrap"><a href="#" class="map-item"><i class="fas fa-map-marker-alt"></i> W 85th St, New York,  USA</a></div>
-			</div>
-		</div>
-		<p> Morbi suscipit erat in diam bibendum rutrum in nisl. Aliquam et purus ante.</p>
-		<ul class="facilities-list fl-wrap">
-		<li><i class="fal fa-wifi"></i><span>Free WiFi</span></li>
-		<li><i class="fal fa-parking"></i><span>Parking</span></li>
-		<li><i class="fal fa-smoking-ban"></i><span>Non-smoking Rooms</span></li>
-		<li><i class="fal fa-utensils"></i><span> Restaurant</span></li>
-	</ul>
-	<div class="geodir-category-footer fl-wrap">
-	<div class="geodir-opt-link">
-	<div class="geodir-category-price">Awg/Night <span>$ 120</span></div>
-</div>
-<div class="geodir-opt-list">
-<a href="#" class="single-map-item" data-newlatitude="40.76221766" data-newlongitude="-73.96511769"><i class="fal fa-map-marker-alt"></i><span class="geodir-opt-tooltip">On the map</span></a>
-<a href="#" class="geodir-js-favorite"><i class="fal fa-heart"></i><span class="geodir-opt-tooltip">Save</span></a>
-<a href="#" class="geodir-js-booking"><i class="fal fa-exchange"></i><span class="geodir-opt-tooltip">Find Directions</span></a>
-</div>
-</div>
-</div>
-</article>
-</div> -->
-<!-- listing-item end -->
-
-								<!-- listing-item  -->
-<!-- <div class="listing-item">
-<article class="geodir-category-listing fl-wrap">
-<div class="geodir-category-img">
-<a href="{{url('/detail')}}"><img src="http://easybook.kwst.net/images/gal/4.jpg" alt=""></a>
-<div class="listing-avatar"><a href="author-single.html"><img src="images/avatar/2.jpg" alt=""></a>
-<span class="avatar-tooltip">Added By  <strong>Julie Cramp</strong></span>
-</div>
-<div class="sale-window big-sale">Sale 50%</div>
-<div class="geodir-category-opt">
-<div class="listing-rating card-popup-rainingvis" data-starrating2="4"></div>
-<div class="rate-class-name">
-<div class="score"><strong>Good</strong>12 Reviews </div>
-<span>4.2</span>
-</div>
-</div>
-</div>
-<div class="geodir-category-content fl-wrap title-sin_item">
-<div class="geodir-category-content-title fl-wrap">
-<div class="geodir-category-content-title-item">
-<h3 class="title-sin_map"><a href="listing-single.html">Grand Hero Palace</a></h3>
-<div class="geodir-category-location fl-wrap"><a href="#" class="map-item"><i class="fas fa-map-marker-alt"></i> W 85th St, New York,  USA</a></div>
-</div>
-</div>
-<p> Morbi suscipit erat in diam bibendum rutrum in nisl. Aliquam et purus ante.</p>
-<ul class="facilities-list fl-wrap">
-<li><i class="fal fa-wifi"></i><span>Free WiFi</span></li>
-<li><i class="fal fa-parking"></i><span>Parking</span></li>
-<li><i class="fal fa-smoking-ban"></i><span>Non-smoking Rooms</span></li>
-<li><i class="fal fa-utensils"></i><span> Restaurant</span></li>
-</ul>
-<div class="geodir-category-footer fl-wrap">
-<div class="geodir-opt-link">
-<div class="geodir-category-price">Awg/Night <span>$ 120</span></div>
-</div>
-<div class="geodir-opt-list">
-<a href="#" class="single-map-item" data-newlatitude="40.76221766" data-newlongitude="-73.96511769"><i class="fal fa-map-marker-alt"></i><span class="geodir-opt-tooltip">On the map</span></a>
-<a href="#" class="geodir-js-favorite"><i class="fal fa-heart"></i><span class="geodir-opt-tooltip">Save</span></a>
-<a href="#" class="geodir-js-booking"><i class="fal fa-exchange"></i><span class="geodir-opt-tooltip">Find Directions</span></a>
-</div>
-</div>
-</div>
-</article>
-</div> -->
-<!-- listing-item end -->
 @if(count($hotels)>=10)
 <div id="remove-row" class="">
 	<button id="btn-more" data-id="{{$hotel->hid}}" class="load-more-button" href="javascript:void(0)">Load more <i class="fal fa-spinner" style="display:none;"></i> </button>

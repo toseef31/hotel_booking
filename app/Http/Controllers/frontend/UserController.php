@@ -68,6 +68,36 @@ class UserController extends Controller
         }
       }
 
+      public function user_dashboard(Request $request)
+      {
+          if (!$request->session()->has('hbUser')) {
+            return redirect('/');
+          }
+        $user_id = $request->session()->get('hbUser')->user_id;
+        $user_info = DB::table('hb_users')->where('user_id',$user_id)->first();
+        // dd($user_info);
+        return view('frontend.dashboard',compact('user_info'));
+
+      }
+
+      public function update_user(Request $request)
+      {
+        $user_id = $request->session()->get('hbUser')->user_id;
+        // dd($request->all());
+        $input['name'] = $request->input('name');
+        $input['email'] = $request->input('email');
+        $input['phone'] = $request->input('phone');
+        $input['address'] = $request->input('address');
+        $input['post_code'] = $request->input('post_code');
+        $input['city'] = $request->input('city');
+        $input['state'] = $request->input('state');
+        $input['country'] = $request->input('country');
+        $input['detail'] = $request->input('detail');
+
+        $user = DB::table('hb_users')->where('user_id',$user_id)->update($input);
+        return $user;
+      }
+
       public function check_email(Request $request)
       {
         // dd($request->all());
@@ -75,7 +105,7 @@ class UserController extends Controller
         $first_name= $request->input('first_name');
         $last_name= $request->input('last_name');
         $phone= $request->input('phone');
-        $check_user = DB::table('hb_users')->where('email',$email)->count();
+        $check_user = DB::table('hb_users')->where('email',$email)->where('type','user')->count();
         // dd($check_user);
         if ($check_user >0) {
           return $check_user;

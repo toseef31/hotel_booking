@@ -1062,6 +1062,11 @@ cr2.each(function (cr) {
     var starcount2 = $(this).attr("data-starrating2");
     $("<i class='fa fa-star'></i>").duplicate(starcount2).prependTo(this);
 });
+var cr3 = $(".card-popup-rainingvis");
+cr3.each(function (cr) {
+    var starcount3 = $(this).attr("data-starrating3");
+    $("<i class='fa fa-star'></i>").duplicate(starcount3).prependTo(this);
+});
 $(".location a , .loc-act").on("click", function (e) {
     e.preventDefault();
     $.get("http://ipinfo.io", function (response) {

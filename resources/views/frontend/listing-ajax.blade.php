@@ -11,7 +11,9 @@ $decription='';
 if ($hotel->decription_en !='') {
   $decription =$hotel->decription_en->description;
 }
-// print_r($hotel_image); die;
+$parms=explode('?',url()->previous());
+// $parms=explode('?',Request::fullUrl());
+// print_r($parms[1]); die;
  ?>
  <style>
  .rating-star {
@@ -21,7 +23,7 @@ if ($hotel->decription_en !='') {
 <div class="listing-item">
   <article class="geodir-category-listing fl-wrap">
     <div class="geodir-category-img">
-      <a href="{{url('hotel-detail/'.$hotel->hid)}}">
+      <a href="{{url('hotel-detail/'.$hotel->hid.'?'.$parms[1])}}">
         @if($image !="")
         <img src="{{url($hotel_image)}}" alt="" style="height:270px; overflow:hidden;">
         @else
@@ -35,13 +37,13 @@ if ($hotel->decription_en !='') {
     <!-- <div class="sale-window big-sale">Sale 50%</div> -->
     <div class="geodir-category-opt">
     @if($hotel->rate == '2*')
-    <div class="listing-rating card-popup-rainingvis rating-star" data-starrating2="2"></div>
+    <div class="listing-rating card-popup-rainingvis rating-star" data-starrating3="2"><i class='fas fa-star'></i><i class='fas fa-star'></i></div>
     @elseif($hotel->rate == '3*')
-    <div class="listing-rating card-popup-rainingvis rating-star" data-starrating2="3"></div>
+    <div class="listing-rating card-popup-rainingvis rating-star" data-starrating3="3"><i class='fas fa-star'></i><i class='fas fa-star'></i><i class='fas fa-star'></i></div>
     @elseif($hotel->rate == '4*')
-    <div class="listing-rating card-popup-rainingvis rating-star" data-starrating2="4"></div>
+    <div class="listing-rating card-popup-rainingvis rating-star" data-starrating3="4"><i class='fas fa-star'></i><i class='fas fa-star'></i><i class='fas fa-star'></i><i class='fas fa-star'></i></div>
     @else
-    <div class="listing-rating card-popup-rainingvis rating-star" data-starrating2="5"></div>
+    <div class="listing-rating card-popup-rainingvis rating-star" data-starrating3="5"><i class='fas fa-star'></i><i class='fas fa-star'></i><i class='fas fa-star'></i><i class='fas fa-star'></i><i class='fas fa-star'></i></div>
     @endif
     <!-- <div class="rate-class-name">
     <div class="score"><strong>Very Good</strong>27 Reviews </div>
@@ -52,7 +54,7 @@ if ($hotel->decription_en !='') {
   <div class="geodir-category-content fl-wrap title-sin_item">
     <div class="geodir-category-content-title fl-wrap">
       <div class="geodir-category-content-title-item">
-        <h3 class="title-sin_map"><a href="{{url('hotel-detail/'.$hotel->hid)}}">{{$hotel->name}}</a></h3>
+        <h3 class="title-sin_map"><a href="{{url('hotel-detail/'.$hotel->hid.'?'.$parms[1])}}">{{$hotel->name}}</a></h3>
         <div class="geodir-category-location fl-wrap"><a href="#" class="map-item"><i class="fas fa-map-marker-alt"></i> {{Str::limit($hotel->address,80)}}</a></div>
       </div>
     </div>
@@ -79,6 +81,8 @@ if ($hotel->decription_en !='') {
 </div>
 @endforeach
 <!-- listing-item end -->
+@if($count >=10)
 <div id="remove-row" class="">
   <button id="btn-more" data-id="{{$hotel->hid}}" class="load-more-button" href="javascript:void(0)">Load more <i class="fal fa-spinner" style="display:none;"></i> </button>
 </div>
+@endif

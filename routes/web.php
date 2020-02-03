@@ -25,16 +25,11 @@ Route::post('/login','frontend\UserController@accountLogin');
 Route::get('/logout', 'frontend\UserController@logout');
 Route::post('/check-email', 'frontend\UserController@check_email');
 Route::post('/update-detail', 'frontend\UserController@update_detail');
+Route::get('/booking','frontend\HotelController@booking');
+Route::get('/user-dashboard','frontend\UserController@user_dashboard');
+Route::post('/update-user', 'frontend\UserController@update_user');
 
-Route::get('/booking', function () {
-    return view('frontend.booking');
-});
-Route::get('/detail', function () {
-    return view('frontend.detail');
-});
-Route::get('/user-dashboard', function () {
-    return view('frontend.dashboard');
-});
+
 
 Route::match(['get','post'],'/admin/login', 'Dashboard\JobManageController@admin_login');
 

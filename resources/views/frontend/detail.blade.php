@@ -6,12 +6,13 @@
   <div class="content">
     <!--  section  -->
     <?php
+    $parms=explode('?',Request::fullUrl());
     $image = $hotel->photo_1;
     $image = substr($image,37);
     $base_path_mod = str_replace('\\', '/', $image);
     $hotel_image ='http://tour2thailand.com/images/hotels'.$base_path_mod;
     $hotel_image2=urldecode($hotel_image);
-    //print_r($hotel_image); die;
+    // print_r($parms[1]); die;
      ?>
     <section class="list-single-hero" data-scrollax-parent="true" id="sec1">
       <!-- <div class="bg par-elem "  data-bg="images/bg/9.jpg" data-scrollax="properties: { translateY: '30%' }"></div> -->
@@ -497,7 +498,11 @@
                           <!-- <li><i class="fal fa-tv"></i><span> Tv Inside</span></li> -->
                           <li><i class="fas fa-concierge-bell"></i><span>Breakfast</span></li>
                         </ul>
+                        @if(count($parms)>1)
+                        <a href="{{url('room-detail-ajax/'.$room->rid.'?'.$parms[1])}}" class="btn color-bg ajax-link">Details<i class="fas fa-caret-right"></i></a>
+                        @else
                         <a href="{{url('room-detail-ajax/'.$room->rid)}}" class="btn color-bg ajax-link">Details<i class="fas fa-caret-right"></i></a>
+                        @endif
                       </div>
                     </div>
                   </div>

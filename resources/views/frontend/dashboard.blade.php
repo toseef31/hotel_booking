@@ -1,5 +1,28 @@
 @extends('frontend.layouts.master')
 @section('content')
+<?php
+  $name='';
+  $email='';
+  $phone='';
+  $city='';
+  $country='';
+  $address='';
+  $state='';
+  $post_code='';
+  $detail='';
+  if ($user_info !="") {
+    $name=$user_info->name;
+    $email=$user_info->email;
+    $phone=$user_info->phone;
+    $address=$user_info->address;
+    $city=$user_info->city;
+    $state=$user_info->state;
+    $country=$user_info->country;
+    $post_code=$user_info->post_code;
+    $detail=$user_info->detail;
+  }
+  // print_r($country); die;
+ ?>
 <!--  wrapper  -->
 <div id="wrapper">
   <!-- content-->
@@ -14,15 +37,15 @@
           <div class="dasboard-sidebar">
             <div class="dasboard-sidebar-content fl-wrap">
               <div class="dasboard-avatar">
-                <img src="http://easybook.kwst.net/images/avatar/4.jpg" alt="">
+                <!-- <img src="http://easybook.kwst.net/images/avatar/4.jpg" alt=""> -->
               </div>
               <div class="dasboard-sidebar-item fl-wrap">
                 <h3>
                 <span>Welcome </span>
-                Jessie Manrty
+                {{$user_info->name}}
                 </h3>
               </div>
-              <a href="dashboard-add-listing.html" class="ed-btn">Add Hotel</a>
+              <!-- <a href="dashboard-add-listing.html" class="ed-btn">Add Hotel</a> -->
               <div class="user-stats fl-wrap">
                 <ul>
                   <li>
@@ -39,7 +62,7 @@
                   </li>
                 </ul>
               </div>
-              <a href="#" class="log-out-btn color-bg">Log Out <i class="far fa-sign-out"></i></a>
+              <a href="{{url('/logout')}}" class="log-out-btn color-bg">Log Out <i class="far fa-sign-out"></i></a>
             </div>
           </div>
           <!--dasboard-sidebar end-->
@@ -54,7 +77,7 @@
                 <a class="nav-link" id="booking-tab" data-toggle="tab" href="#booking" role="tab" aria-controls="booking" aria-selected="false">Booking</a>
               </li>
             </ul>
-            
+
 
             <div class="dasboard-menu-btn color3-bg">Dashboard Menu <i class="fal fa-bars"></i></div>
             <!-- <ul class="dasboard-menu-wrap">
@@ -99,6 +122,8 @@
           <div class="tab-content show" id="myTabContent">
             <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
               <!-- dashboard-content-->
+              <form class="" id="user-form" action="" method="post">
+
               <div class="dashboard-content fl-wrap">
                 <div class="box-widget-item-header">
                   <h3> Your Profile</h3>
@@ -107,21 +132,37 @@
                 <div class="profile-edit-container">
                   <div class="custom-form">
                     <label>Your Name <i class="far fa-user"></i></label>
-                    <input type="text" placeholder="Jessie Manrty" value=""/>
+                    <input type="text" name="name" placeholder="Jessie Manrty" value="{{$name}}"/>
                     <label>Email Address<i class="far fa-envelope"></i>  </label>
-                    <input type="text" placeholder="JessieManrty@domain.com" value=""/>
+                    <input type="text" name="email" placeholder="JessieManrty@domain.com" value="{{$email}}"/>
                     <label>Phone<i class="far fa-phone"></i>  </label>
-                    <input type="text" placeholder="+7(123)987654" value=""/>
+                    <input type="text" name="phone" placeholder="+7(123)987654" value="{{$phone}}"/>
                     <label> Adress <i class="fas fa-map-marker"></i>  </label>
-                    <input type="text" placeholder="USA 27TH Brooklyn NY" value=""/>
-                    <label> Website <i class="far fa-globe"></i>  </label>
-                    <input type="text" placeholder="themeforest.net" value=""/>
+                    <input type="text" name="address" placeholder="USA 27TH Brooklyn NY" value="{{$address}}"/>
+                    <label> Post Code <i class="fal fa-barcode"></i>  </label>
+                    <input type="text" name="post_code" placeholder="post code" value="{{$post_code}}"/>
+                    <label> City <i class="fal fa-globe-asia"></i>  </label>
+                    <input type="text" name="city" placeholder="City" value="{{$city}}"/>
+                    <label> State <i class="fal fa-street-view"></i>  </label>
+                    <input type="text" name="state" placeholder="State" value="{{$state}}"/>
+                    <label> Country <i class="fas fa-map-marker"></i>  </label>
+                    <div class="listsearch-input-item ">
+                      <select data-placeholder="Your Country" name="country" id="country" class="chosen-select" >
+                        <option value="">All Countries</option>
+                        @foreach(Booking::getcountries() as $countrys)
+                        <option value="{{$countrys->name}}"{{ $country == $countrys->name ? 'selected="selected"' : '' }}>{{$countrys->name}}</option>
+                        @endforeach
+                      </select>
+                    </div>
+                    <!-- <input type="text" name="address" placeholder="USA 27TH Brooklyn NY" value="{{$address}}"/> -->
+                    <!-- <label> Website <i class="far fa-globe"></i>  </label>
+                    <input type="text" placeholder="themeforest.net" value=""/> -->
                     <div class="row">
                       <div class="col-sm-9">
                         <label> Notes</label>
-                        <textarea cols="40" rows="3" placeholder="About Me"></textarea>
+                        <textarea name="detail" cols="40" rows="3" placeholder="About Me">{{$detail}}</textarea>
                       </div>
-                      <div class="col-sm-3">
+                      <!-- <div class="col-sm-3">
                         <label>Change Avatar</label>
                         <div class="add-list-media-wrap">
                           <form class="fuzone">
@@ -131,19 +172,17 @@
                             <input type="file" class="upload">
                           </form>
                         </div>
-                      </div>
+                      </div> -->
                     </div>
                   </div>
                 </div>
-                <!-- profile-edit-container end-->
-                <div class="box-widget-item-header mat-top">
+
+                <!-- <div class="box-widget-item-header mat-top">
                   <h3>Your  Tariff Plan</h3>
                 </div>
-                <!-- profile-edit-container-->
                 <div class="profile-edit-container add-list-container">
                   <div class="custom-form">
                     <div class="row">
-                      <!--col -->
                       <div class="col-md-4">
                         <div class="add-list-media-header">
                           <label class="radio inline">
@@ -152,8 +191,6 @@
                           </label>
                         </div>
                       </div>
-                      <!--col end-->
-                      <!--col -->
                       <div class="col-md-4">
                         <div class="add-list-media-header">
                           <label class="radio inline">
@@ -162,8 +199,6 @@
                           </label>
                         </div>
                       </div>
-                      <!--col end-->
-                      <!--col -->
                       <div class="col-md-4">
                         <div class="add-list-media-header">
                           <label class="radio inline">
@@ -172,40 +207,38 @@
                           </label>
                         </div>
                       </div>
-                      <!--col end-->
                     </div>
                   </div>
-                </div>
+                </div> -->
                 <!-- profile-edit-container end-->
-                <div class="box-widget-item-header mat-top">
+                <!-- <div class="box-widget-item-header mat-top">
                   <h3>Your  Socials</h3>
-                </div>
-                <!-- profile-edit-container-->
+                </div> -->
                 <div class="profile-edit-container">
                   <div class="custom-form">
-                    <label>Facebook <i class="fab fa-facebook"></i></label>
+                    <!-- <label>Facebook <i class="fab fa-facebook"></i></label>
                     <input type="text" placeholder="https://www.facebook.com/" value=""/>
                     <label>Twitter<i class="fab fa-twitter"></i>  </label>
                     <input type="text" placeholder="https://twitter.com/" value=""/>
                     <label>Vkontakte<i class="fab fa-vk"></i>  </label>
                     <input type="text" placeholder="https://vk.com" value=""/>
                     <label> Instagram <i class="fab fa-instagram"></i>  </label>
-                    <input type="text" placeholder="https://www.instagram.com/" value=""/>
-                    <button class="btn    color2-bg  float-btn">Save Changes<i class="fal fa-save"></i></button>
+                    <input type="text" placeholder="https://www.instagram.com/" value=""/> -->
+                    <button type="submit" class="btn color2-bg  float-btn">Save Changes<i class="fal fa-save"></i></button>
                   </div>
                 </div>
-                <!-- profile-edit-container end-->
               </div>
+            </form>
               <!-- dashboard-list-box end-->
             </div>
             <div class="tab-pane fade hide" id="booking" role="tabpanel" aria-labelledby="booking-tab">
-              <!-- dashboard-content--> 
+              <!-- dashboard-content-->
               <div class="dashboard-content fl-wrap">
                   <div class="dashboard-list-box fl-wrap">
                       <div class="dashboard-header fl-wrap">
                           <h3>Bookings</h3>
                       </div>
-                      <!-- dashboard-list end-->    
+                      <!-- dashboard-list end-->
                       <div class="dashboard-list">
                           <div class="dashboard-message">
                               <span class="new-dashboard-item">New</span>
@@ -219,23 +252,23 @@
                                       <span class="booking-text"><a href="listing-sinle.html">Premium Plaza Hotel</a></span>
                                   </div>
                                   <div class="booking-details fl-wrap">
-                                      <span class="booking-title">Persons :</span>   
+                                      <span class="booking-title">Persons :</span>
                                       <span class="booking-text">4 Peoples</span>
                                   </div>
                                   <div class="booking-details fl-wrap">
-                                      <span class="booking-title">Booking Date :</span>   
+                                      <span class="booking-title">Booking Date :</span>
                                       <span class="booking-text">02.03.2018  - 10.03.2018</span>
                                   </div>
-                                  <div class="booking-details fl-wrap">                                                               
-                                      <span class="booking-title">Mail :</span>  
+                                  <div class="booking-details fl-wrap">
+                                      <span class="booking-title">Mail :</span>
                                       <span class="booking-text"><a href="#" target="_top">yormail@domain.com</a></span>
                                   </div>
                                   <div class="booking-details fl-wrap">
-                                      <span class="booking-title">Phone :</span>   
+                                      <span class="booking-title">Phone :</span>
                                       <span class="booking-text"><a href="tel:+496170961709" target="_top">+496170961709</a></span>
                                   </div>
                                   <div class="booking-details fl-wrap">
-                                      <span class="booking-title">Payment State :</span> 
+                                      <span class="booking-title">Payment State :</span>
                                       <span class="booking-text"> <strong class="done-paid">Paid  </strong>  using Paypal</span>
                                   </div>
                                   <span class="fw-separator"></span>
@@ -243,8 +276,8 @@
                               </div>
                           </div>
                       </div>
-                      <!-- dashboard-list end-->    
-                      <!-- dashboard-list end-->    
+                      <!-- dashboard-list end-->
+                      <!-- dashboard-list end-->
                       <div class="dashboard-list">
                           <div class="dashboard-message">
                               <div class="dashboard-message-avatar">
@@ -253,27 +286,27 @@
                               <div class="dashboard-message-text">
                                   <h4>Andy Smith - <span>27 December 2018</span></h4>
                                   <div class="booking-details fl-wrap">
-                                      <span class="booking-title">Listing Item :</span>  
+                                      <span class="booking-title">Listing Item :</span>
                                       <span class="booking-text"><a href="listing-sinle.html">Moonlight Hotel</a></span>
                                   </div>
                                   <div class="booking-details fl-wrap">
-                                      <span class="booking-title">Persons :</span>   
+                                      <span class="booking-title">Persons :</span>
                                       <span class="booking-text">4 Peoples</span>
                                   </div>
                                   <div class="booking-details fl-wrap">
-                                      <span class="booking-title">Booking Date :</span>  
+                                      <span class="booking-title">Booking Date :</span>
                                       <span class="booking-text">02.03.2018  - 10.03.2018</span>
                                   </div>
-                                  <div class="booking-details fl-wrap">                                                               
-                                      <span class="booking-title">Mail :</span>  
+                                  <div class="booking-details fl-wrap">
+                                      <span class="booking-title">Mail :</span>
                                       <span class="booking-text"><a href="#" target="_top">yormail@domain.com</a></span>
                                   </div>
                                   <div class="booking-details fl-wrap">
-                                      <span class="booking-title">Phone :</span>  
+                                      <span class="booking-title">Phone :</span>
                                       <span class="booking-text"><a  href="tel:+496170961709" target="_top">+496170961709</a></span>
                                   </div>
                                   <div class="booking-details fl-wrap">
-                                      <span class="booking-title">Payment State :</span> 
+                                      <span class="booking-title">Payment State :</span>
                                       <span class="booking-text"> <strong class="done-paid">Paid  </strong>  using Paypal</span>
                                   </div>
                                   <span class="fw-separator"></span>
@@ -281,8 +314,8 @@
                               </div>
                           </div>
                       </div>
-                      <!-- dashboard-list end-->                                             
-                      <!-- dashboard-list end-->    
+                      <!-- dashboard-list end-->
+                      <!-- dashboard-list end-->
                       <div class="dashboard-list">
                           <div class="dashboard-message">
                               <div class="dashboard-message-avatar">
@@ -291,27 +324,27 @@
                               <div class="dashboard-message-text">
                                   <h4>Andy Smith - <span>27 December 2018</span></h4>
                                   <div class="booking-details fl-wrap">
-                                      <span class="booking-title">Listing Item :</span>  
+                                      <span class="booking-title">Listing Item :</span>
                                       <span class="booking-text"><a href="listing-sinle.html">Moonlight Hotel</a></span>
                                   </div>
                                   <div class="booking-details fl-wrap">
-                                      <span class="booking-title">Persons :</span>   
+                                      <span class="booking-title">Persons :</span>
                                       <span class="booking-text">4 Peoples</span>
                                   </div>
                                   <div class="booking-details fl-wrap">
-                                      <span class="booking-title">Booking Date :</span>   
+                                      <span class="booking-title">Booking Date :</span>
                                       <span class="booking-text">02.03.2018  - 10.03.2018</span>
                                   </div>
-                                  <div class="booking-details fl-wrap">                                                               
-                                      <span class="booking-title">Mail :</span>  
+                                  <div class="booking-details fl-wrap">
+                                      <span class="booking-title">Mail :</span>
                                       <span class="booking-text"><a href="#" target="_top">yormail@domain.com</a></span>
                                   </div>
                                   <div class="booking-details fl-wrap">
-                                      <span class="booking-title">Phone :</span>  
+                                      <span class="booking-title">Phone :</span>
                                       <span class="booking-text"><a  href="tel:+496170961709" target="_top">+496170961709</a></span>
                                   </div>
                                   <div class="booking-details fl-wrap">
-                                      <span class="booking-title">Payment State :</span> 
+                                      <span class="booking-title">Payment State :</span>
                                       <span class="booking-text"> <strong class="done-paid">Paid  </strong>  using Paypal</span>
                                   </div>
                                   <span class="fw-separator"></span>
@@ -319,7 +352,7 @@
                               </div>
                           </div>
                       </div>
-                      <!-- dashboard-list end-->                                            
+                      <!-- dashboard-list end-->
                   </div>
                   <!-- pagination-->
                   <div class="pagination">
@@ -331,7 +364,7 @@
                       <a href="#" class="nextposts-link"><i class="fa fa-caret-right"></i></a>
                   </div>
               </div>
-              <!-- dashboard-list-box end--> 
+              <!-- dashboard-list-box end-->
             </div>
           </div>
           <!-- End tab content -->
@@ -346,5 +379,34 @@
 <!--wrapper end -->
 @endsection
 @section('script')
+<script>
+$("#user-form").on('submit', function (e) {
+  e.preventDefault();
+  form = new FormData(this);
 
+  $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      type: "POST",
+      url:" {{ url('/update-user')}}",
+      data: form,
+      cache: false,
+      contentType: false,
+      processData: false,
+      success: function(data){
+        if (data == 1) {
+          toastr.success('Information Updated Successfully', '', {timeOut: 5000, positionClass: "toast-top-right"});
+        }
+
+      },
+      error: function() {
+        alert("Error posting feed");
+      }
+    });
+  //return false;
+});
+</script>
 @endsection

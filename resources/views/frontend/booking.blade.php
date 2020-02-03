@@ -4,6 +4,16 @@
 <div id="wrapper">
 	<!-- content-->
 	<div class="content">
+		<?php
+		$name ='';
+		$email='';
+		$phone='';
+		if ($user_info !="") {
+			$name=$user_info->name;
+			$email=$user_info->email;
+			$phone=$user_info->phone;
+		}
+		 ?>
 		<div class="breadcrumbs-fs fl-wrap">
 			<div class="container">
 				<div class="breadcrumbs fl-wrap"><a href="#">Home</a><a href="#">Pages</a><span>Booking Page</span></div>
@@ -35,7 +45,7 @@
 												<div class="row">
 													<div class="col-sm-6">
 														<label>First Name <i class="far fa-user"></i></label>
-														<input type="text" name="first_name" id="first_name" placeholder="Your Name" value=""/>
+														<input type="text" name="first_name" id="first_name" placeholder="Your Name" value="{{$name}}"/>
 													</div>
 													<div class="col-sm-6">
 														<label>Last Name <i class="far fa-user"></i></label>
@@ -45,11 +55,11 @@
 												<div class="row">
 													<div class="col-sm-6">
 														<label>Email Address<i class="far fa-envelope"></i>  </label>
-														<input type="text" id="email" name="email" placeholder="yourmail@domain.com" value=""/>
+														<input type="text" id="email" name="email" placeholder="yourmail@domain.com" value="{{$email}}"/>
 													</div>
 													<div class="col-sm-6">
 														<label>Phone<i class="far fa-phone"></i>  </label>
-														<input type="text" name="phone" id="phone" placeholder="87945612233" value=""/>
+														<input type="text" name="phone" id="phone" placeholder="87945612233" value="{{$phone}}"/>
 													</div>
 												</div>
 												<div class="log-massage">Existing Customer? <a href="#" class="modal-open">Click here to login</a></div>
@@ -75,19 +85,24 @@
 												</div>
 												<div class="row">
 													<div class="col-sm-6">
-														<label>City <i class="fal fa-globe-asia"></i></label>
-														<input type="text" name="city" id="city" placeholder="Your city" value=""/>
+														<label>City </label>
+														<div class="listsearch-input-item show-city">
+															<select data-placeholder="City" name="city" id="city" class="chosen-select" >
+																<option value="">All Cities</option>
+																@foreach(Booking::getcities() as $city)
+																<option value="{{$city->name}}">{{$city->name}}</option>
+																@endforeach
+															</select>
+														</div>
 													</div>
 													<div class="col-sm-6">
 														<label>Country </label>
 														<div class="listsearch-input-item ">
-															<select data-placeholder="Your Country" name="country" id="country" class="chosen-select no-search-select" >
-																<option>United states</option>
-																<option>Asia</option>
-																<option>Australia</option>
-																<option>Europe</option>
-																<option>South America</option>
-																<option>Africa</option>
+															<select data-placeholder="Your Country" name="country" id="country" class="chosen-select" >
+																<option value="">All Countries</option>
+							                  @foreach(Booking::getcountries() as $country)
+							                  <option value="{{$country->name}}">{{$country->name}}</option>
+							                  @endforeach
 															</select>
 														</div>
 													</div>
@@ -256,6 +271,7 @@ $("#billing_button").on('click', function (e) {
 
 		success: function(data){
 			if (data == 1) {
+				animating = false;
 				toastr.warning('Already Email Exist Please login!', '', {timeOut: 5000, positionClass: "toast-top-right"});
 			}else if (data == "new") {
 				$("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");

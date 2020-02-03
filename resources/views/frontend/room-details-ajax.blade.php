@@ -127,7 +127,19 @@ background-color: #f2f2f2;
               </div>
             </div>
             <!--ajax-modal-details-box-->
-            
+
+            <!--ajax-modal-details-box-->
+            <div class="ajax-modal-details-box">
+                <h3>Calculation</h3>
+                <div class="listing-features fl-wrap">
+                  <p>{{$adult}} Adult @if($child >0) + {{$child}} Child + {{$child}} Child Extra Breakfast @endif = <span>{{Booking::getPriceWithoutChild($room_info->rid,$from_date,$to_date,$adult,$child)}}</span> </p>
+                  @if($child > 0)
+                  <p>{{$adult}} Adult + {{$child}} Child + {{$child}} Child Extra Bed + {{$child}} Child Extra Breakfast  = <span>{{Booking::getPriceWithChild($room_info->rid,$from_date,$to_date,$adult,$child)}}</span> </p>
+                  @endif
+                </div>
+            </div>
+            <!--ajax-modal-details-box-->
+
             <!--ajax-modal-details-box-->
             <div class="ajax-modal-details-box">
                 <h3>Room Amenities</h3>
@@ -137,7 +149,9 @@ background-color: #f2f2f2;
                         <li><i class="fas fa-glass-martini-alt"></i> Mini Bar</li>
                         <li><i class="fal fa-snowflake"></i>Air Conditioner</li>
                         <li><i class="fal fa-tv"></i><span>Tv Inside</li> -->
+                        @if($room_quotation[0]->is_abf_included == 1)
                         <li><i class="fal fa-concierge-bell"></i> Breakfast</li>
+                        @endif
                         <li><i class="fal fa-concierge-bell"></i> Lunch</li>
                         <li><i class="fal fa-concierge-bell"></i> Dinner</li>
                         @if($room_info->is_smoking == 0)

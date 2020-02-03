@@ -61,13 +61,13 @@
 										<div class="quantity-item">
 											<label><i class="fas fa-male"></i> Adults</label>
 											<div class="quantity">
-												<input type="number" min="1" max="3" step="1" value="1">
+												<input type="number" name="adult" min="1" max="3" step="1" value="1">
 											</div>
 										</div>
 										<div class="quantity-item">
 											<label><i class="fas fa-child"></i> Children</label>
 											<div class="quantity main-children">
-												<input type="number" min="0" max="5" step="1" value="0" id="total-child">
+												<input type="number" name="child" min="0" max="5" step="1" value="0" id="total-child">
 											</div>
 										</div>
 										<div class="field_wrapper_main" id="field_wrapper_main">
@@ -190,7 +190,7 @@
 				<!-- gallery-item end-->
 			</div>
 			<!-- portfolio end -->
-			<a href="listing.html" class="btn    color-bg">Explore All Cities<i class="fas fa-caret-right"></i></a>
+			<a href="{{url('/listing')}}" class="btn    color-bg">Explore All Cities<i class="fas fa-caret-right"></i></a>
 
 		</section>
 		<!-- section end -->
