@@ -3,6 +3,11 @@
 <script>
 var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1)
 
+ var y = 0;
+ function passvalue(index){
+	 // alert(index);
+	 y = index;
+ }
 </script>
 <style>
 	.discount {
@@ -42,6 +47,7 @@ var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1)
 <div id="wrapper">
 <?php
 $parms=explode('?',Request::fullUrl());
+// print_r($city); die;
 // print_r(count($parms)); die;
 ?>
 	<!-- content-->
@@ -85,12 +91,16 @@ $parms=explode('?',Request::fullUrl());
 								<!--col-list-search-input-item -->
 								<div class="col-list-search-input-item in-loc-dec fl-wrap not-vis-arrow">
 									<label>City/Category</label>
+									<?php
+									$citys =$city;
+									 //print_r(Booking::getcities()[76]->name.' '.$city); die;
+									?>
 									<div class="listsearch-input-item show-city">
-										<select data-placeholder="City" name="city" class="chosen-select" >
+										<select data-placeholder="Your City" name="city" id="city" class="chosen-select" >
 											<option value="">All Cities</option>
-											@foreach(Booking::getcities() as $city)
-		                  <option value="{{$city->name}}">{{$city->name}}</option>
-		                  @endforeach
+											@foreach(Booking::getcities() as $cities)
+											<option value="{{trim($cities->name)}}" {{ trim($cities->name) == trim($city) ? 'selected="selected"' : '' }}>{{$cities->name}}</option>
+											@endforeach
 										</select>
 									</div>
 								</div>
@@ -102,7 +112,7 @@ $parms=explode('?',Request::fullUrl());
 									<a href="#"><i class="fal fa-dot-circle"></i></a> -->
 									<div class="quantity-item" style="width: 100%;">
 										<div class="quantity" style="width: 100%;">
-												<input type="number" name="bed" min="1" max="5" step="1" value="1">
+												<input type="number" name="bed" min="1" max="5" step="1" @if($bed !="") value="{{$bed}}" @else value="1" @endif>
 										</div>
 									</div>
 								</div>
@@ -111,7 +121,7 @@ $parms=explode('?',Request::fullUrl());
 								<div class="col-list-search-input-item in-loc-dec date-container  fl-wrap">
 									<label>Date In-Out </label>
 									<span class="header-search-input-item-icon"><i class="fal fa-calendar-check"></i></span>
-									<input type="text"   placeholder="When" name="dates"   value=""/>
+									<input type="text"   placeholder="When" name="dates"   value="{{$date}}"/>
 									<!-- <input type="text" placeholder="When" name="header-search"   value=""/> -->
 								</div>
 								<!--col-list-search-input-item end-->
@@ -120,23 +130,51 @@ $parms=explode('?',Request::fullUrl());
 									<div class="quantity-item">
 										<label>Rooms</label>
 										<div class="quantity">
-											<input type="number" name="room" min="1" max="5" step="1" value="1">
+											<input type="number" name="room" min="1" max="5" step="1" @if($room !="") value="{{$room}}" @else value="1" @endif>
 										</div>
 									</div>
 									<div class="quantity-item">
 										<label>Adults</label>
 										<div class="quantity">
-											<input type="number" name="adult" min="1" max="5" step="1" value="1">
+											<input type="number" name="adult" min="1" max="5" step="1" @if($adult !="") value="{{$adult}}" @else value="1" @endif>
 										</div>
 									</div>
 									<div class="quantity-item">
 										<label>Children</label>
 										<div class="quantity sidebar-children">
-											<input type="number" name="child" min="0" max="5" step="1" value="0" id="total-child">
+											<input type="number" name="child" min="0" max="5" step="1"  @if($child !="") value="{{$child}}" @else value="1" @endif id="total-child">
 										</div>
 									</div>
 									<!-- Children Age -->
 									<div class="field_wrapper_sidebar" id="field_wrapper_sidebar">
+										@if($age !=null)
+										@foreach($age as $key => $ages)
+										<!-- <?php $key=$key+1; ?> -->
+										<div class="quantity-item age-items child-{{$key}}">'
+											<div class="quantity">
+												<select name="age[]">
+													<option value="">0 years</option>
+													<option value="1" {{1 == $ages ? 'selected="selected"':''}}>1 years</option>
+													<option value="2" {{2 == $ages ? 'selected="selected"':''}}>2 years</option>
+													<option value="3" {{3 == $ages ? 'selected="selected"':''}}>3 years</option>
+													<option value="4" {{4 == $ages ? 'selected="selected"':''}}>4 years</option>
+													<option value="5" {{5 == $ages ? 'selected="selected"':''}}>5 years</option>
+													<option value="6" {{6 == $ages ? 'selected="selected"':''}}>6 years</option>
+													<option value="7" {{7 == $ages ? 'selected="selected"':''}}>7 years</option>
+													<option value="8" {{8 == $ages ? 'selected="selected"':''}}>8 years</option>
+													<option value="9" {{9 == $ages ? 'selected="selected"':''}}>9 years</option>
+													<option value="10" {{10 == $ages ? 'selected="selected"':''}}>10 years</option>
+													<option value="11" {{11 == $ages ? 'selected="selected"':''}}>11 years</option>
+													<option value="12" {{12 == $ages ? 'selected="selected"':''}}>12 years</option>
+													<option value="13" {{13 == $ages ? 'selected="selected"':''}}>13 years</option>
+													<option value="14" {{14 == $ages ? 'selected="selected"':''}}>14 years</option>
+													<option value="15" {{15 == $ages ? 'selected="selected"':''}}>15 years</option>
+												</select>
+											</div>
+										</div>
+										<script>passvalue('{{$key}}');</script>
+										@endforeach
+										@endif
 									</div>
 									<!-- Children Age -->
 								</div>
@@ -148,7 +186,7 @@ $parms=explode('?',Request::fullUrl());
 										<select data-placeholder="City" name="room_type" class="chosen-select" >
 											<option value="">All Rooms</option>
 											@foreach(Booking::getRoomType() as $room)
-											<option value="{{$room->unit_type_en}}">{{$room->unit_type_en}}</option>
+											<option value="{{trim($room->unit_type_en)}}" {{ trim($room->unit_type_en) == trim($room_type) ? 'selected="selected"' : '' }}>{{$room->unit_type_en}}</option>
 											@endforeach
 										</select>
 									</div>
@@ -165,19 +203,22 @@ $parms=explode('?',Request::fullUrl());
 								<!--col-list-search-input-item -->
 								<div class="col-list-search-input-item fl-wrap">
 									<label>Star Rating</label>
+									<?php
+									// print_r($rating); die;
+									 ?>
 									<div class="search-opt-container fl-wrap">
 										<!-- Checkboxes -->
 										<ul class="fl-wrap filter-tags">
 											<li class="five-star-rating">
-												<input id="check-aa2" type="checkbox" name="rating[]" value="5*">
+												<input id="check-aa2" type="checkbox" name="rating[]" value="5*" @if($rating !=null) @foreach($rating as $rate) {{ '5*' == $rate ? 'checked="checked"' : ''  }} @endforeach @endif>
 												<label for="check-aa2"><span class="listing-rating card-popup-rainingvis" data-starrating2="5"><span>5 Stars</span></span></label>
 											</li>
 											<li class="four-star-rating">
-												<input id="check-aa3" type="checkbox" name="rating[]" value="4*">
+												<input id="check-aa3" type="checkbox" name="rating[]" value="4*" @if($rating !=null) @foreach($rating as $rate) {{ '4*' == $rate ? 'checked="checked"' : ''  }} @endforeach @endif>
 												<label for="check-aa3"><span class="listing-rating card-popup-rainingvis" data-starrating2="5"><span>4 Star</span></span></label>
 											</li>
 											<li class="three-star-rating">
-												<input id="check-aa4" type="checkbox" name="rating[]" value="3*">
+												<input id="check-aa4" type="checkbox" name="rating[]" value="3*" @if($rating !=null) @foreach($rating as $rate) {{ '3*' == $rate ? 'checked="checked"' : ''  }} @endforeach @endif>
 												<label for="check-aa4"><span class="listing-rating card-popup-rainingvis" data-starrating2="5"><span>3 Star</span></span></label>
 											</li>
 										</ul>
@@ -324,7 +365,7 @@ $parms=explode('?',Request::fullUrl());
 													<div class="geodir-category-location fl-wrap"><a href="#" class="map-item"><i class="fas fa-map-marker-alt"></i> {{Str::limit($hotel->address,80)}}</a></div>
 												</div>
 											</div>
-											<div class="" style="height:350px;">
+											<div class="" style="height:310px;">
 												<!-- {{Booking::HotelDetail($hotel->hid)->child_age_from}} -->
 												<?php
 
@@ -344,16 +385,13 @@ $parms=explode('?',Request::fullUrl());
 												// print_r($adult); die;
 												 ?>
 												<!-- <p>{{Str::limit($decription,115)}}</p> -->
-												<!-- <p>{{Booking::getRoomsCalculation($hotel->hid,$from_date,$to_date,$adult,$child,$age)}}</p> -->
-												@foreach(Booking::getRoomsCalculation($hotel->hid,$from_date,$to_date,$adult,$child,$age) as $price)
+												<!-- <p>{{Booking::getHotelCalculation($hotel->hid,$from_date,$to_date,$adult,$child,$age)}}</p> -->
+												@foreach(Booking::getHotelCalculation($hotel->hid,$from_date,$to_date,$adult,$child,$age) as $price)
 												<div class="calc-div">
 													@if($price->quote !="")
-													<?php
-													// print_r($price->extra_price_ad); die;
-													 ?>
 												 	@if($adult == 1 && $child ==0)
 													<h4>{{$price->name}} <span>{{$price->price}} USD  X {{$price->days}} Nights</span> </h4>
-													<p>{{$adult}} Adult</p>
+													<p>{{$adult}} Adult (Single)</p>
 
 													@elseif($adult == 1 && $child ==1)
 													<h4>{{$price->name}} <span>{{$price->price}} USD  X {{$price->days}} Nights</span> </h4>
@@ -362,68 +400,143 @@ $parms=explode('?',Request::fullUrl());
 													@elseif($adult == 1 && $child ==2)
 													<h4> {{$price->name}}<span>{{$price->price}} USD @if($price->room == 2) + {{$price->price}} USD @else + {{$price->childprice}} USD (Child) @endif X {{$price->days}} Nights</span> </h4>
 													@if($price->room == 2)
-													<p>{{$price->room}} X Rooms {{$adult}} Adult + {{$child}} Child (Double Twin)</p>
+													<p>{{$price->room}} X Rooms= {{$adult}} Adult (Double Twin) + {{$child}} Child (Double Twin)</p>
 													@else
 													<p>{{$adult}} Adult + 1 Child (Double Twin) + {{$child}} Child Extrabed</p>
 													@endif
 
 													@elseif($adult == 1 && $child ==3)
 													<h4>{{$price->name}} <span>{{$price->price}} USD + {{$price->price}} USD  X {{$price->days}} Nights</span> </h4>
-													<p>{{$price->room}} X Rooms {{$adult}} Adult + {{$child}} Child (2 Double Twin)</p>
+													<p>{{$price->room}} X Rooms= 1 Adult + 1 Child (Double Twin) + 2 Child (Double Twin)</p>
 													<!-- 1 Adult Ends -->
 
 													<!-- 2 Adult Start -->
 													@elseif($adult == 2 && $child ==0)
 													<h4>{{$price->name}} <span>{{$price->price}} USD  X {{$price->days}} Nights</span> </h4>
 													<p>{{$adult}} Adults (Double Twin)</p>
+
 													@elseif($adult == 2 && $child ==1)
 													<h4>{{$price->name}} <span>{{$price->price}} USD @if($price->room == 2) + {{$price->price}} USD @else + {{$price->childprice}} USD (Child) @endif  X {{$price->days}} Nights</span> </h4>
 													@if($price->room == 2)
-													<p>{{$price->room}} X Rooms {{$adult}} Adult + {{$child}} Child (Double Twin)</p>
+													<p>{{$price->room}} X Rooms= 2 Adult (Double Twin) + 1 Child (Single)</p>
 													@else
-													<p>{{$adult}} Adult  (Double Twin) + {{$child}} Child Extrabed</p>
-													<!-- <p>{{$adult}} Adult + 1 Child  (Double Twin) </p> -->
+													<p>{{$adult}} Adult + 1 Child  (Double Twin + Child Extrabed)</p>
 													@endif
+
 													@elseif($adult == 2 && $child ==2)
 													<h4> {{$price->name}}<span>{{$price->price}} USD @if($price->room == 2) + {{$price->price}} USD @else + {{$price->childprice}} USD (Child) @endif X {{$price->days}} Nights</span> </h4>
 													@if($price->room == 2)
-													<p>{{$price->room}} X Rooms {{$adult}} Adult + {{$child}} Child (Double Twin)</p>
+													<p>{{$price->room}} X Rooms= 2 Adult (Double Twin) + 2 Child (Double Twin)</p>
 													@else
 													<p>{{$adult}} Adult + {{$child}} Child (Double Twin) + 1 Child Extrabed</p>
 													@endif
 													@elseif($adult == 2 && $child ==3)
 													<h4> {{$price->name}}<span>{{$price->price}} USD + {{$price->price}} USD X {{$price->days}} Nights</span> </h4>
-													<p>{{$price->room}} X Rooms {{$adult}} Adult (Double Twin) + {{$child}} Child (Double Twin)</p>
+													<p>{{$price->room}} X Rooms= {{$adult}} Adult (Double Twin) + {{$child}} Child (Double Twin)</p>
 													<!-- 2 Adult End -->
 
 													<!-- 3 Adult Start -->
 													@elseif($adult == 3 && $child ==0)
 													<h4>{{$price->name}} <span>{{$price->price}} USD + {{$price->extra_price_ad}} USD (Adult) X {{$price->days}} Nights</span> </h4>
 													@if($price->room == 2)
-													<p>{{$price->room}} X Rooms 2 Adult (Double Twin) + 1 Adult (Single) </p>
+													<p>{{$price->room}} X Rooms= 2 Adult (Double Twin) + 1 Adult (Single) </p>
 													@else
 													<p>2 Adult (Double Twin) + 1 Adult Extrabed</p>
 													@endif
-													@elseif($adult == 3 && $child ==1)
-													<h4>{{$price->name}} <span>{{$price->price}} USD @if($price->room == 2) + {{$price->price}} USD @else + {{$price->childprice}} USD (Child) @endif  X {{$price->days}} Nights</span> </h4>
-													<p>{{$price->room}} X Rooms 2 Adult (Double Twin) + {{$child}} Child (Double Twin)</p>
-													@if($price->room == 2)
-													@else
-													<p>{{$adult}} Adult  (Double Twin) + {{$child}} Child Extrabed</p>
-													<!-- <p>{{$adult}} Adult + 1 Child  (Double Twin) </p> -->
-													@endif
-													@elseif($adult == 3 && $child ==2)
-													<h4> {{$price->name}}<span>{{$price->price}} USD @if($price->room == 2) + {{$price->price}} USD @else + {{$price->childprice}} USD (Child) @endif X {{$price->days}} Nights</span> </h4>
-													@if($price->room == 2)
-													<p>{{$price->room}} X Rooms {{$adult}} Adult + {{$child}} Child (Double Twin)</p>
-													@else
-													<p>{{$adult}} Adult + {{$child}} Child (Double Twin) + 1 Child Extrabed</p>
-													@endif
-													@elseif($adult == 3 && $child ==3)
-													<h4> {{$price->name}}<span>{{$price->price}} USD + {{$price->price}} USD X {{$price->days}} Nights</span> </h4>
-													<p>{{$price->room}} X Rooms {{$adult}} Adult (Double Twin) + {{$child}} Child (Double Twin)</p>
 
+													@elseif($adult == 3 && $child ==1)
+													<h4>{{$price->name}} <span>{{$price->price}} USD @if($price->room == 2) + {{$price->price}} USD @else + {{$price->extra_price_ad}} USD (Adult) @endif  X {{$price->days}} Nights</span> </h4>
+													@if($price->room == 2)
+													<p>{{$price->room}} X Rooms= 2 Adult (Double Twin) + 1 Adult {{$child}} Child (Double Twin)</p>
+													@else
+													<p>2 Adult+ 1 Child  (Double Twin) + 1 Adult Extrabed</p>
 													@endif
+
+													@elseif($adult == 3 && $child ==2)
+													<h4> {{$price->name}}<span>{{$price->price}} USD + {{$price->price}} USD  @if($price->room == 3) + {{$price->price}} USD @else + {{$price->childprice}}  USD (Adult) @endif  X {{$price->days}} Nights</span> </h4>
+													@if($price->room == 3)
+													<p>{{$price->room}} X Rooms= 2 Adult (Double Twin) + 2 Child (Double Twin) + 1 Adult (Single)</p>
+													@else
+													<p>{{$price->room}} X Rooms= 2 Adult (Double Twin) + {{$child}} Child (Double Twin) + 1 Adult Extrabed</p>
+													@endif
+
+													@elseif($adult == 3 && $child ==3)
+													<h4> {{$price->name}}<span> @if($price->room == 3) {{$price->price}} X 3 USD  @else  {{$price->price}} X 2 USD + {{$price->childprice}} USD (Child) + {{$price->extra_price_ad}} (Adult) @endif X {{$price->days}} Nights</span> </h4>
+													@if($price->room == 3)
+													<p>{{$price->room}} X Rooms= 2 Adult (Double Twin) + 2 Child (Double Twin) + 1 Adult 1 Child (Double Twin)</p>
+													@else
+													<p>{{$price->room}} X Rooms= 2 Adult (Double Twin) 1 Child Extrabed + 2 Child (Double Twin) 1 Adult Extrabed</p>
+													@endif
+													<!-- Adult 3 End -->
+
+
+													<!-- Adult 4 Start -->
+													@elseif($adult == 4 && $child ==0)
+													<h4>{{$price->name}} <span>{{$price->price}} X 2 USD X {{$price->days}} Nights</span> </h4>
+													<p>{{$price->room}} X Rooms 2 Adult (Double Twin) + 2 Adult (Double Twin) </p>
+
+													@elseif($adult == 4 && $child ==1)
+													<h4>{{$price->name}} <span>@if($price->room==3) {{$price->price}} X 3 USD @else {{$price->price}} X 2 USD + {{$price->childprice}} USD (Child) @endif  X {{$price->days}} Nights</span> </h4>
+													@if($price->room == 3)
+													<p>{{$price->room}} X Rooms= 2 Adult (Double Twin) + 2 Adult (Double Twin) + 1 Child (Single)</p>
+													@else
+													<p>{{$price->room}} X Rooms= 2 Adult + 1 Child  (Double Twin + Child Extrabed) + 2 Adult (Double Twin)</p>
+													@endif
+
+													@elseif($adult == 4 && $child ==2)
+													<h4> {{$price->name}}<span>@if($price->room == 3) {{$price->price}} X 3 USD @else {{$price->price}} X 2 USD + {{$price->childprice}} X 2 USD @endif  X {{$price->days}} Nights</span> </h4>
+													@if($price->room == 3)
+													<p>{{$price->room}} X Rooms= 2 Adult (Double Twin) + 2 Child (Double Twin) + 2 Adult (Double Twin)</p>
+													@else
+													<p>{{$price->room}} X Rooms= 2 Adult + 1 Child  (Double Twin + Child Extrabed) + 2 Adult + 1 (Double Twin + Child Extrabed)</p>
+													@endif
+
+													@elseif($adult == 4 && $child ==3)
+													<h4> {{$price->name}}<span> @if($price->room == 4) {{$price->price}} X 4 USD  @else  {{$price->price}} X 3 USD + {{$price->childprice}} USD (Child)  @endif X {{$price->days}} Nights</span> </h4>
+													@if($price->room == 4)
+													<p>{{$price->room}} X Rooms= 2 Adult (Double Twin) + 1 Adult 1 Child (Double Twin) + 2 Child (Double Twin) + 1 Adult (Single)</p>
+													@else
+													<p>{{$price->room}} X Rooms= 2 Adult + 1 Child (Double Twin + Child Extrabed) + 2 Child (Double Twin) + 2 Adult (Double Twin)</p>
+													@endif
+													<!-- 4 Adult Ends -->
+
+
+													<!-- Adult 5 -->
+													@elseif($adult == 5 && $child ==0)
+													<h4>{{$price->name}} <span>@if($price->room == 3) {{$price->price}} X 3 USD @else {{$price->price}} X 2 USD + {{$price->extra_price_ad}} @endif  X {{$price->days}} Nights</span> </h4>
+													@if($price->room == 3)
+													<p>{{$price->room}} X Rooms= 2 Adult (Double Twin) + 2 Adult (Double Twin) + 1 Adult (Single)</p>
+													@else
+													<p>{{$price->room}} X Rooms= 2 Adult + 1 Adult  (Double Twin + Adult Extrabed) + 2 Adult (Double Twin)</p>
+													@endif
+
+													@elseif($adult == 5 && $child ==1)
+													<h4>{{$price->name}} <span>@if($price->room==3) {{$price->price}} X 3 USD @else {{$price->price}} X 2 USD + {{$price->childprice}} USD (Child) + {{$price->extra_price_ad}} USD (Adult) @endif  X {{$price->days}} Nights</span> </h4>
+													@if($price->room == 3)
+													<p>{{$price->room}} X Rooms= 2 Adult (Double Twin) + 2 Adult (Double Twin) + 1 Child 1 Adult (Double Twin)</p>
+													@else
+													<p>{{$price->room}} X Rooms= 2 Adult + 1 Child  (Double Twin + Child Extrabed) + 2 Adult + 1 Adult (Double Twin + Adult Extrabed)</p>
+													@endif
+
+													@elseif($adult == 5 && $child ==2)
+													<h4> {{$price->name}}<span>@if($price->room == 4) {{$price->price}} X 4 USD @else {{$price->price}} X 3 USD + {{$price->childprice}} X 1 USD @endif  X {{$price->days}} Nights</span> </h4>
+													@if($price->room == 4)
+													<p>{{$price->room}} X Rooms= 2 Adult (Double Twin) + 2 Adult (Double Twin) + 2 Child (Double Twin) + 1 Adult (Single)</p>
+													@else
+													<p>{{$price->room}} X Rooms= 2 Adult + 1 Child  (Double Twin + Child Extrabed) + 2 Adult (Double Twin) + 1 Adult 1 Child (Double Twin)</p>
+													@endif
+
+													@elseif($adult == 5 && $child ==3)
+													<h4> {{$price->name}}<span> @if($price->room == 4) {{$price->price}} X 4 USD  @else  {{$price->price}} X 3 USD + {{$price->childprice}} X 2 USD (Child)  @endif X {{$price->days}} Nights</span> </h4>
+													@if($price->room == 4)
+													<p>{{$price->room}} X Rooms 2 Adult (Double Twin) + 2 Adult (Double Twin) + 2 Child (Double Twin) + 1 Adult 1 Child (Double Twin)</p>
+													@else
+													<p>{{$price->room}} X Rooms 2 Adult + 1 Child (Double Twin + Child Extrabed) + 2 Adult + 1 Child (Double Twin + Child Extrabed) + 1 Adult 1 Child (Double Twin)</p>
+													@endif
+													<!-- 5 Adult Ends -->
+													@endif
+
+
 													@if($price->quote->is_abf_included == '1')
 													<p><span class="text-muted">Breakfast Included</span> <span style="float:right;color: #46A5DC; font-size:20px;">{{$price->totalprice}} USD</span> </p>
 													@else
@@ -523,5 +636,53 @@ $(document).ready(function(){
 	 });
  });
 
+$(document).ready(function(){
+ var maxField = 5; //Input fields increment limitation
+ var addButton = $('.sidebar-children .quantity-up'); //Add button selector
+ var wrapper = $('.field_wrapper_sidebar'); //Input field wrapper
+ $(addButton).click(function(){
+		 //Check maximum number of input fields
+	 if(y < maxField){
+		 y++; //Increment field counter
+		 // alert(x);
+
+ var fieldHTML = '<div class="quantity-item age-items child-'+y+'">'+
+									 '<div class="quantity">'+
+										 '<select name="age[]">'+
+											 '<option value="">0 years</option>'+
+											 '<option value="1">1 years</option>'+
+											 '<option value="2">2 years</option>'+
+											 '<option value="3">3 years</option>'+
+											 '<option value="4">4 years</option>'+
+											 '<option value="5">5 years</option>'+
+											 '<option value="6">6 years</option>'+
+											 '<option value="7">7 years</option>'+
+											 '<option value="8">8 years</option>'+
+											 '<option value="9">9 years</option>'+
+											 '<option value="10">10 years</option>'+
+											 '<option value="11">11 years</option>'+
+											 '<option value="12">12 years</option>'+
+											 '<option value="13">13 years</option>'+
+											 '<option value="14">14 years</option>'+
+											 '<option value="15">15 years</option>'+
+										 '</select>'+
+									 '</div>'+
+								 '</div>'; //New input field html
+
+ $('#field_wrapper_sidebar').append(fieldHTML); //Add field html
+}
+
+});
+ //Once remove button is clicked
+ $(document).on('click', '.sidebar-children .quantity-down', function(e){
+	 e.preventDefault();
+	 // alert(x);
+	 $('.child-'+y).remove();
+	 // $(this).parent('div').remove(); //Remove field html
+	 if (y>=0) {
+		 y--; //Decrement field counter
+	 }
+ });
+});
 </script>
 @endsection

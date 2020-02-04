@@ -138,7 +138,7 @@ class Booking {
 		return $hotel;
 	}
 
-	public function getRoomsCalculation($hid,$from_date,$to_date,$adult,$child,$age)
+	public function getHotelCalculation($hid,$from_date,$to_date,$adult,$child,$age)
 	{
 		$datediff = strtotime($to_date) - strtotime($from_date);
     $days = round($datediff / (60 * 60 * 24));
@@ -153,8 +153,10 @@ class Booking {
 			$rec->totalprice='';
 			$rec->room='';
 			if ($rec->quote !="") {
-			$single = $rec->quote->single*$days*$adult;
-			$double = $rec->quote->double_twin*$days*$adult;
+			// $single = $rec->quote->single*$days*$adult;
+			// $double = $rec->quote->double_twin*$days*$adult;
+			$single = $rec->quote->single*$days;
+			$double = $rec->quote->double_twin*$days;
 			if ($adult == 1 ) {
 				$rec->price = $single;
 			}else {
@@ -166,7 +168,7 @@ class Booking {
 			}elseif ($adult == 1 && $child == 1) {
 				$rec->totalprice =$double;
 			}elseif ($adult == 1 && $child == 2 && $rec->extra_bed == 1) {
-				$extra_bed_ch = $rec->quote->extra_bed_ch*$days*$child;
+				$extra_bed_ch = $rec->quote->extra_bed_ch*$days;
 				$rec->childprice = $extra_bed_ch;
 				$rec->totalprice =$double+$extra_bed_ch;
 			}elseif ($adult == 1 && $child == 2 && $rec->extra_bed == 0) {
@@ -185,7 +187,7 @@ class Booking {
 				$rec->totalprice =$double+$single;
 				$rec->room =2;
 			}elseif ($adult == 2 && $child == 2 && $rec->extra_bed == 1) {
-				$extra_bed_ch = $rec->quote->extra_bed_ch*$days*$child;
+				$extra_bed_ch = $rec->quote->extra_bed_ch*$days;
 				$rec->childprice = $extra_bed_ch;
 				$rec->totalprice =$double+$extra_bed_ch;
 			}elseif ($adult == 2 && $child == 2 && $rec->extra_bed == 0) {
@@ -201,22 +203,284 @@ class Booking {
 			}elseif ($adult == 3 && $child == 0 && $rec->extra_bed == 0) {
 				$rec->totalprice =$double+$single;
 				$rec->room =2;
+			}elseif ($adult == 3 && $child == 1 && $rec->permitted_occupants == 2) {
+				$rec->totalprice =$double+$single;
+				$rec->room =2;
+			}elseif ($adult == 3 && $child == 1 && $rec->permitted_occupants > 2 && $rec->extra_bed == 1) {
+				$extra_bed_ad = $rec->quote->extra_bed_ad*$days;
+				$rec->extra_price_ad = $extra_bed_ad;
+				$rec->totalprice =$double+$extra_bed_ad;
+			}elseif ($adult == 3 && $child == 2 && $rec->permitted_occupants == 2 && $rec->extra_bed == 1) {
+				$extra_bed_ad = $rec->quote->extra_bed_ad*$days;
+				$rec->extra_price_ad = $extra_bed_ad;
+				$rec->totalprice =$double+$extra_bed_ad+$double;
+				$rec->room =2;
+			}elseif ($adult == 3 && $child == 2 && $rec->permitted_occupants == 2 && $rec->extra_bed == 0) {
+				$rec->totalprice =$double+$double+$single;
+				$rec->room =3;
+			}elseif ($adult == 3 && $child == 3 && $rec->permitted_occupants == 2 && $rec->extra_bed == 1) {
+				$extra_bed_ch = $rec->quote->extra_bed_ch*$days;
+				$rec->childprice = $extra_bed_ch;
+				$total1 = $double+$extra_bed_ch;
+				$extra_bed_ad = $rec->quote->extra_bed_ad*$days;
+				$rec->extra_price_ad = $extra_bed_ad;
+				$total2= $double+$extra_bed_ad;
+				$rec->totalprice =$total1+$total2;
+				$rec->room =2;
+			}elseif ($adult == 3 && $child == 3 && $rec->permitted_occupants == 2 && $rec->extra_bed == 0) {
+				$rec->totalprice =$double+$double+$double;
+				$rec->room =3;
+			}elseif ($adult == 4 && $child == 0) {
+				$rec->totalprice =$double+$double;
+				$rec->room =2;
+			}elseif ($adult == 4 && $child == 1 && $rec->extra_bed == 1) {
+				$extra_bed_ch = $rec->quote->extra_bed_ch*$days*$child;
+				$rec->childprice = $extra_bed_ch;
+				$rec->totalprice =$double+$extra_bed_ch+$double;
+				$rec->room =2;
+			}elseif ($adult == 4 && $child == 1 && $rec->extra_bed == 0) {
+				$rec->totalprice =$double+$double+$single;
+				$rec->room =3;
+			}elseif ($adult == 4 && $child == 2 && $rec->extra_bed == 1) {
+				$extra_bed_ch = $rec->quote->extra_bed_ch*$days;
+				$rec->childprice = $extra_bed_ch;
+				$total1 =$double+$extra_bed_ch;
+				$total2 =$double+$extra_bed_ch;
+				$rec->totalprice =$total1+$total2;
+				$rec->room =2;
+			}elseif ($adult == 4 && $child == 2 && $rec->extra_bed == 0) {
+				$rec->totalprice =$double+$double+$double;
+				$rec->room =3;
+			}elseif ($adult == 4 && $child == 3 && $rec->extra_bed == 1) {
+				$extra_bed_ch = $rec->quote->extra_bed_ch*$days;
+				$rec->childprice = $extra_bed_ch;
+				$total = $double*3;
+				$rec->totalprice =$total+$extra_bed_ch;
+				$rec->room =3;
+			}elseif ($adult == 4 && $child == 3 && $rec->extra_bed == 0) {
+				$rec->totalprice =$double*3+$single;
+				$rec->room =4;
+			}elseif ($adult == 5 && $child == 0 && $rec->extra_bed == 1) {
+				$extra_bed_ad = $rec->quote->extra_bed_ad*$days;
+				$rec->extra_price_ad = $extra_bed_ad;
+				$total = $double*2;
+				$rec->totalprice =$total+$extra_bed_ad;
+				$rec->room =2;
+			}elseif ($adult == 5 && $child == 0 && $rec->extra_bed == 0) {
+				$rec->totalprice =$double*2+$single;
+				$rec->room =3;
+			}elseif ($adult == 5 && $child == 1 && $rec->extra_bed == 1) {
+				$extra_bed_ad = $rec->quote->extra_bed_ad*$days;
+				$rec->extra_price_ad = $extra_bed_ad;
+				$extra_bed_ch = $rec->quote->extra_bed_ch*$days;
+				$rec->childprice = $extra_bed_ch;
+				$total1 = $double+$extra_bed_ch;
+				$total2 = $double+$extra_bed_ad;
+				$rec->totalprice =$total1+$total2;
+				$rec->room =2;
+			}elseif ($adult == 5 && $child == 1 && $rec->extra_bed == 0) {
+				$rec->totalprice =$double*3;
+				$rec->room =3;
+			}elseif ($adult == 5 && $child == 2 && $rec->extra_bed == 1) {
+				$extra_bed_ch = $rec->quote->extra_bed_ch*$days;
+				$rec->childprice = $extra_bed_ch;
+				$total1 = $double+$extra_bed_ch;
+				$total2 = $double*2;
+				$rec->totalprice =$total1+$total2;
+				$rec->room =3;
+			}elseif ($adult == 5 && $child == 2 && $rec->extra_bed == 0) {
+				$rec->totalprice =$double*3+$single;
+				$rec->room =4;
+			}elseif ($adult == 5 && $child == 3 && $rec->extra_bed == 1) {
+				$extra_bed_ch = $rec->quote->extra_bed_ch*$days;
+				$rec->childprice = $extra_bed_ch;
+				$total1 = $double+$extra_bed_ch;
+				$total2 = $double+$extra_bed_ch;
+				$total3 = $double;
+				$rec->totalprice =$total1+$total2+$total3;
+				$rec->room =3;
+			}elseif ($adult == 5 && $child == 3 && $rec->extra_bed == 0) {
+				$rec->totalprice =$double*4;
+				$rec->room =4;
 			}
-			// if ($child > 0) {
-			// 	$extra_bed_ch = $rec->quote->extra_bed_ch*$days*$child;
-			// 	$rec->childprice = $extra_bed_ch;
-			// 	$rec->totalprice =$double+$extra_bed_ch;
-			// }else {
-			// 	$rec->totalprice =$double;
-			// }
-			// if ($adult == 3 && $rec->extra_bed == 1) {
-			// 	$extra_bed_ad = $rec->quote->extra_bed_ad*$days;
-			// 	$rec->extra_price_ad = $extra_bed_ad;
-			// 	$rec->totalprice_3 =$double+$extra_bed_ad;
-			// }else {
-			// 	$rec->totalprice_3 = $double+$single;
-			// 	$rec->room = 2;
-			// }
+
+		}
+
+		}
+		// dd($room_info);
+		return $room_info;
+	}
+
+	public function getRoomsCalculation($rid,$from_date,$to_date,$adult,$child,$age)
+	{
+		// dd($rid." ".$from_date." ".$to_date." ".$adult." ".$child." ".$age);
+		$datediff = strtotime($to_date) - strtotime($from_date);
+		$days = round($datediff / (60 * 60 * 24));
+		// dd($child);
+		$room_info = DB::table('rooms')->where('rid',$rid)->limit(1)->get();
+		// dd($room_info);
+		foreach ($room_info as $key => &$rec) {
+			$rec->quote = DB::table('hotel_quotations')->where('rid',$rec->rid)->where('to_date','>=',Carbon\Carbon::now())->first();
+			// $rec->days = (int)$days;
+			$rec->days = (int)$days;
+			$rec->extra_price_ad='';
+			$rec->childprice='';
+			$rec->totalprice='';
+			$rec->room='';
+			if ($rec->quote !="") {
+			// $single = $rec->quote->single*$days*$adult;
+			// $double = $rec->quote->double_twin*$days*$adult;
+			$single = $rec->quote->single*$days;
+			$double = $rec->quote->double_twin*$days;
+			// $extra_bed_ch = $rec->quote->extra_bed_ch*$days;
+			// $extra_bed_ad = $rec->quote->extra_bed_ad*$days;
+			if ($adult == 1 ) {
+				$rec->price = $single;
+			}else {
+				$rec->price =$double;
+			}
+
+			if ($adult == 1 && $child == 0) {
+				$rec->totalprice = $single;
+			}elseif ($adult == 1 && $child == 1) {
+				$rec->totalprice =$double;
+			}elseif ($adult == 1 && $child == 2 && $rec->extra_bed == 1) {
+				$extra_bed_ch = $rec->quote->extra_bed_ch*$days;
+				$rec->childprice = $extra_bed_ch;
+				$rec->totalprice =$double+$extra_bed_ch;
+			}elseif ($adult == 1 && $child == 2 && $rec->extra_bed == 0) {
+				$rec->totalprice =$double+$single;
+				$rec->room =2;
+			}elseif ($adult == 1 && $child == 3) {
+				$rec->totalprice =$double+$double;
+				$rec->room =2;
+			}elseif ($adult == 2 && $child == 0) {
+				$rec->totalprice = $double;
+			}elseif ($adult == 2 && $child == 1 && $rec->extra_bed == 1) {
+				$extra_bed_ch = $rec->quote->extra_bed_ch*$days*$child;
+				$rec->childprice = $extra_bed_ch;
+				$rec->totalprice =$double+$extra_bed_ch;
+			}elseif ($adult == 2 && $child == 1 && $rec->extra_bed == 0) {
+				$rec->totalprice =$double+$single;
+				$rec->room =2;
+			}elseif ($adult == 2 && $child == 2 && $rec->extra_bed == 1) {
+				$extra_bed_ch = $rec->quote->extra_bed_ch*$days;
+				$rec->childprice = $extra_bed_ch;
+				$rec->totalprice =$double+$extra_bed_ch;
+			}elseif ($adult == 2 && $child == 2 && $rec->extra_bed == 0) {
+				$rec->totalprice =$double+$single;
+				$rec->room =2;
+			}elseif ($adult == 2 && $child == 3) {
+				$rec->totalprice =$double+$single;
+				$rec->room =2;
+			}elseif ($adult == 3 && $child == 0 && $rec->extra_bed == 1) {
+				$extra_bed_ad = $rec->quote->extra_bed_ad*$days;
+				$rec->extra_price_ad = $extra_bed_ad;
+				$rec->totalprice =$double+$extra_bed_ad;
+			}elseif ($adult == 3 && $child == 0 && $rec->extra_bed == 0) {
+				$rec->totalprice =$double+$single;
+				$rec->room =2;
+			}elseif ($adult == 3 && $child == 1 && $rec->permitted_occupants == 2) {
+				$rec->totalprice =$double+$single;
+				$rec->room =2;
+			}elseif ($adult == 3 && $child == 1 && $rec->permitted_occupants > 2 && $rec->extra_bed == 1) {
+				$extra_bed_ad = $rec->quote->extra_bed_ad*$days;
+				$rec->extra_price_ad = $extra_bed_ad;
+				$rec->totalprice =$double+$extra_bed_ad;
+			}elseif ($adult == 3 && $child == 2 && $rec->permitted_occupants == 2 && $rec->extra_bed == 1) {
+				$extra_bed_ad = $rec->quote->extra_bed_ad*$days;
+				$rec->extra_price_ad = $extra_bed_ad;
+				$rec->totalprice =$double+$extra_bed_ad+$double;
+				$rec->room =2;
+			}elseif ($adult == 3 && $child == 2 && $rec->permitted_occupants == 2 && $rec->extra_bed == 0) {
+				$rec->totalprice =$double+$double+$single;
+				$rec->room =3;
+			}elseif ($adult == 3 && $child == 3 && $rec->permitted_occupants == 2 && $rec->extra_bed == 1) {
+				$extra_bed_ch = $rec->quote->extra_bed_ch*$days;
+				$rec->childprice = $extra_bed_ch;
+				$total1 = $double+$extra_bed_ch;
+				$extra_bed_ad = $rec->quote->extra_bed_ad*$days;
+				$rec->extra_price_ad = $extra_bed_ad;
+				$total2= $double+$extra_bed_ad;
+				$rec->totalprice =$total1+$total2;
+				$rec->room =2;
+			}elseif ($adult == 3 && $child == 3 && $rec->permitted_occupants == 2 && $rec->extra_bed == 0) {
+				$rec->totalprice =$double+$double+$double;
+				$rec->room =3;
+			}elseif ($adult == 4 && $child == 0) {
+				$rec->totalprice =$double+$double;
+				$rec->room =2;
+			}elseif ($adult == 4 && $child == 1 && $rec->extra_bed == 1) {
+				$extra_bed_ch = $rec->quote->extra_bed_ch*$days*$child;
+				$rec->childprice = $extra_bed_ch;
+				$rec->totalprice =$double+$extra_bed_ch+$double;
+				$rec->room =2;
+			}elseif ($adult == 4 && $child == 1 && $rec->extra_bed == 0) {
+				$rec->totalprice =$double+$double+$single;
+				$rec->room =3;
+			}elseif ($adult == 4 && $child == 2 && $rec->extra_bed == 1) {
+				$extra_bed_ch = $rec->quote->extra_bed_ch*$days;
+				$rec->childprice = $extra_bed_ch;
+				$total1 =$double+$extra_bed_ch;
+				$total2 =$double+$extra_bed_ch;
+				$rec->totalprice =$total1+$total2;
+				$rec->room =2;
+			}elseif ($adult == 4 && $child == 2 && $rec->extra_bed == 0) {
+				$rec->totalprice =$double+$double+$double;
+				$rec->room =3;
+			}elseif ($adult == 4 && $child == 3 && $rec->extra_bed == 1) {
+				$extra_bed_ch = $rec->quote->extra_bed_ch*$days;
+				$rec->childprice = $extra_bed_ch;
+				$total = $double*3;
+				$rec->totalprice =$total+$extra_bed_ch;
+				$rec->room =3;
+			}elseif ($adult == 4 && $child == 3 && $rec->extra_bed == 0) {
+				$rec->totalprice =$double*3+$single;
+				$rec->room =4;
+			}elseif ($adult == 5 && $child == 0 && $rec->extra_bed == 1) {
+				$extra_bed_ad = $rec->quote->extra_bed_ad*$days;
+				$rec->extra_price_ad = $extra_bed_ad;
+				$total = $double*2;
+				$rec->totalprice =$total+$extra_bed_ad;
+				$rec->room =2;
+			}elseif ($adult == 5 && $child == 0 && $rec->extra_bed == 0) {
+				$rec->totalprice =$double*2+$single;
+				$rec->room =3;
+			}elseif ($adult == 5 && $child == 1 && $rec->extra_bed == 1) {
+				$extra_bed_ad = $rec->quote->extra_bed_ad*$days;
+				$rec->extra_price_ad = $extra_bed_ad;
+				$extra_bed_ch = $rec->quote->extra_bed_ch*$days;
+				$rec->childprice = $extra_bed_ch;
+				$total1 = $double+$extra_bed_ch;
+				$total2 = $double+$extra_bed_ad;
+				$rec->totalprice =$total1+$total2;
+				$rec->room =2;
+			}elseif ($adult == 5 && $child == 1 && $rec->extra_bed == 0) {
+				$rec->totalprice =$double*3;
+				$rec->room =3;
+			}elseif ($adult == 5 && $child == 2 && $rec->extra_bed == 1) {
+				$extra_bed_ch = $rec->quote->extra_bed_ch*$days;
+				$rec->childprice = $extra_bed_ch;
+				$total1 = $double+$extra_bed_ch;
+				$total2 = $double*2;
+				$rec->totalprice =$total1+$total2;
+				$rec->room =3;
+			}elseif ($adult == 5 && $child == 2 && $rec->extra_bed == 0) {
+				$rec->totalprice =$double*3+$single;
+				$rec->room =4;
+			}elseif ($adult == 5 && $child == 3 && $rec->extra_bed == 1) {
+				$extra_bed_ch = $rec->quote->extra_bed_ch*$days;
+				$rec->childprice = $extra_bed_ch;
+				$total1 = $double+$extra_bed_ch;
+				$total2 = $double+$extra_bed_ch;
+				$total3 = $double;
+				$rec->totalprice =$total1+$total2+$total3;
+				$rec->room =3;
+			}elseif ($adult == 5 && $child == 3 && $rec->extra_bed == 0) {
+				$rec->totalprice =$double*4;
+				$rec->room =4;
+			}
+
 		}
 
 		}

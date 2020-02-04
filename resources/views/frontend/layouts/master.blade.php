@@ -227,55 +227,59 @@
       }
     });
   });
-    var y = 0;
-  $(document).ready(function(){
-    var maxField = 5; //Input fields increment limitation
-    var addButton = $('.sidebar-children .quantity-up'); //Add button selector
-    var wrapper = $('.field_wrapper_sidebar'); //Input field wrapper
-    $(addButton).click(function(){
-        //Check maximum number of input fields
-      if(y < maxField){
-        y++; //Increment field counter
-        // alert(x);
-
-    var fieldHTML = '<div class="quantity-item age-items child-'+y+'">'+
-                      '<div class="quantity">'+
-                        '<select name="age[]">'+
-                          '<option value="">0 years</option>'+
-                          '<option value="1">1 years</option>'+
-                          '<option value="2">2 years</option>'+
-                          '<option value="3">3 years</option>'+
-                          '<option value="4">4 years</option>'+
-                          '<option value="5">5 years</option>'+
-                          '<option value="6">6 years</option>'+
-                          '<option value="7">7 years</option>'+
-                          '<option value="8">8 years</option>'+
-                          '<option value="9">9 years</option>'+
-                          '<option value="10">10 years</option>'+
-                          '<option value="11">11 years</option>'+
-                          '<option value="12">12 years</option>'+
-                          '<option value="13">13 years</option>'+
-                          '<option value="14">14 years</option>'+
-                          '<option value="15">15 years</option>'+
-                        '</select>'+
-                      '</div>'+
-                    '</div>'; //New input field html
-
-    $('#field_wrapper_sidebar').append(fieldHTML); //Add field html
-  }
-
-});
-    //Once remove button is clicked
-    $(document).on('click', '.sidebar-children .quantity-down', function(e){
-      e.preventDefault();
-      // alert(x);
-      $('.child-'+y).remove();
-      // $(this).parent('div').remove(); //Remove field html
-      if (y>=0) {
-        y--; //Decrement field counter
-      }
-    });
-  });
+//     var y = 0;
+//     function passvalue(index){
+//     	alert(index);
+//     	y = index;
+//     }
+//   $(document).ready(function(){
+//     var maxField = 5; //Input fields increment limitation
+//     var addButton = $('.sidebar-children .quantity-up'); //Add button selector
+//     var wrapper = $('.field_wrapper_sidebar'); //Input field wrapper
+//     $(addButton).click(function(){
+//         //Check maximum number of input fields
+//       if(y < maxField){
+//         y++; //Increment field counter
+//         // alert(x);
+//
+//     var fieldHTML = '<div class="quantity-item age-items child-'+y+'">'+
+//                       '<div class="quantity">'+
+//                         '<select name="age[]">'+
+//                           '<option value="">0 years</option>'+
+//                           '<option value="1">1 years</option>'+
+//                           '<option value="2">2 years</option>'+
+//                           '<option value="3">3 years</option>'+
+//                           '<option value="4">4 years</option>'+
+//                           '<option value="5">5 years</option>'+
+//                           '<option value="6">6 years</option>'+
+//                           '<option value="7">7 years</option>'+
+//                           '<option value="8">8 years</option>'+
+//                           '<option value="9">9 years</option>'+
+//                           '<option value="10">10 years</option>'+
+//                           '<option value="11">11 years</option>'+
+//                           '<option value="12">12 years</option>'+
+//                           '<option value="13">13 years</option>'+
+//                           '<option value="14">14 years</option>'+
+//                           '<option value="15">15 years</option>'+
+//                         '</select>'+
+//                       '</div>'+
+//                     '</div>'; //New input field html
+//
+//     $('#field_wrapper_sidebar').append(fieldHTML); //Add field html
+//   }
+//
+// });
+//     //Once remove button is clicked
+//     $(document).on('click', '.sidebar-children .quantity-down', function(e){
+//       e.preventDefault();
+//       // alert(x);
+//       $('.child-'+y).remove();
+//       // $(this).parent('div').remove(); //Remove field html
+//       if (y>=0) {
+//         y--; //Decrement field counter
+//       }
+//     });
+//   });
 
     var z = 0;
   $(document).ready(function(){

@@ -144,7 +144,7 @@ class HotelController extends Controller
     // dd($searchResult);
     // $hotels=$hotels[4];
     // dd($age);
-    return view('frontend.listing',compact('hotels','city','all_data','from_date','to_date','adult','child','age'));
+    return view('frontend.listing',compact('hotels','city','date','bed','room','adult','child','room_type','rating','all_data','from_date','to_date','adult','child','age'));
 
   }
 
@@ -215,12 +215,12 @@ class HotelController extends Controller
     if ($room_type !="") {
       $hotels->where('rooms.units_type','like','%'.$room_type.'%');
     }
-    if ($min !="") {
-      $hotels->where('hotels.child_age_from','>=',$min);
-    }
-    if ($max !="") {
-      $hotels->where('hotels.child_age_to','<=',$max);
-    }
+    // if ($min !="") {
+    //   $hotels->where('hotels.child_age_from','>=',$min);
+    // }
+    // if ($max !="") {
+    //   $hotels->where('hotels.child_age_to','<=',$max);
+    // }
     if ($min_price !="" && $max_price !="") {
       $hotels->whereBetween('hotels.low_rate',[$min_price, $max_price]);
     }
@@ -307,7 +307,7 @@ class HotelController extends Controller
         $rec->photos = DB::table('hotel_gallery_photos')->where('hptid',$rec->hptid)->first();
       }
       // dd($hotel_remarks);
-      $rooms = DB::table('rooms')->where('hid',$id)->where('permitted_occupants','>=',$total_person-1)->get();
+      $rooms = DB::table('rooms')->where('hid',$id)->get();
       foreach ($rooms as $rec) {
         $rec->quotation = DB::table('hotel_quotations')->where('rid',$rec->rid)->get();
         $rec->description_en = DB::table('room_description_en')->where('rid',$rec->rid)->first();
@@ -317,7 +317,7 @@ class HotelController extends Controller
       $similar_list = DB::table('hotels')->join('hotel_photos','hotel_photos.hid','=','hotels.hid')->where('hotels.city',$hotel->city)->where('hotels.hid','<>',$id)->limit(5)->get();
 
     // dd($rooms);
-    return view('frontend.detail',compact('hotel','hotel_decription_en','hotel_decription_ru','hotel_distance','hotel_gallery','rooms','similar_list','hotel_remarks'));
+    return view('frontend.detail',compact('hotel','hotel_decription_en','hotel_decription_ru','hotel_distance','hotel_gallery','rooms','similar_list','hotel_remarks','from_date','to_date','adult','child','age'));
 
   }
 
@@ -388,7 +388,7 @@ class HotelController extends Controller
     $cal_1db_1eb = $days*$double+$extra_bed_ch*$days;
     // dd($room_quotation);
 
-    return view('frontend.room-details-ajax',compact('room_info','room_photos','room_quotation','room_description_en','room_description_ru','data','adult','child','from_date','to_date'));
+    return view('frontend.room-details-ajax',compact('room_info','room_photos','room_quotation','room_description_en','room_description_ru','data','from_date','to_date','adult','child','age'));
 
   }
 
