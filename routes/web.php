@@ -28,6 +28,7 @@ Route::post('/update-detail', 'frontend\UserController@update_detail');
 Route::get('/booking','frontend\HotelController@booking');
 Route::get('/user-dashboard','frontend\UserController@user_dashboard');
 Route::post('/update-user', 'frontend\UserController@update_user');
+Route::match(['get','post'],'/get-roomPrice','frontend\HotelController@get_room_price');
 
 
 

@@ -398,6 +398,43 @@ class HotelController extends Controller
         return view('frontend.booking',compact('user_info'));
   }
 
+
+  public function get_room_price(Request $request)
+  {
+    // dd($request->all());
+    $date='';
+    $from_date='';
+    $to_date='';
+    $rid = $request->input('room_type');
+    $date = $request->input('bookdates');
+    $room = $request->input('room');
+    $adult = $request->input('adult');
+    $child = $request->input('child');
+    $age = $request->input('age');
+    if ($date !="") {
+    $result_explode = explode('-', $date);
+    $from_date = trim($result_explode[0]);
+    $from_date=date("Y-m-d", strtotime($from_date));
+    $to_date = trim($result_explode[1]);
+    $to_date=date("Y-m-d", strtotime($to_date));
+    }
+    $datediff = strtotime($to_date) - strtotime($from_date);
+    $days = round($datediff / (60 * 60 * 24));
+
+    $room_info = DB::table('rooms')->where('rid',$rid)->first();
+    $room_quote = DB::table('hotel_quotations')->where('rid',$rid)->where('to_date','>=',Carbon\Carbon::now())->first();
+    $permitted_occ = $room_info->permitted_occupants;
+    $extra_bed = $room_info->extra_bed;
+    $single = $room_quote->single*$days;
+    $double = $room_quote->double_twin*$days;
+    $price =$double*$room;
+    // dd($price);
+    return $price;
+  }
+
+
+
+
     /**
      * Store a newly created resource in storage.
      *

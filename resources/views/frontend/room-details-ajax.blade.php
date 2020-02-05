@@ -96,7 +96,7 @@ background-color: #f2f2f2;
             </div>
             <!--ajax-modal-details-box end-->
             <!--ajax-modal-details-box-->
-            <!-- <div class="ajax-modal-details-box">
+            <div class="ajax-modal-details-box">
               <h3>Price</h3>
               <div class="row">
                 <div class="col-md-12">
@@ -142,7 +142,7 @@ background-color: #f2f2f2;
                   </div>
                 </div>
               </div>
-            </div> -->
+            </div>
             <!--ajax-modal-details-box-->
 
             <!--ajax-modal-details-box-->

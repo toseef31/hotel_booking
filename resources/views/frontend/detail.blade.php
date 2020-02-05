@@ -870,53 +870,67 @@
                     <div class="box-widget-item-header">
                       <h3> Book This Hotel</h3>
                     </div>
-                    <form name="bookFormCalc"   class="book-form custom-form">
+                    <form name="bookFormCalc" id="booking-form"  class="book-form custom-form">
+                      {{csrf_field()}}
                       <fieldset>
-                        <div class="cal-item">
-                          <div class="listsearch-input-item">
-                            <label>Room Type</label>
-                            <select data-placeholder="Room Type" name="repopt"   class="chosen-select no-search-select" >
-                            <option value="0" selected>Select Room</option>
-                            @foreach($rooms as $roomdata)
-
-                              <option value="{{$roomdata->rid}}">{{$roomdata->name}}</option>
-
-                              @endforeach
-                            </select>
-                            <!--data-formula -->
-                            <input type="text" name="item_total" class="hid-input"  value=""  data-form="{repopt}">
-                          </div>
-                        </div>
                         <div class="cal-item">
                           <div class="bookdate-container  fl-wrap">
                             <label><i class="fal fa-calendar-check"></i> When </label>
-                            <input type="text"    placeholder="Date In-Out" name="bookdates"   value=""/>
+                            <input type="text" id="date" class="required2"    placeholder="Date In-Out" name="bookdates"   value=""/>
+                            <p class="asterisk"  style="display:none; color:#f9b90f; text-align:left;float: inherit;">* Date Required</p>
                             <div class="bookdate-container-dayscounter"><i class="far fa-question-circle"></i><span>Days : <strong>0</strong></span></div>
                           </div>
                         </div>
                         <div class="cal-item">
+                          <div class="listsearch-input-item">
+                            <label>Room Type</label>
+                            <select data-placeholder="Room Type"  name="room_type" id="room_type"   class="chosen-select no-search-select" >
+                            <option value="">Select Room</option>
+                            @foreach($rooms as $roomdata)
+                              <option value="{{$roomdata->rid}}">{{$roomdata->name}}</option>
+                              @endforeach
+                            </select>
+                            <p class="asterisk asterisk-room"  style="display:none; color:#f9b90f; text-align:left;float: inherit;">* Select Room</p>
+                            <!--data-formula -->
+                            <!-- <input type="text" name="item_total" class="hid-input"  value=""  data-form="{repopt}"> -->
+                          </div>
+                        </div>
+                        <div class="cal-item">
                           <div class="quantity-item fl-wrap">
-                            <label> Adults</label>
+                            <label style="float:initial;"> Rooms</label>
                             <div class="quantity">
-                              <input type="number" name="qty3" min="0" max="3" step="1" value="0">
-                              <input type="text" name="item_total" class="hid-input" value="0" data-form="{qty3} * {repopt} - {repopt}">
+                              <input type="number" name="room" id="room" min="1" max="10" step="1" value="1">
+                              <!-- <input type="text" name="item_total" class="hid-input" value="0" data-form="{qty3} * {repopt} - {repopt}"> -->
+                            </div>
+                          </div>
+                        </div>
+                        <div class="cal-item">
+                          <div class="quantity-item fl-wrap">
+                            <label style="float:initial;"> Adults</label>
+                            <div class="quantity">
+                              <input type="number"  name="adult" id="adult" min="1" max="10" step="1" value="1">
+                              <!-- <input type="text" name="item_total" class="hid-input" value="0" data-form="{qty3} * {repopt} - {repopt}"> -->
                             </div>
                           </div>
                           <div class="quantity-item fl-wrap fcit">
                             <label> Children</label>
-                            <div class="quantity">
-                              <input type="number"  name="qty2" min="0" max="3" step="1" value="0">
-                              <select name="sale" class="hid-input">
+                            <div class="quantity children-detail">
+                              <input type="number"  name="child" id="child" min="0" max="3" step="1" value="0">
+                              <!-- <select name="sale" class="hid-input">
                                 <option value=".7"  selected>sale</option>
                               </select>
-                              <input type="text" name="item_total" class="hid-input" value="0" data-form="({repopt} * {sale})*{qty2}">
+                              <input type="text" name="item_total" class="hid-input" value="0" data-form="({repopt} * {sale})*{qty2}"> -->
                             </div>
+                          </div>
+                          <div class="field_wrapper_detail" id="field_wrapper_detail">
+
                           </div>
                         </div>
                       </fieldset>
-                      <input type="number"  id="totaldays" name="qty5" class="hid-input">
-                      <div class="total-coast fl-wrap"><strong>Total Cost</strong> <span>$ <input type="text" name="grand_total" value="" data-form="SUM({item_total}) * {qty5}"></span></div>
-                      <button class="btnaplly color2-bg">Book Now<i class="fal fa-paper-plane"></i></button>
+                      <!-- <input type="number"  id="totaldays" name="qty5" class="hid-input"> -->
+                      <div class="total-coast fl-wrap"><strong>Total Cost</strong> <span>$ <input type="text" id="total_price" name="grand_total" value=""></span></div>
+                      <button type="submit" class="btnaplly color2-bg" id="price_btn">Get Price<i class="fal fa-paper-plane"></i></button>
+                      <button class="btnaplly color2-bg" id="book_btn" style="display:none;">Book Now<i class="fal fa-paper-plane"></i></button>
                     </form>
                   </div>
                 </div>
@@ -1017,4 +1031,120 @@
   <div class="limit-box fl-wrap"></div>
 </div>
 <!--wrapper end -->
+@endsection
+@section('script')
+<script>
+var x = 0;
+$(document).ready(function(){
+  var maxField = 3; //Input fields increment limitation
+  var addButton = $('.children-detail .quantity-up'); //Add button selector
+  var wrapper = $('.field_wrapper_detail'); //Input field wrapper
+  $(addButton).click(function(){
+    //Check maximum number of input fields
+    if(x < maxField){
+      x++; //Increment field counter
+      // alert(x);
+
+      var fieldHTML = '<div class="quantity-item age-items childd-'+x+'">'+
+      '<div class="quantity">'+
+      '<select name="age[]" id="age">'+
+      '<option value="">0 years</option>'+
+      '<option value="1">1 years</option>'+
+      '<option value="2">2 years</option>'+
+      '<option value="3">3 years</option>'+
+      '<option value="4">4 years</option>'+
+      '<option value="5">5 years</option>'+
+      '<option value="6">6 years</option>'+
+      '<option value="7">7 years</option>'+
+      '<option value="8">8 years</option>'+
+      '<option value="9">9 years</option>'+
+      '<option value="10">10 years</option>'+
+      '<option value="11">11 years</option>'+
+      '<option value="12">12 years</option>'+
+      '<option value="13">13 years</option>'+
+      '<option value="14">14 years</option>'+
+      '<option value="15">15 years</option>'+
+      '</select>'+
+      '</div>'+
+      '</div>'; //New input field html
+
+      $('#field_wrapper_detail').append(fieldHTML); //Add field html
+    }
+
+  });
+  //Once remove button is clicked
+  $(document).on('click', '.children-detail .quantity-down', function(e){
+    e.preventDefault();
+    // alert(x);
+    $('.childd-'+x).remove();
+    // $(this).parent('div').remove(); //Remove field html
+    if (x>=0) {
+      x--; //Decrement field counter
+    }
+  });
+});
+
+$('#room_type').on('change',function () {
+  $('#room_type').removeClass("required2");
+$( "#room_type" ).children().removeClass("required2");
+});
+
+// $("#price_btn").on('click', function (e) {
+$("#booking-form").on('submit', function (e) {
+  e.preventDefault();
+  form = new FormData(this);
+  var room_id = $("#room_type").val();
+  // var date = $("#date").val();
+  // var room = $("#room").val();
+  // var adult = $("#adult").val();
+  // var child = $("#child").val();
+  // var age = $("#age").val();
+
+
+  $(".asterisk").hide();
+        var empty = $(".required2").filter(function() { return !this.value; })
+                  .next(".asterisk").show();
+                  if(empty.length != 0){
+                  $("#empty_error").show();
+            setTimeout(function () {
+              $("#empty_error").hide();
+            },5000);
+          }
+          // alert(empty.length);
+      if(empty.length) return false;   //uh oh, one was empty!
+      $('.right').stop().animate({scrollTop: 0}, { duration: 1500, easing: 'easeOutQuart'});
+
+if (room_id =="") {
+  $(".asterisk-room").show();
+  return false;
+}
+
+  $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      type: "POST",
+      url:" {{ url('/get-roomPrice')}}",
+      data: form,
+      cache: false,
+      contentType: false,
+      processData: false,
+      success: function(data){
+        // console.log(data);
+        // if (data == 1) {
+        //   toastr.success('Information Updated Successfully', '', {timeOut: 5000, positionClass: "toast-top-right"});
+        // }
+
+        $('#total_price').html(data);
+
+      },
+      error: function() {
+        alert("Error posting feed");
+      }
+    });
+  //return false;
+});
+</script>
 @endsection
