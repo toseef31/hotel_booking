@@ -32,6 +32,11 @@ class Booking {
 
 	}
 
+	public function makecalculation($data)
+	{
+		dd($data);
+	}
+
 	public function DMStoDD($input)
 	{
 		$deg = " " ;
@@ -136,6 +141,303 @@ class Booking {
 		$hotel=DB::table('hotels')->where('hid',$hid)->first();
 		// dd($hotel);
 		return $hotel;
+	}
+
+	public function possibilities($rid,$adult,$child,$days)
+	{
+		$room = DB::table('rooms')->where('rid',$rid)->first();
+		$quote = DB::table('hotel_quotations')->where('rid',$rid)->first();
+		// dd($quote);
+		if ($quote !="") {
+			if ($quote) {
+				// code...
+			}
+			$single = $quote->single;
+			$double = $quote->double_twin;
+
+			if ($adult == 1 ) {
+				$bed_price = $single;
+			}else {
+				$bed_price =$double;
+			}
+
+			$extra_bed_ad = $quote->extra_bed_ad;
+			$extra_bed_ch = $quote->extra_bed_ch;
+			$abf_ch = $quote->abf_ch;
+			// dd($abf_ch);
+
+			// dd($abf_ch);
+
+			// dd($extra_bed_ad);
+			$permitted_occupants =$room->permitted_occupants;
+			if ($permitted_occupants !=null) {
+				$extra_bed =$room->extra_bed;
+				$total =$adult+$child;
+				$all = $total/$permitted_occupants;
+				$adult2 = $adult/$permitted_occupants;
+				$child2 = $child/$permitted_occupants;
+				// dd($all);
+				$cal1 = $this->calculation1($all,$adult,$child,$permitted_occupants,$extra_bed,$bed_price,$extra_bed_ad,$extra_bed_ch,$abf_ch,$days);
+				$cal2 = $this->calculation2($adult2,$child2,$adult,$child,$permitted_occupants,$extra_bed,$bed_price,$extra_bed_ad,$extra_bed_ch,$abf_ch,$days);
+				$main_obj = array(
+					"cal1" => $cal1,
+					"cal2"=> $cal2
+				);
+				return $main_obj;
+			}else {
+				return "No Data";
+			}
+
+		}else {
+			return "No Data";
+		}
+
+	}
+
+	public function calculation1($all,$adult,$child,$permitted_occupants,$extra_bed,$bed_price,$extra_bed_ad,$extra_bed_ch,$abf_ch,$days)
+	{
+		// dd($all,$permitted_occupants,$extra_bed,$bed_price,$extra_bed_ch,$abf_ch,$days);
+		// dd($all,$permitted_occupants,$child);
+		$bed_price_total = $bed_price*$days;
+		$extra_bed_ad_total=$extra_bed_ad*$days;
+		$extra_bed_ch_total=$extra_bed_ch*$days;
+		$abf_ch_total=$abf_ch*$days;
+		if ($all == 0.5) {
+			// 1 Adult
+			$message = "1 Room";
+			$total = $bed_price_total;
+			$obj = [
+				"message" => $message,
+				"bed_price"=> $bed_price,
+				"days"=> $days,
+				"abf_ch"=>'',
+				"extra_bed_ch"=> '',
+				"total"=> $total
+			];
+			return $obj;
+		}elseif ($all == 1 && $permitted_occupants == 2) {
+			$message = "1 Room";
+			$obj = array(
+				"message" => $message,
+			);
+			return $obj;
+		}elseif ($all == 1.5 && $permitted_occupants == 2 && $extra_bed == 0 ) {
+			// 2 Adult 1 Child
+			if ($abf_ch != null) {
+				$message = "1 Room + 1 ABF for Child";
+				$total = $bed_price_total+$abf_ch_total;
+				$abf_ch= $abf_ch;
+			}else {
+				$message = "2 Rooms";
+				$total = $bed_price_total*2;
+				$abf_ch='';
+			}
+			$obj = [
+				"message" => $message,
+				"bed_price"=> $bed_price*2,
+				"days"=> $days,
+				"abf_ch"=>$abf_ch,
+				"extra_bed_ch"=> '',
+				"total"=> $total
+			];
+			return $obj;
+		}elseif ($all == 1.5 && $permitted_occupants == 2 && $extra_bed == 1 && $child !='0') {
+			// 2 Adult 1 Child with Extrabed
+			$message = "1 Room + 1 Extrabed for Child";
+			$total = $bed_price_total+$extra_bed_ch_total;
+			$obj = array(
+				"message" => $message,
+				"bed_price"=> $bed_price,
+				"abf_ch"=>'',
+				"extra_bed_ch"=> $extra_bed_ch,
+				"days"=> $days,
+				"total"=> $total
+			);
+			return $obj;
+		}elseif ($all == 2 && $permitted_occupants == 2) {
+			// 2 Adult 2 Child
+			$message = "2 Rooms";
+			$total = $bed_price_total*2;
+			$obj = array(
+				"message" => $message,
+				"bed_price"=> $bed_price*2,
+				"abf_ch"=>'',
+				"extra_bed_ch"=> '',
+				"days"=> $days,
+				"total"=> $total
+			);
+			return $obj;
+		}elseif ($all == 2.5 && $permitted_occupants == 2 && $extra_bed == 0) {
+			// 2 Adult 3 Child
+			if ($abf_ch != null) {
+				$message = nl2br("1 Rooms + 1 ABF for Child \n1 Room");
+				$total = $bed_price_total*2+$abf_ch_total;
+				$abf_ch= $abf_ch;
+			}else {
+				$message = "3 Rooms";
+				$total = $bed_price_total*3;
+				$abf_ch='';
+			}
+			$obj = array(
+				"message" => $message,
+				"bed_price"=> $bed_price*3,
+				"abf_ch"=>$abf_ch,
+				"extra_bed_ch"=> '',
+				"days"=> $days,
+				"total"=> $total
+			);
+			return $obj;
+		}elseif ($all == 2.5 && $permitted_occupants == 2 && $extra_bed == 1) {
+			// 2 Adult 3 Child with Extrabed
+
+			$message = nl2br("1 Rooms + 1 Extrabed.\n1 Room");
+			$total = $bed_price_total*2+$extra_bed_ch_total;
+			$obj = array(
+				"message" => $message,
+				"bed_price"=> $bed_price*2,
+				"abf_ch"=>'',
+				"extra_bed_ch"=> $extra_bed_ch,
+				"days"=> $days,
+				"total"=> $total
+			);
+			return $obj;
+		}elseif ($all == 1.5 && $permitted_occupants == 2  && $child == 0) {
+			// dd($all);
+			// 3 Adult 0
+			$message = "2 Rooms";
+			$total = $bed_price_total*2;
+			$obj = array(
+				"message" => $message,
+				"bed_price"=> $bed_price*2,
+				"abf_ch"=>'',
+				"extra_bed_ch"=> '',
+				"days"=> $days,
+				"total"=> $total
+			);
+			return $obj;
+		}
+		else {
+			$obj = array(
+				"message" => '',
+				"bed_price"=> '',
+				"abf_ch"=>'',
+				"extra_bed_ch"=> '',
+				"days"=> '',
+				"total"=> ''
+			);
+		}
+	}
+
+	public function calculation2($adult2,$child2,$adult,$child,$permitted_occupants,$extra_bed,$bed_price,$extra_bed_ad,$extra_bed_ch,$abf_ch,$days)
+	{
+		// dd($adult2,$permitted_occupants,$child2,$abf_ch);
+		// dd($adult2,$child2,$permitted_occupants,$extra_bed,$bed_price,$extra_bed_ch,$abf_ch,$days);
+		$bed_price_total = $bed_price*$days;
+		$extra_bed_ad_total=$extra_bed_ad*$days;
+		$extra_bed_ch_total=$extra_bed_ch*$days;
+		$abf_ch_total=$abf_ch*$days;
+		if ($adult2 == 0.5) {
+			// 1 Adult
+			$obj = [
+				"message" => '',
+				"bed_price"=> '',
+				"days"=> '',
+				"abf_ch"=>'',
+				"extra_bed_ch"=> '',
+				"total"=> ''
+			];
+			return $obj;
+		}elseif ($adult2 == 0.5 && $permitted_occupants == 2 && $child2== 1 && $abf_ch != null) {
+			// 1 Adult 2 Child
+			$message = "1 Room + 1 ABF for Child";
+			$total = $bed_price_total+$abf_ch_total;
+			$abf_ch= $abf_ch;
+			$obj = array(
+				"message" => $message,
+				"bed_price"=> $bed_price,
+				"abf_ch"=>$abf_ch,
+				"extra_bed_ch"=> '',
+				"days"=> $days,
+				"total"=> $total
+			);
+		return $obj;
+			$obj = array(
+				"message" => '',
+				"bed_price"=> '',
+				"abf_ch"=>'',
+				"extra_bed_ch"=> '',
+				"days"=> '',
+				"total"=> ''
+			);
+			return $obj;
+		}elseif ($adult2 == 1 && $permitted_occupants == 2 && $child2==0.5 && $abf_ch != null) {
+			// dd($adult2);
+			// 2 Adult 1 Child
+				$message = "1 Room + 1 ABF for Child";
+				$total = $bed_price_total+$abf_ch_total;
+				$abf_ch= $abf_ch;
+				$obj = array(
+					"message" => $message,
+					"bed_price"=> $bed_price,
+					"abf_ch"=>$abf_ch,
+					"extra_bed_ch"=> '',
+					"days"=> $days,
+					"total"=> $total
+				);
+			return $obj;
+		}elseif ($adult2 == 1 && $permitted_occupants == 2 && $child2==1 && $extra_bed == 1 && $abf_ch != null) {
+			// 2 Adult 2 Child
+				$message = "1 Room + 1 ABF for Child + 1 Extrabed for Child";
+				$total = $bed_price_total+$abf_ch_total+$extra_bed_ch_total;
+				$abf_ch= $abf_ch;
+				$obj = array(
+					"message" => $message,
+					"bed_price"=> $bed_price,
+					"abf_ch"=>$abf_ch,
+					"extra_bed_ch"=> $extra_bed_ch,
+					"days"=> $days,
+					"total"=> $total
+				);
+			return $obj;
+		}elseif ($adult2 == 1 && $permitted_occupants == 2 && $child2==1.5  && $abf_ch != null) {
+			// 2 Adult 3 Child
+				$message = nl2br("1 Rooms + 1 ABF for Child\n1 Room");
+				$total = $bed_price_total*2+$abf_ch_total;
+				$abf_ch= $abf_ch;
+				$obj = array(
+					"message" => $message,
+					"bed_price"=> $bed_price*2,
+					"abf_ch"=>$abf_ch,
+					"extra_bed_ch"=> '',
+					"days"=> $days,
+					"total"=> $total
+				);
+			return $obj;
+		}elseif ($adult2 == 1.5 && $permitted_occupants == 2 && $child2==1  && $abf_ch != null) {
+			// 3 Adult 2 Child
+				$message = nl2br("1 Rooms + 1 ABF for Child\n1 Room");
+				$total = $bed_price_total*2+$abf_ch_total;
+				$abf_ch= $abf_ch;
+				$obj = array(
+					"message" => $message,
+					"bed_price"=> $bed_price*2,
+					"abf_ch"=>$abf_ch,
+					"extra_bed_ch"=> '',
+					"days"=> $days,
+					"total"=> $total
+				);
+			return $obj;
+		}
+		else {
+			$obj = array(
+				"message" => '',
+				"bed_price"=> '',
+				"abf_ch"=>'',
+				"extra_bed_ch"=> '',
+				"days"=> '',
+				"total"=> ''
+			);
+		}
 	}
 
 	public function getHotelCalculation($hid,$from_date,$to_date,$adult,$child,$age)
@@ -534,6 +836,8 @@ class Booking {
 	// 	// dd($room_info);
 	// 	return $room_info;
 	// }
+
+
 }
 
 ?>

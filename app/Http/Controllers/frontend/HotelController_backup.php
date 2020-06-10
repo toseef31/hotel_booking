@@ -87,11 +87,6 @@ class HotelController extends Controller
       }
      // dd(count($age));
 
-     $adch = DB::table('vbs_accom_ad_ch')->where('adult',$adult)->where('child',$child)->first();
-
-
-     // dd($perm);
-
       $hotels=DB::table('hotels')
       ->join('rooms','rooms.hid','=','hotels.hid')
       // ->join('hotel_quotations','hotel_quotations.rid','=','rooms.rid')
@@ -139,7 +134,6 @@ class HotelController extends Controller
       //   $hotels->where('hotel_quotations.from_date','>=',$from_date.' 00:00:00');
       //   $hotels->where('hotel_quotations.to_date','<=',$to_date.' 00:00:00');
       // }
-      // dd($adult.'/'.$child);
     $hotels=$hotels->groupBy('hotels.hid')->orderBy('hotels.hid','asc')->limit(10)->get();
       // dd($hotels);
       foreach ($hotels as $rec) {
@@ -149,38 +143,16 @@ class HotelController extends Controller
         // $rec->rooms = DB::table('rooms')->where('hid',$rec->hid)->get()->count();
         if (isset($rec->rooms)) {
           foreach ($rec->rooms as $room) {
-            $room->perm = DB::table('vbs_accom_perm_rooms')->where('adchacid',$adch->adchacid)->where('permitted_occupant',$room->permitted_occupants)->where('price_Incl_child',$room->price_incl_child)->get()->toArray();
-            // $room->perm = DB::table('vbs_accom_perm_rooms')->where('adchacid',$adch->adchacid)->where('permitted_occupant',$room->permitted_occupants)->where('price_Incl_child',$room->price_incl_child)->first();
-            // dd($room->perm);
-            // dd($room->perm[0]);
-            // $room->variations = DB::table('vbs_accom_variation')->where('acpermid',$room->perm[0])->get()->toArray();
-
-            foreach ($room->perm as &$per) {
-              $per->variation = DB::table('vbs_accom_variation')->where('acpermid',$per->acpermid)->get()->toArray();
-              if (!empty($per->variation)) {
-
-              foreach ($per->variation as $accom) {
-                  $accom->accom = DB::table('vbs_accom_variation_extra')->where('acvarid',$accom->acvarid)->get()->toArray();
-
-              }
-
-
+            $room->possibilities ='';
+            $calculation = Booking::possibilities($room->rid,$adult,$child,$days);
+            if ($calculation !="No Data") {
+              $room->possibilities = $calculation;
             }
-
-            }
-            // $room->possibilities ='';
-            // $calculation = Booking::possibilities($room->rid,$adult,$child,$days);
-            // if ($calculation !="No Data") {
-            //   $room->possibilities = $calculation;
-            // }
           }
-        $data = Booking::makecalculation($room);
-
         }
 
       }
-    // dd($hotels[0]->rooms[0]->perm[0]);
-    dd($hotels);
+    // dd($hotels);
     // $searchResult=DB::table('hotels')->join('rooms','rooms.hid','=','hotels.hid')
     // ->join('hotel_quotations','hotel_quotations.rid','=','rooms.rid')
     // ->where('hotels.city','=','Pattaya')->select('hotels.*')->where('hotels.child_age_from','>=',3)->where('hotels.child_age_to','<=',12)->where('hotel_quotations.from_date','>=','2020-01-01')->where('hotel_quotations.to_date','<=','2022-11-01')->where('rooms.permitted_occupants','>=',4)->groupBy('hotels.hid')->get();

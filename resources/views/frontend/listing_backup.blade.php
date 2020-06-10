@@ -42,37 +42,6 @@ var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1)
 	.text-muted {
 		color: #acacac;
 	}
-  .calc-div .pricing{
-    color:#494747;
-    text-align:right;
-    padding-bottom: 0px;
-    padding-right: 10px;
-    font-weight: 700;
-  }
-
-  /* Track */
-  /* width */
-  ::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  /* Track */
-  ::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 5px grey;
-    border-radius: 10px;
-  }
-
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: #3aaced;
-    border-radius: 10px;
-  }
-
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: #3aaced;
-  }
-
 </style>
 <!--  wrapper  -->
 <div id="wrapper">
@@ -91,7 +60,6 @@ $parms=explode('?',Request::fullUrl());
 				<div class="section-title center-align big-title">
 					<div class="section-title-separator"><span></span></div>
 					<h2><span>@if($city){{$city}} @else All @endif Hotels</span></h2>
-
 					<span class="section-separator"></span>
 					<h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut nec tincidunt arcu, sit amet fermentum sem.</h4>
 				</div>
@@ -136,7 +104,6 @@ $parms=explode('?',Request::fullUrl());
 										</select>
 									</div>
 								</div>
-
 								<!--col-list-search-input-item end-->
 								<!--col-list-search-input-item -->
 								<div class="col-list-search-input-item fl-wrap location autocomplete-container">
@@ -159,15 +126,13 @@ $parms=explode('?',Request::fullUrl());
 								</div>
 								<!--col-list-search-input-item end-->
 								<!--col-list-search-input-item -->
-
 								<div class="col-list-search-input-item fl-wrap">
 									<div class="quantity-item">
 										<label>Rooms</label>
 										<div class="quantity">
-											<input type="number" name="room" min="1" max="5" step="1" @if($totalroom !="") value="{{$totalroom}}" @else value="1" @endif>
+											<input type="number" name="room" min="1" max="5" step="1" @if($room !="") value="{{$room}}" @else value="1" @endif>
 										</div>
 									</div>
-
 									<div class="quantity-item">
 										<label>Adults</label>
 										<div class="quantity">
@@ -180,7 +145,6 @@ $parms=explode('?',Request::fullUrl());
 											<input type="number" name="child" min="0" max="5" step="1"  @if($child !="") value="{{$child}}" @else value="1" @endif id="total-child">
 										</div>
 									</div>
-
 									<!-- Children Age -->
 									<div class="field_wrapper_sidebar" id="field_wrapper_sidebar">
 										@if($age !=null)
@@ -364,21 +328,15 @@ $parms=explode('?',Request::fullUrl());
 												<div class="geodir-category-img">
 													@if(count($parms) >1)
 													<a href="{{url('hotel-detail/'.$hotel->hid.'?'.$parms[1])}}">
-                            @if($image !="")
+													@else
+													<a href="{{url('hotel-detail/'.$hotel->hid)}}">
+													@endif
+														@if($image !="")
 														<img src="{{url($hotel_image)}}" alt="" style="height:270px; overflow:hidden;">
 														@else
 														<img src="{{asset('frontend-assets/no-image.jpeg')}}" alt=""style="height:270px;">
 														@endif
 													</a>
-                          @else
-													<a href="{{url('hotel-detail/'.$hotel->hid)}}">
-                            @if($image !="")
-                            <img src="{{url($hotel_image)}}" alt="" style="height:270px; overflow:hidden;">
-                            @else
-                            <img src="{{asset('frontend-assets/no-image.jpeg')}}" alt=""style="height:270px;">
-                            @endif
-                          </a>
-													@endif
 													<div class="listing-avatar"><a href="author-single.html"><img src="images/avatar/1.jpg" alt=""></a>
 														<span class="avatar-tooltip">Added By  <strong>Alisa Noory</strong></span>
 													</div>
@@ -407,35 +365,198 @@ $parms=explode('?',Request::fullUrl());
 													<div class="geodir-category-location fl-wrap"><a href="#" class="map-item"><i class="fas fa-map-marker-alt"></i> {{Str::limit($hotel->address,80)}}</a></div>
 												</div>
 											</div>
-											<div class="row"style="max-height: 246px;overflow-y: scroll">
-                        <div class="calc-div" style="height:250px; ">
-                              @foreach($hotel->rooms as $room)
-                                @if($room->possibilities !="")
-                                  @foreach($room->possibilities as $possbile)
-                                  @if($possbile['bed_price'] !="")
-                                  <?php
-                                    // print_r($possbile['message']);die;
-                                    ?>
-                                    <h4>{{$room->name}} </h4>
-                                      <p class="pricing" style=""><span>{{$possbile['bed_price']}} USD
-                                      @if($possbile['abf_ch']!='') + {{$possbile['abf_ch']}} USD (ABF child)  @endif
-                                      @if($possbile['extra_bed_ch']!='') + {{$possbile['extra_bed_ch']}} USD (Extrabed child)  @endif
-                                      X {{$possbile['days']}} Nights</span> </p>
-                                     <p style="padding-bottom:0;padding-right:10px;">{!! $possbile['message'] !!} <span style="float: right;color:#46a5dc;font-size: 15px;font-weight: 800;">{{$possbile['total']}} USD</span></p>
-                                  @endif
-                                  @endforeach
-                                @endif
-                              @endforeach
-  												<div class="gala-sec">
-  													<?php
-  													$gala =Booking::getGalaDinner($hotel->hid,$from_date,$to_date);
-  													 ?>
-  													 @if($gala !="")
-  													<span>Gala Dinner {{$gala->date}} - adult:<b>{{$gala->price_ad}} USD</b> child: <b>{{$gala->price_ch}} USD</b> </span>
-  													@endif
-  												</div>
-  											</div>
-                      </div>
+											<div class="" style="height:310px;">
+												<!-- {{Booking::HotelDetail($hotel->hid)->child_age_from}} -->
+												<?php
+
+												// $adult2 = $adult;
+												// print_r(Booking::HotelDetail($hotel->hid)->child_age_to); die;
+												if ($age !=null) {
+
+												for ($i=0; $i < count($age); $i++) {
+													if (Booking::HotelDetail($hotel->hid)->child_age_from <= $age[$i] && Booking::HotelDetail($hotel->hid)->child_age_to >= $age[$i]) {
+													}else {
+														$adult = $adult+1;
+														$child = $child-1;
+													}
+												}
+											}
+
+												// print_r($adult); die;
+												 ?>
+												<!-- <p>{{Str::limit($decription,115)}}</p> -->
+												<!-- <p>{{Booking::getHotelCalculation($hotel->hid,$from_date,$to_date,$adult,$child,$age)}}</p> -->
+												@foreach(Booking::getHotelCalculation($hotel->hid,$from_date,$to_date,$adult,$child,$age) as $price)
+												<div class="calc-div">
+													@if($price->quote !="")
+												 	@if($adult == 1 && $child ==0)
+													<h4>{{$price->name}} <span>{{$price->price}} USD  X {{$price->days}} Nights</span> </h4>
+													<p>{{$adult}} Adult (Single)</p>
+
+													@elseif($adult == 1 && $child ==1)
+													<h4>{{$price->name}} <span>{{$price->price}} USD  X {{$price->days}} Nights</span> </h4>
+													<p>{{$adult}} Adult + {{$child}} Child (Double Twin)</p>
+
+													@elseif($adult == 1 && $child ==2)
+													<h4> {{$price->name}}<span>{{$price->price}} USD @if($price->room == 2) + {{$price->price}} USD @else + {{$price->childprice}} USD (Child) @endif X {{$price->days}} Nights</span> </h4>
+													@if($price->room == 2)
+													<p>{{$price->room}} X Rooms= {{$adult}} Adult (Double Twin) + {{$child}} Child (Double Twin)</p>
+													@else
+													<p>{{$adult}} Adult + 1 Child (Double Twin) + {{$child}} Child Extrabed</p>
+													@endif
+
+													@elseif($adult == 1 && $child ==3)
+													<h4>{{$price->name}} <span>{{$price->price}} USD + {{$price->price}} USD  X {{$price->days}} Nights</span> </h4>
+													<p>{{$price->room}} X Rooms= 1 Adult + 1 Child (Double Twin) + 2 Child (Double Twin)</p>
+													<!-- 1 Adult Ends -->
+
+													<!-- 2 Adult Start -->
+													@elseif($adult == 2 && $child ==0)
+													<h4>{{$price->name}} <span>{{$price->price}} USD  X {{$price->days}} Nights</span> </h4>
+													<p>{{$adult}} Adults (Double Twin)</p>
+
+													@elseif($adult == 2 && $child ==1)
+													<h4>{{$price->name}} <span>{{$price->price}} USD @if($price->room == 2) + {{$price->price}} USD @else + {{$price->childprice}} USD (Child) @endif  X {{$price->days}} Nights</span> </h4>
+													@if($price->room == 2)
+													<p>{{$price->room}} X Rooms= 2 Adult (Double Twin) + 1 Child (Single)</p>
+													@else
+													<p>{{$adult}} Adult + 1 Child  (Double Twin + Child Extrabed)</p>
+													@endif
+
+													@elseif($adult == 2 && $child ==2)
+													<h4> {{$price->name}}<span>{{$price->price}} USD @if($price->room == 2) + {{$price->price}} USD @else + {{$price->childprice}} USD (Child) @endif X {{$price->days}} Nights</span> </h4>
+													@if($price->room == 2)
+													<p>{{$price->room}} X Rooms= 2 Adult (Double Twin) + 2 Child (Double Twin)</p>
+													@else
+													<p>{{$adult}} Adult + {{$child}} Child (Double Twin) + 1 Child Extrabed</p>
+													@endif
+													@elseif($adult == 2 && $child ==3)
+													<h4> {{$price->name}}<span>{{$price->price}} USD + {{$price->price}} USD X {{$price->days}} Nights</span> </h4>
+													<p>{{$price->room}} X Rooms= {{$adult}} Adult (Double Twin) + {{$child}} Child (Double Twin)</p>
+													<!-- 2 Adult End -->
+
+													<!-- 3 Adult Start -->
+													@elseif($adult == 3 && $child ==0)
+													<h4>{{$price->name}} <span>{{$price->price}} USD + {{$price->extra_price_ad}} USD (Adult) X {{$price->days}} Nights</span> </h4>
+													@if($price->room == 2)
+													<p>{{$price->room}} X Rooms= 2 Adult (Double Twin) + 1 Adult (Single) </p>
+													@else
+													<p>2 Adult (Double Twin) + 1 Adult Extrabed</p>
+													@endif
+
+													@elseif($adult == 3 && $child ==1)
+													<h4>{{$price->name}} <span>{{$price->price}} USD @if($price->room == 2) + {{$price->price}} USD @else + {{$price->extra_price_ad}} USD (Adult) @endif  X {{$price->days}} Nights</span> </h4>
+													@if($price->room == 2)
+													<p>{{$price->room}} X Rooms= 2 Adult (Double Twin) + 1 Adult {{$child}} Child (Double Twin)</p>
+													@else
+													<p>2 Adult+ 1 Child  (Double Twin) + 1 Adult Extrabed</p>
+													@endif
+
+													@elseif($adult == 3 && $child ==2)
+													<h4> {{$price->name}}<span>{{$price->price}} USD + {{$price->price}} USD  @if($price->room == 3) + {{$price->price}} USD @else + {{$price->childprice}}  USD (Adult) @endif  X {{$price->days}} Nights</span> </h4>
+													@if($price->room == 3)
+													<p>{{$price->room}} X Rooms= 2 Adult (Double Twin) + 2 Child (Double Twin) + 1 Adult (Single)</p>
+													@else
+													<p>{{$price->room}} X Rooms= 2 Adult (Double Twin) + {{$child}} Child (Double Twin) + 1 Adult Extrabed</p>
+													@endif
+
+													@elseif($adult == 3 && $child ==3)
+													<h4> {{$price->name}}<span> @if($price->room == 3) {{$price->price}} X 3 USD  @else  {{$price->price}} X 2 USD + {{$price->childprice}} USD (Child) + {{$price->extra_price_ad}} (Adult) @endif X {{$price->days}} Nights</span> </h4>
+													@if($price->room == 3)
+													<p>{{$price->room}} X Rooms= 2 Adult (Double Twin) + 2 Child (Double Twin) + 1 Adult 1 Child (Double Twin)</p>
+													@else
+													<p>{{$price->room}} X Rooms= 2 Adult (Double Twin) 1 Child Extrabed + 2 Child (Double Twin) 1 Adult Extrabed</p>
+													@endif
+													<!-- Adult 3 End -->
+
+
+													<!-- Adult 4 Start -->
+													@elseif($adult == 4 && $child ==0)
+													<h4>{{$price->name}} <span>{{$price->price}} X 2 USD X {{$price->days}} Nights</span> </h4>
+													<p>{{$price->room}} X Rooms 2 Adult (Double Twin) + 2 Adult (Double Twin) </p>
+
+													@elseif($adult == 4 && $child ==1)
+													<h4>{{$price->name}} <span>@if($price->room==3) {{$price->price}} X 3 USD @else {{$price->price}} X 2 USD + {{$price->childprice}} USD (Child) @endif  X {{$price->days}} Nights</span> </h4>
+													@if($price->room == 3)
+													<p>{{$price->room}} X Rooms= 2 Adult (Double Twin) + 2 Adult (Double Twin) + 1 Child (Single)</p>
+													@else
+													<p>{{$price->room}} X Rooms= 2 Adult + 1 Child  (Double Twin + Child Extrabed) + 2 Adult (Double Twin)</p>
+													@endif
+
+													@elseif($adult == 4 && $child ==2)
+													<h4> {{$price->name}}<span>@if($price->room == 3) {{$price->price}} X 3 USD @else {{$price->price}} X 2 USD + {{$price->childprice}} X 2 USD @endif  X {{$price->days}} Nights</span> </h4>
+													@if($price->room == 3)
+													<p>{{$price->room}} X Rooms= 2 Adult (Double Twin) + 2 Child (Double Twin) + 2 Adult (Double Twin)</p>
+													@else
+													<p>{{$price->room}} X Rooms= 2 Adult + 1 Child  (Double Twin + Child Extrabed) + 2 Adult + 1 (Double Twin + Child Extrabed)</p>
+													@endif
+
+													@elseif($adult == 4 && $child ==3)
+													<h4> {{$price->name}}<span> @if($price->room == 4) {{$price->price}} X 4 USD  @else  {{$price->price}} X 3 USD + {{$price->childprice}} USD (Child)  @endif X {{$price->days}} Nights</span> </h4>
+													@if($price->room == 4)
+													<p>{{$price->room}} X Rooms= 2 Adult (Double Twin) + 1 Adult 1 Child (Double Twin) + 2 Child (Double Twin) + 1 Adult (Single)</p>
+													@else
+													<p>{{$price->room}} X Rooms= 2 Adult + 1 Child (Double Twin + Child Extrabed) + 2 Child (Double Twin) + 2 Adult (Double Twin)</p>
+													@endif
+													<!-- 4 Adult Ends -->
+
+
+													<!-- Adult 5 -->
+													@elseif($adult == 5 && $child ==0)
+													<h4>{{$price->name}} <span>@if($price->room == 3) {{$price->price}} X 3 USD @else {{$price->price}} X 2 USD + {{$price->extra_price_ad}} @endif  X {{$price->days}} Nights</span> </h4>
+													@if($price->room == 3)
+													<p>{{$price->room}} X Rooms= 2 Adult (Double Twin) + 2 Adult (Double Twin) + 1 Adult (Single)</p>
+													@else
+													<p>{{$price->room}} X Rooms= 2 Adult + 1 Adult  (Double Twin + Adult Extrabed) + 2 Adult (Double Twin)</p>
+													@endif
+
+													@elseif($adult == 5 && $child ==1)
+													<h4>{{$price->name}} <span>@if($price->room==3) {{$price->price}} X 3 USD @else {{$price->price}} X 2 USD + {{$price->childprice}} USD (Child) + {{$price->extra_price_ad}} USD (Adult) @endif  X {{$price->days}} Nights</span> </h4>
+													@if($price->room == 3)
+													<p>{{$price->room}} X Rooms= 2 Adult (Double Twin) + 2 Adult (Double Twin) + 1 Child 1 Adult (Double Twin)</p>
+													@else
+													<p>{{$price->room}} X Rooms= 2 Adult + 1 Child  (Double Twin + Child Extrabed) + 2 Adult + 1 Adult (Double Twin + Adult Extrabed)</p>
+													@endif
+
+													@elseif($adult == 5 && $child ==2)
+													<h4> {{$price->name}}<span>@if($price->room == 4) {{$price->price}} X 4 USD @else {{$price->price}} X 3 USD + {{$price->childprice}} X 1 USD @endif  X {{$price->days}} Nights</span> </h4>
+													@if($price->room == 4)
+													<p>{{$price->room}} X Rooms= 2 Adult (Double Twin) + 2 Adult (Double Twin) + 2 Child (Double Twin) + 1 Adult (Single)</p>
+													@else
+													<p>{{$price->room}} X Rooms= 2 Adult + 1 Child  (Double Twin + Child Extrabed) + 2 Adult (Double Twin) + 1 Adult 1 Child (Double Twin)</p>
+													@endif
+
+													@elseif($adult == 5 && $child ==3)
+													<h4> {{$price->name}}<span> @if($price->room == 4) {{$price->price}} X 4 USD  @else  {{$price->price}} X 3 USD + {{$price->childprice}} X 2 USD (Child)  @endif X {{$price->days}} Nights</span> </h4>
+													@if($price->room == 4)
+													<p>{{$price->room}} X Rooms 2 Adult (Double Twin) + 2 Adult (Double Twin) + 2 Child (Double Twin) + 1 Adult 1 Child (Double Twin)</p>
+													@else
+													<p>{{$price->room}} X Rooms 2 Adult + 1 Child (Double Twin + Child Extrabed) + 2 Adult + 1 Child (Double Twin + Child Extrabed) + 1 Adult 1 Child (Double Twin)</p>
+													@endif
+													<!-- 5 Adult Ends -->
+													@endif
+
+
+													@if($price->quote->is_abf_included == '1')
+													<p><span class="text-muted">Breakfast Included</span> <span style="float:right;color: #46A5DC; font-size:20px;">{{$price->totalprice}} USD</span> </p>
+													@else
+													<p><span style="float:right;color: #46A5DC; font-size:20px;">{{$price->totalprice}} USD</span></p>
+													@endif
+
+													@else
+													<p>Get Price on Call</p>
+													@endif
+												</div>
+												@endforeach
+												<div class="gala-sec">
+													<?php
+													$gala =Booking::getGalaDinner($hotel->hid,$from_date,$to_date);
+													 ?>
+													 @if($gala !="")
+													<span>Gala Dinner {{$gala->date}} - adult:<b>{{$gala->price_ad}} USD</b> child: <b>{{$gala->price_ch}} USD</b> </span>
+													@endif
+												</div>
+											</div>
 											<!-- <ul class="facilities-list fl-wrap">
 												<li><i class="fal fa-wifi"></i><span>Free WiFi</span></li>
 												<li><i class="fal fa-parking"></i><span>Parking</span></li>
